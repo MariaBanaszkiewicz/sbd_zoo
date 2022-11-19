@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="pracownik_zagroda" directorySegmentName="seg_0" id="218C2C8D-4EF2-2FD7-CB82-BD5F8E1E2CFF">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:23:53 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<sourcePk>680C6C49-DA1C-5992-B5D8-4CF6614A2DF2</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>pracuje w</nameOnSource>
+<nameOnTarget>jest obsługiwana przez</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>6E696041-7711-7646-75B6-421D1D80E882</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>D56605B7-6982-7F89-CCD1-1203A5560AC1</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

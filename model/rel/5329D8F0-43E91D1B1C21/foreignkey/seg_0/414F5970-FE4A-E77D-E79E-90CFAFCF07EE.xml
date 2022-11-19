@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="414F5970-FE4A-E77D-E79E-90CFAFCF07EE" containerWithKeyObject="16B47C3B-A26C-55E9-C2ED-9809BED35BA6" localFKIndex="35775197-FE80-95E7-861C-905FA9391338" name="Zwierzęta_Zagrody_FK">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<generatorID>2EBEEA14-2F3A-C12D-073A-843EF9104317</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<referredTableLongName>Zagrody</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>7139604B-D3FD-E26E-451A-75E76EC170F8</referredTableID>
+<keyObject>5C065A7A-ED60-63BE-C8AE-65C99FDC8AF7</keyObject>
+<referredKeyID>5C065A7A-ED60-63BE-C8AE-65C99FDC8AF7</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>nazwa_zagrody</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

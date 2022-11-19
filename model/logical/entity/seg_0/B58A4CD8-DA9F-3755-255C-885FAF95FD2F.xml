@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="B58A4CD8-DA9F-3755-255C-885FAF95FD2F" name="Leczenie">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 21:53:33 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<preferredAbbreviation>Leczenia</preferredAbbreviation>
+<shortName>LE</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="choroba" id="DBF10467-A1BF-182A-5A1F-AFD19877DF05">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:02:11 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>40 CHAR</dataTypeSize>
+<ownDataTypeParameters>40 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="data" id="139D5370-4468-6EF1-EB90-64F95D9CD1E4">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:02:40 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="opis" id="F811B321-25AB-D0B5-D2D0-66E740D9A4BC">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:02:26 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1024 CHAR</dataTypeSize>
+<ownDataTypeParameters>1024 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="numer_identyfikacyjny" id="C0C58A4E-B9D1-7CB9-37C1-80513E771EC7">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-09 09:22:58 UTC</createdTime>
+<generatorID>5C8FAEB8-0409-6BEA-65E8-69581B579266</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<referedAttribute>CFB5E61B-2B3C-8ABB-9550-AC5690078F20</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="80BD6936-5617-AF51-6E67-58AE26FAD17E" name="Leczenie PK">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:02:09 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>C0C58A4E-B9D1-7CB9-37C1-80513E771EC7</attributeRef>
+<attributeRef>DBF10467-A1BF-182A-5A1F-AFD19877DF05</attributeRef>
+<attributeRef>139D5370-4468-6EF1-EB90-64F95D9CD1E4</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

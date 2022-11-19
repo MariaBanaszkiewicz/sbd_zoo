@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="gatunek_zwierze" directorySegmentName="seg_0" id="964BB0E3-7E24-553C-B7F1-E37CA1608C6F">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:03:24 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<sourcePk>E94A8D69-17C4-F69D-5CC7-C1B89F1DBC06</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>jest reprezentowny przez</nameOnSource>
+<nameOnTarget>należy do</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>6DE2A52E-0B62-691F-C504-2077295BF54E</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>13CAC7CC-F24D-AEB3-BCA4-BD4DA84CABAE</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="86A8E96B-7CBE-213A-0F0E-D68819EBE401" name="pracownik_zagroda">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="Pracownicy_PESEL" id="DDECB0DC-1AEE-4CE5-CE3B-F4D1C30B4247">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D10AAE10-4E68-B090-1AC3-D69748E183CE" referredColumn="AFA4AA72-0C43-B683-64DF-37E6A8025764"/>
+</associations>
+</Column>
+<Column name="Zagrody_nazwa_zagrody" id="0EF16DA5-3B55-95EE-4F3D-DC1BA4762B5E">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1A319037-570E-BF77-D58A-301DB07832BD" referredColumn="D10A4B92-C835-CA20-0CC3-E8D5443F91F7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="15A2835A-ABA1-CDC8-39DC-C87742AA9E5D" name="pracownik_zagroda_PK">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DDECB0DC-1AEE-4CE5-CE3B-F4D1C30B4247"/>
+<colUsage columnID="0EF16DA5-3B55-95EE-4F3D-DC1BA4762B5E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2536DDA7-947E-4337-EB50-3BB184624AC3" name="pracownik_zagroda_Pracownicy_FK">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<generatorID>218C2C8D-4EF2-2FD7-CB82-BD5F8E1E2CFF</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DDECB0DC-1AEE-4CE5-CE3B-F4D1C30B4247"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B1F3525C-59AA-5F91-0D8B-7F3765D0A93E" name="pracownik_zagroda_Zagrody_FK">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<generatorID>218C2C8D-4EF2-2FD7-CB82-BD5F8E1E2CFF</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0EF16DA5-3B55-95EE-4F3D-DC1BA4762B5E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

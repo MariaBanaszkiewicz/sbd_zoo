@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="3598FA5B-2659-EEA6-7E05-03362DE85FE7" containerWithKeyObject="7139604B-D3FD-E26E-451A-75E76EC170F8" localFKIndex="7ED11FA2-668E-CF23-AFCC-C705A9354588" name="Zagrody_Klimaty_FK">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-16 14:55:47 UTC</createdTime>
+<generatorID>6AFB0F63-271E-6DB4-C917-B060A25F2DB6</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<referredTableLongName>Klimaty</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>FDA1A34C-C253-68A2-7E8E-6B66157CA038</referredTableID>
+<keyObject>D30BB622-C146-DF3A-51E4-25F6C605D2E5</keyObject>
+<referredKeyID>D30BB622-C146-DF3A-51E4-25F6C605D2E5</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>nazwa</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

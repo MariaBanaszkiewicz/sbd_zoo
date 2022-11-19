@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="gatunek_klimat" directorySegmentName="seg_0" id="98D5AE28-8BB6-7152-622A-6AB392DC0FCD">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:09:05 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<sourcePk>E94A8D69-17C4-F69D-5CC7-C1B89F1DBC06</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>żyje w</nameOnSource>
+<nameOnTarget>jest odpowiedni dla</nameOnTarget>
+<optionalSource>false</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>6DE2A52E-0B62-691F-C504-2077295BF54E</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>8AD2B410-0C73-3181-0EC6-71C1BA22D15F</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

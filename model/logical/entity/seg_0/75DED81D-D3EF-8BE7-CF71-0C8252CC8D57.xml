@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="75DED81D-D3EF-8BE7-CF71-0C8252CC8D57" name="Porcja">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 21:51:04 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<preferredAbbreviation>Porcje</preferredAbbreviation>
+<shortName>PO</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ilość" id="D8D86979-4F52-2CDA-30FA-5D4763D67577">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 21:54:16 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="numer_identyfikacyjny" id="537EEAAB-8C85-EE4D-7723-F26F342C2E06">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:17:31 UTC</createdTime>
+<generatorID>927FE60A-14AB-9BA0-314D-11ADFAC566D4</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<referedAttribute>CFB5E61B-2B3C-8ABB-9550-AC5690078F20</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nazwa" id="FCDCA50F-7A7F-BEE4-F80D-99317764033B">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:18:49 UTC</createdTime>
+<generatorID>5B573CC5-3DAF-1E1C-4E99-3158CB26B549</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<referedAttribute>5A23DCB6-C0CE-7CFB-3B7E-F32590422823</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="3A5D6DFF-2A7B-E9CE-B803-3AAF62F2C9A7" name="Porcja PK">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:16:26 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>537EEAAB-8C85-EE4D-7723-F26F342C2E06</attributeRef>
+<attributeRef>FCDCA50F-7A7F-BEE4-F80D-99317764033B</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
