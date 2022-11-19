@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="porcja_zwierze" directorySegmentName="seg_0" id="927FE60A-14AB-9BA0-314D-11ADFAC566D4">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:16:26 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<sourcePk>262AA528-BC29-A274-F175-971B6464E2B5</sourcePk>
+<targetPk>3A5D6DFF-2A7B-E9CE-B803-3AAF62F2C9A7</targetPk>
+<identifying>true</identifying>
+<nameOnSource>spożywa</nameOnSource>
+<nameOnTarget>jest spożywana przez</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>13CAC7CC-F24D-AEB3-BCA4-BD4DA84CABAE</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>75DED81D-D3EF-8BE7-CF71-0C8252CC8D57</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

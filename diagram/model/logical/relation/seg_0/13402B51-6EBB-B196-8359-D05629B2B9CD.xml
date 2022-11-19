@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="pracownik_zwierze" directorySegmentName="seg_0" id="13402B51-6EBB-B196-8359-D05629B2B9CD">
+<createdBy>48690</createdBy>
+<createdTime>2022-10-30 22:20:57 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="5329D8F0-B167-3882-DBF4-43E91D1B1C21" value="true"/>
+</engineerTo>
+<sourcePk>680C6C49-DA1C-5992-B5D8-4CF6614A2DF2</sourcePk>
+<targetPk>262AA528-BC29-A274-F175-971B6464E2B5</targetPk>
+<identifying>false</identifying>
+<nameOnSource>opiekuje się</nameOnSource>
+<nameOnTarget>jest podopiecznym</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>6E696041-7711-7646-75B6-421D1D80E882</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>13CAC7CC-F24D-AEB3-BCA4-BD4DA84CABAE</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
