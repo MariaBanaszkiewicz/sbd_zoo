@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="Zwierzęta" directorySegmentName="seg_0" id="16B47C3B-A26C-55E9-C2ED-9809BED35BA6">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="data_urodzenia" id="0A24343F-B929-0A53-98F8-B040000CF314">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="Zagrody_nazwa_zagrody" id="19E0F898-690C-2D92-7A0A-1A652B52AA70">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="numer_identyfikacyjny" id="54B59828-357A-2ED0-4704-9F26F2555346">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="data_przybycia_do_zoo" id="642F27DF-CCFA-89AD-181E-8A7FB526D948">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="Pracownicy_PESEL" id="916C39BE-26FF-664D-0897-D8F424F3FB09">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="Gatunki_nazwa" id="FF84EF79-93FD-7710-17BF-C4D00331712E">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="imię" id="FF9C008C-8327-6CC9-C743-3A2B2D46969E">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="Zwierzęta_Zagrody_FK" id="35775197-FE80-95E7-861C-905FA9391338">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="Zwierzęta_Pracownicy_FK" id="7AEB626E-4179-9E03-BEB7-8AF9CAC8B34E">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="Zwierzęta_Gatunki_FK" id="B5FD44B9-30C3-28FE-88ED-54D6D015D958">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Zwierzęta_PK" id="ED9E60F3-D6CA-B275-3CA4-7C4C2712CF6A">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

@@ -1,0 +1,43 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="Zagrody" directorySegmentName="seg_0" id="7139604B-D3FD-E26E-451A-75E76EC170F8">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="rozmiar" id="899D945F-F6B5-10DF-14C5-DD6CE6CE3818">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="Klimaty_nazwa" id="8B9524C1-9347-01F7-05D9-DBDBA5A8B7AF">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="nazwa_zagrody" id="D10A4B92-C835-CA20-0CC3-E8D5443F91F7">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="Zagrody_Klimaty_FK" id="7ED11FA2-668E-CF23-AFCC-C705A9354588">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Zagrody_PK" id="5C065A7A-ED60-63BE-C8AE-65C99FDC8AF7">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

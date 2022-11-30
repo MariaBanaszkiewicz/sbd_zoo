@@ -1,0 +1,41 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="Pracownicy" directorySegmentName="seg_0" id="CE82911F-973D-05E4-70AD-D925D9F01C69">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="nazwisko" id="938D4EE6-89C9-99C2-4C1E-9FE835070A98">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PESEL" id="AFA4AA72-0C43-B683-64DF-37E6A8025764">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="data_zatrudnienia" id="B9FFFF63-22D0-EF94-5958-6F2AE8C0B177">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="imię" id="CAFA9C09-2FB2-EE47-FA85-520208488922">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Pracownicy_PK" id="33411D71-BC14-6C87-A16D-631BEE05B10A">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

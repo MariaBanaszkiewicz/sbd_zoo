@@ -1,0 +1,31 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="Gatunki" directorySegmentName="seg_0" id="00F2BD4F-3F51-ADDB-D75E-B06BB8F469FB">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="nazwa" id="521AA0D6-FDF4-3FDB-EBD2-5B67D517DAE4">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="gromada" id="A050707D-304A-DEE6-82EF-BC85F14A8324">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="Gatunki_PK" id="DB5AD106-ADE3-1CC2-D0A4-DC7C6DDB46F5">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:18:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

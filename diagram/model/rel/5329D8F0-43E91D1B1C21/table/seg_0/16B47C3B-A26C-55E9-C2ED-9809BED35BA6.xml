@@ -4,6 +4,7 @@
 <createdTime>2022-11-16 14:55:47 UTC</createdTime>
 <generatorID>13CAC7CC-F24D-AEB3-BCA4-BD4DA84CABAE</generatorID>
 <ownerDesignName>model</ownerDesignName>
+<ordsAlias>zwierzeta</ordsAlias>
 <abbreviation>ZW</abbreviation>
 <allowColumnReorder>false</allowColumnReorder>
 <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>

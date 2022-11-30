@@ -1,0 +1,10 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<StoredProcedureOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.StoredProcedureOraclev10g" name="delete_animal" directorySegmentName="seg_0" id="D357AF70-E02F-1A22-A3D5-C8B0FFB878D3">
+<createdBy>48690</createdBy>
+<createdTime>2022-11-21 16:21:01 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<source>CREATE OR REPLACE PROCEDURE delete_animal (vid integer)  AS  
+BEGIN
+ delete from zwierzeta where numer_identyfikacyjny=vid;
+END;</source>
+</StoredProcedureOraclev10g>
