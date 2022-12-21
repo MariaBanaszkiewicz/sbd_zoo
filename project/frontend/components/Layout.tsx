@@ -264,7 +264,7 @@ const Layout = ({ children }: LayoutProps) => {
           </Stack>
         </Flex>
       </Flex>
-      <Box p={{ base: "30px 15px", sm: "50px", xl: "50px" }}>{children}</Box>
+      <Box p={{ base: "10px 10px", sm: "50px", xl: "50px" }}>{children}</Box>
     </>
   );
 };
