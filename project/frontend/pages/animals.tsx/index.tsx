@@ -103,7 +103,6 @@ const AnimalsPage = (): React.ReactElement => {
           Dodaj zwierzę
         </Button>
       </Flex>
-      <Flex justifyContent="center" flexDirection="column">
         {animalOptions?.length > 0 && (
           <CUIAutoComplete
             label="Wyszukaj zwierzę"
@@ -116,7 +115,6 @@ const AnimalsPage = (): React.ReactElement => {
             }
           />
         )}
-      </Flex>
       <Table data={animals} columns={columns} searchBar={false}/>
     </>
   );
