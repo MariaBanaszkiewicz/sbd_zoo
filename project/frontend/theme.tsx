@@ -38,23 +38,23 @@ const theme = extendTheme({
         },
         variants: {
           solid: {
-            bg: "green.500",
+            bg: "green.600",
             color: "white",
             _hover: {
-              bg: "green.600",
+              bg: "green.700",
             },
             _groupHover: {
-              bg: "green.600",
+              bg: "green.700",
             },
             _focus: {
               boxShadow: "none",
-              bg: "green.600",
+              bg: "green.700",
             },
             _active: {
-              bg: "green.600",
+              bg: "green.700",
             },
             _groupActive: {
-              bg: "green.600",
+              bg: "green.700",
             },
           },
         },
