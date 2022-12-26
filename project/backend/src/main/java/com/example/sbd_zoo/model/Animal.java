@@ -8,7 +8,7 @@ import java.util.Date;
 @Table(name = "ZWIERZĘTA")
 public class Animal {
     @Id
-    @GeneratedValue(generator = "zwierzęta_numer_identyfikacyjny_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numer_identyfikacyjny")
     private Long id;
 
