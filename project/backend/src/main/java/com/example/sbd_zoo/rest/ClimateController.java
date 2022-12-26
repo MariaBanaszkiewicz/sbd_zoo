@@ -46,10 +46,10 @@ public class ClimateController {
         }
     }
 
-    @PutMapping("/climates")
-    public ResponseEntity updateClimate(@RequestBody Climate climate) {
+    @PutMapping("/climate/{id}")
+    public ResponseEntity updateClimate(@PathVariable(value = "id") String id, @RequestBody Climate climate) {
         try {
-            climateService.updateClimate(climate);
+            climateService.updateClimate(id, climate);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update climate");

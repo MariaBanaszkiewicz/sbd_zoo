@@ -31,8 +31,9 @@ public class SpeciesService {
     }
 
     @Transactional
-    public void updateSpecies(Species species) {
-        Species old = speciesRepository.findById(species.getName()).orElseThrow(() -> new ResourceNotFoundException("Species not found on :: " + species.getName()));
+    public void updateSpecies(String id, Species species) {
+        Species old = speciesRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Species not found on :: " + id));
+        old.setName(species.getName());
         old.setTheClass(species.getTheClass());
         speciesRepository.save(old);
 

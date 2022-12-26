@@ -47,10 +47,10 @@ public class SpeciesController {
         }
     }
 
-    @PutMapping("/species")
-    public ResponseEntity updateSpecies(@RequestBody Species species) {
+    @PutMapping("/species/{id}")
+    public ResponseEntity updateSpecies(@PathVariable(value = "id") String id, @RequestBody Species species) {
         try {
-            speciesService.updateSpecies(species);
+            speciesService.updateSpecies(id, species);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update species");

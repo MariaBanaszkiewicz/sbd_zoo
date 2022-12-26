@@ -59,10 +59,10 @@ public class AnimalController {
         }
     }
 
-    @PutMapping("/animals")
-    public ResponseEntity updateAnimal(@RequestBody Animal animal) {
+    @PutMapping("/animal/{id}")
+    public ResponseEntity updateAnimal(@PathVariable(value = "id") Long id, @RequestBody Animal animal) {
         try {
-            animalService.updateAnimal(animal);
+            animalService.updateAnimal(id, animal);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update animal");

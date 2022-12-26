@@ -30,8 +30,9 @@ public class FoodService {
     }
 
     @Transactional
-    public void updateFood(Food food) {
-        Food old = foodRepository.findById(food.getName()).orElseThrow(() -> new ResourceNotFoundException("food not found on :: " + food.getName()));
+    public void updateFood(String id, Food food) {
+        Food old = foodRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("food not found on :: " + id));
+        old.setName(food.getName());
         old.setType(food.getType());
         old.setUnit(food.getUnit());
         foodRepository.save(old);

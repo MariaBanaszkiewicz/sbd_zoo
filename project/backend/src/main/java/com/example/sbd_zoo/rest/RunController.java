@@ -46,10 +46,10 @@ public class RunController {
         }
     }
 
-    @PutMapping("/runs")
-    public ResponseEntity updateRun(@RequestBody Run run) {
+    @PutMapping("/run/{id}")
+    public ResponseEntity updateRun(@PathVariable(value = "id") String id, @RequestBody Run run) {
         try {
-            runService.updateRun(run);
+            runService.updateRun(id, run);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update run");

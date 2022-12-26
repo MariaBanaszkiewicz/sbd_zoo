@@ -47,10 +47,10 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping("/employees")
-    public ResponseEntity updateEmployee(@RequestBody Employee employee) {
+    @PutMapping("/employee/{id}")
+    public ResponseEntity updateEmployee(@PathVariable(value = "id") Integer id, @RequestBody Employee employee) {
         try {
-            employeeService.updateEmployee(employee);
+            employeeService.updateEmployee(id, employee);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update animal");

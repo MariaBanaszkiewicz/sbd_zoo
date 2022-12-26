@@ -31,8 +31,9 @@ public class ClimateService {
     }
 
     @Transactional
-    public void updateClimate(Climate climate) {
-        Climate old = climateRepository.findById(climate.getName()).orElseThrow(() -> new ResourceNotFoundException("Climate not found on :: " + climate.getName()));
+    public void updateClimate(String id, Climate climate) {
+        Climate old = climateRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Climate not found on :: " + id));
+        old.setName(climate.getName());
         old.setFlora(climate.getFlora());
         old.setHumidity(climate.getHumidity());
         old.setTemperatur(climate.getTemperatur());

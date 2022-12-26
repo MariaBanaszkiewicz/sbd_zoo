@@ -31,8 +31,9 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void updateEmployee(Employee employee) {
-        Employee old = employeeRepository.findById(employee.getPesel()).orElseThrow(() -> new ResourceNotFoundException("Employee not found on :: " + employee.getPesel()));
+    public void updateEmployee(Integer id, Employee employee) {
+        Employee old = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not found on :: " + id));
+        old.setPesel(employee.getPesel());
         old.setFisrtName(employee.getFisrtName());
         old.setLastName(employee.getLastName());
         old.setDateOfEmployment(employee.getDateOfEmployment());

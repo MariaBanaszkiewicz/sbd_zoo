@@ -46,10 +46,10 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/teams")
-    public ResponseEntity updateTeam(@RequestBody Team team) {
+    @PutMapping("/team/{id}")
+    public ResponseEntity updateTeam(@PathVariable(value = "id") String id, @RequestBody Team team) {
         try {
-            teamService.updateTeam(team);
+            teamService.updateTeam(id, team);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update team");

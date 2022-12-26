@@ -46,10 +46,10 @@ public class FoodController {
         }
     }
 
-    @PutMapping("/food")
-    public ResponseEntity updateFood(@RequestBody Food food) {
+    @PutMapping("/food/{id}")
+    public ResponseEntity updateFood(@PathVariable(value = "id") String id, @RequestBody Food food) {
         try {
-            foodService.updateFood(food);
+            foodService.updateFood(id, food);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update food");

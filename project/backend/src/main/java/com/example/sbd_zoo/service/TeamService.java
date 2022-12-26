@@ -31,8 +31,9 @@ public class TeamService {
     }
 
     @Transactional
-    public void updateTeam(Team team) {
-        Team old = teamRepository.findById(team.getName()).orElseThrow(() -> new ResourceNotFoundException("Team not found on :: " + team.getName()));
+    public void updateTeam(String id, Team team) {
+        Team old = teamRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Team not found on :: " + id));
+        old.setName(team.getName());
         old.setType(team.getType());
         teamRepository.save(old);
 

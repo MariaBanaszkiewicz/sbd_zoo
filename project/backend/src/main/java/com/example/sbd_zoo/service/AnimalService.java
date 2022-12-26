@@ -31,8 +31,9 @@ public class AnimalService {
     }
 
     @Transactional
-    public void updateAnimal(Animal animal) {
-        Animal old = animalRepository.findById(animal.getId()).orElseThrow(() -> new ResourceNotFoundException("Animal not found on :: " + animal.getId()));
+    public void updateAnimal(Long id, Animal animal) {
+        Animal old = animalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Animal not found on :: " + id));
+        old.setId(animal.getId());
         old.setName(animal.getName());
         old.setBirthDate(animal.getBirthDate());
         old.setZooDate(animal.getZooDate());

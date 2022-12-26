@@ -31,8 +31,9 @@ public class RunService {
     }
 
     @Transactional
-    public void updateRun(Run run) {
-        Run old = runRepository.findById(run.getName()).orElseThrow(() -> new ResourceNotFoundException("Run not found on :: " + run.getName()));
+    public void updateRun(String id, Run run) {
+        Run old = runRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Run not found on :: " + id));
+        old.setName(run.getName());
         old.setSize(run.getSize());
         old.setClimate(run.getClimate());
         runRepository.save(old);
