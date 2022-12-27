@@ -29,9 +29,8 @@ public class TreatmentController {
     }
 
     @GetMapping("/treatment/{animal}+{disease}+{date}")
-    public<T> T getTreatment(@PathVariable(value = "animal") Long animal, @PathVariable(value = "disease") String disease, @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
+    public<T> T getTreatment(@PathVariable(value = "animal") Long animal, @PathVariable(value = "disease") String disease, @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         try {
-            System.out.println(date);
             TreatmentId id = new TreatmentId();
             id.setAnimal(animal);
             id.setDisease(disease);
