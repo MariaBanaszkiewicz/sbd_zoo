@@ -87,7 +87,7 @@ const AnimalsPage = (): React.ReactElement => {
     }
     return [];
   }, [animals]);
-  console.log(animalOptions);
+  // console.log(animalOptions);
   const [pickerItems, setPickerItems] = useState(animalOptions);
   const [selectedItems, setSelectedItems] = useState<AutocompleteItem[]>([]);
 
