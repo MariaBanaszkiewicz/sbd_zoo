@@ -1,12 +1,12 @@
-import '../styles/globals.css'
 import { ChakraProvider } from "@chakra-ui/react";
-import { ReactElement, ReactNode } from "react";
-import getConfig from "next/config";
-import { SWRConfig } from "swr";
-import { NextPage } from "next";
-import Head from "next/head";
 import axios from "axios";
-import type { AppProps } from 'next/app'
+import { NextPage } from "next";
+import type { AppProps } from 'next/app';
+import getConfig from "next/config";
+import Head from "next/head";
+import { ReactElement, ReactNode } from "react";
+import { SWRConfig } from "swr";
+import '../styles/globals.css';
 
 import theme from "../theme";
 
@@ -21,7 +21,7 @@ type AppPropsWithLayout = AppProps & {
 }
 
 //TODO define baseURL when backend is ready
-axios.defaults.baseURL = `${publicRuntimeConfig.API_URL}/api`;
+axios.defaults.baseURL = publicRuntimeConfig.API_URL;
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available

@@ -58,7 +58,7 @@ function SelectColumnFilter({
 }) {
   const options = React.useMemo(() => {
     const options = new Set();
-    preFilteredRows.forEach((row) => {
+    preFilteredRows?.forEach((row) => {
       options.add(row.values[id]);
     });
     return [...options.values()];
@@ -89,7 +89,7 @@ function SliderColumnFilter({
   const [min, max] = React.useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
     let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
-    preFilteredRows.forEach((row) => {
+    preFilteredRows?.forEach((row) => {
       min = Math.min(row.values[id], min);
       max = Math.max(row.values[id], max);
     });
@@ -119,7 +119,7 @@ function NumberRangeColumnFilter({
   const [min, max] = React.useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
     let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0;
-    preFilteredRows.forEach((row) => {
+    preFilteredRows?.forEach((row) => {
       min = Math.min(row.values[id], min);
       max = Math.max(row.values[id], max);
     });
