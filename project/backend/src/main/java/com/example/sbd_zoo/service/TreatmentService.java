@@ -32,8 +32,11 @@ public class TreatmentService {
     }
 
     @Transactional
-    public void updateTreatment(Treatment treatment) {
-        Treatment old = treatmentRepository.findById(treatment.id()).orElseThrow(() -> new ResourceNotFoundException("Treatment not found"));
+    public void updateTreatment(TreatmentId id, Treatment treatment) {
+        Treatment old = treatmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Treatment not found"));
+        old.setDate(treatment.getDate());
+        old.setAnimal(treatment.getAnimal());
+        old.setDisease(treatment.getDisease());
         old.setDescription(treatment.getDescription());
         treatmentRepository.save(old);
 

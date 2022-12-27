@@ -48,4 +48,9 @@ public class AnimalService {
     public void deleteAnimal(Long id) {
         animalRepository.deleteById(id);
     }
+
+    @Transactional
+    public List<Animal> getAnimalsOnRun(String run){
+        return animalRepository.findByRun(run);
+    }
 }

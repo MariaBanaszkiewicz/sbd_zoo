@@ -54,10 +54,14 @@ public class TreatmentController {
         }
     }
 
-    @PutMapping("/treatments")
-    public ResponseEntity updateTreatment(@RequestBody Treatment Treatment) {
+    @PutMapping("/treatment/{animal}+{disease}+{date}")
+    public ResponseEntity updateTreatment(@PathVariable(value = "animal") Long animal, @PathVariable(value = "disease") String disease, @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @RequestBody Treatment treatment) {
         try {
-            treatmentService.updateTreatment(Treatment);
+            TreatmentId id = new TreatmentId();
+            id.setAnimal(animal);
+            id.setDisease(disease);
+            id.setDate(date);
+            treatmentService.updateTreatment(id, treatment);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Failed to update treatment");

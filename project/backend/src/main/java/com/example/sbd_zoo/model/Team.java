@@ -1,9 +1,8 @@
 package com.example.sbd_zoo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "ZESPOŁY")
@@ -15,6 +14,10 @@ public class Team {
 
     @Column(name = "typ")
     private String type;
+
+    @ManyToMany
+    @JoinTable(name = "PRACOWNIK_ZESPOL")
+    private List<Employee> employees;
 
     public String getName() {
         return name;
@@ -30,5 +33,9 @@ public class Team {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
     }
 }

@@ -1,9 +1,8 @@
 package com.example.sbd_zoo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "ZAGRODY")
@@ -19,6 +18,12 @@ public class Run {
     @Column(name = "klimat")
     private String climate;
 
+    @ManyToMany
+    @JoinTable(name = "PRACOWNIK_ZAGRODA")
+    private List<Employee> employees;
+
+    @OneToMany(mappedBy = "run")
+    private List<Animal> animals;
     public String getName() {
         return name;
     }
@@ -41,5 +46,13 @@ public class Run {
 
     public void setClimate(String climate) {
         this.climate = climate;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public List<Animal> getAnimals() {
+        return animals;
     }
 }

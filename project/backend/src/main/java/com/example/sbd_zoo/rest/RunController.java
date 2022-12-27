@@ -1,6 +1,7 @@
 package com.example.sbd_zoo.rest;
 
 import com.example.sbd_zoo.model.Run;
+import com.example.sbd_zoo.service.AnimalService;
 import com.example.sbd_zoo.service.RunService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,9 @@ import java.util.List;
 public class RunController {
     @Autowired
     RunService runService;
+
+    @Autowired
+    AnimalService animalService;
 
     @GetMapping("/runs")
     public<T> T getRuns() {
@@ -29,7 +33,6 @@ public class RunController {
     public<T> T getRun(@PathVariable(value = "id") String id) {
         try {
             Run run = runService.getRun(id);
-
             return (T) run;
         } catch (Exception e) {
 

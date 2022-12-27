@@ -1,9 +1,8 @@
 package com.example.sbd_zoo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "klimaty")
@@ -21,6 +20,10 @@ public class Climate {
 
     @Column(name = "wilgotność_powietrza")
     private Integer humidity;
+
+    @ManyToMany
+    @JoinTable(name = "GATUNEK_KLIMAT")
+    private List<Species> species;
 
     public String getName() {
         return name;
@@ -52,5 +55,9 @@ public class Climate {
 
     public void setHumidity(Integer humidity) {
         this.humidity = humidity;
+    }
+
+    public List<Species> getSpecies() {
+        return species;
     }
 }
