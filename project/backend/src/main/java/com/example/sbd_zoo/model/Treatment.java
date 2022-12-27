@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "LECZENIA")
-@IdClass(TreatmentID.class)
+@IdClass(TreatmentId.class)
 public class Treatment{
     @Id
     @Column(name = "choroba")
@@ -55,8 +55,8 @@ public class Treatment{
         this.animal = animal;
     }
 
-    public TreatmentID id() {
-        TreatmentID treatmentID = new TreatmentID();
+    public TreatmentId id() {
+        TreatmentId treatmentID = new TreatmentId();
         treatmentID.setDisease(disease);
         treatmentID.setAnimal(animal);
         treatmentID.setDate(date);

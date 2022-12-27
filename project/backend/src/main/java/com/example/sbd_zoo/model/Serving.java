@@ -1,12 +1,10 @@
 package com.example.sbd_zoo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "PORCJE")
+@IdClass(ServingId.class)
 public class Serving {
 
     @Id

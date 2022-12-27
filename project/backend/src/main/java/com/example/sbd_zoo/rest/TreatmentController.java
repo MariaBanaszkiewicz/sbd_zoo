@@ -1,12 +1,14 @@
 package com.example.sbd_zoo.rest;
 
 import com.example.sbd_zoo.model.Treatment;
-import com.example.sbd_zoo.model.TreatmentID;
+import com.example.sbd_zoo.model.TreatmentId;
 import com.example.sbd_zoo.service.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,12 +27,17 @@ public class TreatmentController {
 
     }
 
-    @GetMapping("/treatment")
-    public<T> T getTreatment(@RequestBody TreatmentID id) {
+    @GetMapping("/treatment/{animal}+{disease}+{date}")
+    public<T> T getTreatment(@PathVariable(value = "animal") Long animal, @PathVariable(value = "disease") String disease, @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date) {
         try {
-            Treatment Treatment = treatmentService.getTreatment(id);
+            System.out.println(date);
+            TreatmentId id = new TreatmentId();
+            id.setAnimal(animal);
+            id.setDisease(disease);
+            id.setDate(date);
+            Treatment treatment = treatmentService.getTreatment(id);
 
-            return (T) Treatment;
+            return (T) treatment;
         } catch (Exception e) {
 
             return (T) ResponseEntity.status(500).body("Treatment with given id does not exist");

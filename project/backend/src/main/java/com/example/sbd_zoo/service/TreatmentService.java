@@ -1,7 +1,7 @@
 package com.example.sbd_zoo.service;
 
 import com.example.sbd_zoo.model.Treatment;
-import com.example.sbd_zoo.model.TreatmentID;
+import com.example.sbd_zoo.model.TreatmentId;
 import com.example.sbd_zoo.repository.TreatmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -22,7 +22,7 @@ public class TreatmentService {
     }
 
     @Transactional
-    public Treatment getTreatment(TreatmentID id) {
+    public Treatment getTreatment(TreatmentId id) {
         return treatmentRepository.findById(id).get();
     }
 

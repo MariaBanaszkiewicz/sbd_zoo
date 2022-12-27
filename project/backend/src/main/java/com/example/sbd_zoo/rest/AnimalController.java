@@ -3,6 +3,7 @@ package com.example.sbd_zoo.rest;
 import com.example.sbd_zoo.model.Animal;
 import com.example.sbd_zoo.model.AnimalDetails;
 import com.example.sbd_zoo.service.AnimalService;
+import com.example.sbd_zoo.service.ServingService;
 import com.example.sbd_zoo.service.TreatmentService;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class AnimalController {
     AnimalService animalService;
     @Autowired
     TreatmentService treatmentService;
+
+    @Autowired
+    ServingService servingService;
 
     @GetMapping("/animals")
     public<T> T getAnimals() {
@@ -41,10 +45,12 @@ public class AnimalController {
 
             animalDetails.setAnimal(animal);
             animalDetails.setTreatments(treatmentService.getAnimalTreatments(animal.getId()));
+            animalDetails.setServings(servingService.getAnimalServings( animal.getId().intValue()));
 
             return (T) animalDetails;
         } catch (Exception e) {
 
+            e.printStackTrace();
             return (T) ResponseEntity.status(500).body("Animal with given id does not exist");
 
         }
