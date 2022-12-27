@@ -16,7 +16,7 @@ public class Team {
     private String type;
 
     @ManyToMany
-    @JoinTable(name = "PRACOWNIK_ZESPOL")
+    @JoinTable(name = "PRACOWNIK_ZESPOL", joinColumns = @JoinColumn(name = "zespół"), inverseJoinColumns = @JoinColumn(name = "pracownik"))
     private List<Employee> employees;
 
     public String getName() {

@@ -15,7 +15,7 @@ public class EmployeeTeam implements Serializable {
 
     @Id
     @Column(name = "zespół")
-    private String Team;
+    private String team;
 
 
     public Integer getEmployee() {
@@ -27,10 +27,10 @@ public class EmployeeTeam implements Serializable {
     }
 
     public String getTeam() {
-        return Team;
+        return team;
     }
 
     public void setTeam(String team) {
-        Team = team;
+        this.team = team;
     }
 }
