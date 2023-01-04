@@ -1,5 +1,8 @@
 package com.example.sbd_zoo.model;
 
+import com.example.sbd_zoo.serializer.SpeciesSerializer;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,7 +25,8 @@ public class Climate {
     private Integer humidity;
 
     @ManyToMany
-    @JoinTable(name = "GATUNEK_KLIMAT")
+    @JoinTable(name = "GATUNEK_KLIMAT",joinColumns = @JoinColumn(name = "klimat"), inverseJoinColumns = @JoinColumn(name = "gatunek"))
+    @JsonSerialize(using = SpeciesSerializer.class)
     private List<Species> species;
 
     public String getName() {

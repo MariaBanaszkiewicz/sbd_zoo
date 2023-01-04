@@ -19,7 +19,7 @@ public class Run {
     private String climate;
 
     @ManyToMany
-    @JoinTable(name = "PRACOWNIK_ZAGRODA")
+    @JoinTable(name = "PRACOWNIK_ZAGRODA", joinColumns = @JoinColumn(name = "zagroda"), inverseJoinColumns = @JoinColumn(name = "pracownik"))
     private List<Employee> employees;
 
     @OneToMany(mappedBy = "run")
