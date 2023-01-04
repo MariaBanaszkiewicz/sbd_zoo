@@ -57,6 +57,26 @@ const theme = extendTheme({
               bg: "green.700",
             },
           },
+          outline: {
+            bg: "red.500",
+            color: "white",
+            _hover: {
+              bg: "red.600",
+            },
+            _groupHover: {
+              bg: "red.600",
+            },
+            _focus: {
+              boxShadow: "none",
+              bg: "red.600",
+            },
+            _active: {
+              bg: "red.600",
+            },
+            _groupActive: {
+              bg: "red.600",
+            },
+          }
         },
       },
       Menu: {

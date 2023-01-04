@@ -35,7 +35,6 @@ const AnimalFormPage = (): React.ReactElement => {
   const { data: speciesData } = useSWR(`/species`);
   const { data: employeeData } = useSWR(`/employees`);
   const { data: runData } = useSWR(`/runs`);
-  console.log(employeeData);
 
   const methods = useForm<FormInputs>();
   const {
@@ -48,7 +47,6 @@ const AnimalFormPage = (): React.ReactElement => {
 
   useEffect(() => {
     if (animalData) {
-      console.log(animalData);
       reset({
         name: animalData?.animal?.name,
         species: animalData?.animal?.species,
@@ -76,7 +74,6 @@ const AnimalFormPage = (): React.ReactElement => {
   }));
 
   const onSubmit = (data) => {
-    console.log("submit", data);
     if (id != "0") {
       const putData = { id: id, ...data };
       return toast.promise(
