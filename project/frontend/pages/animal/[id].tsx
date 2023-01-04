@@ -7,18 +7,41 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { format } from "date-fns";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Edit, Trash2 } from "react-feather";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 import BreadCrumb from "../../components/Breadcrumb";
 import DeleteDialog from "../../components/common/DeleteDialog";
+import SelectAdvanced from "../../components/common/SelectAdvanced";
 import Table from "../../components/common/Table";
 import Layout from "../../components/Layout";
 import { useToastPromise } from "../../hooks/useToast";
+
+type ServingInputs = {
+  food: string;
+  amount: number;
+};
+
+type TreatmentInputs = {
+  disease: string;
+  description: string;
+  date: Date;
+};
 
 const AnimalPage = (): React.ReactElement => {
   const router = useRouter();
@@ -28,15 +51,91 @@ const AnimalPage = (): React.ReactElement => {
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
   } = useDisclosure();
+  const {
+    isOpen: isServingOpen,
+    onOpen: onServingOpen,
+    onClose: onServingClose,
+  } = useDisclosure();
+  const {
+    isOpen: isTreatmentOpen,
+    onOpen: onTreatmentOpen,
+    onClose: onTreatmentClose,
+  } = useDisclosure();
   const { id } = router.query;
 
-  const { data, error } = useSWR(`/animal/${id}`);
+  const { data, error } = useSWR(id ? `/animal/${id}` : null);
+  console.log(data);
   const { data: employeeData } = useSWR(
     data?.animal?.employee ? `/employee/${data?.animal?.employee}` : null
   );
+  const { data: foodData } = useSWR(`/food`);
   const cancelRef = useRef();
   const [typeClicked, setTypeClicked] = useState("");
   const [whichClicked, setWhichClicked] = useState(null);
+
+  const foodOptions = foodData?.map((food) => ({
+    value: food?.name,
+    label: food?.name + " [ " + food?.unit + "]",
+  }));
+
+  const servingMethods = useForm<ServingInputs>();
+  const {
+    reset: resetServing,
+    register: registerServing,
+    handleSubmit: handleServingSubmit,
+    control: controlServing,
+    formState: { errors: servingErrors, isSubmitting: isServingSubmitting },
+  } = servingMethods;
+  const treatmentMethods = useForm<TreatmentInputs>();
+  const {
+    reset: resetTreatment,
+    register: registerTreatment,
+    handleSubmit: handleTreatmentSubmit,
+    control: controlTreatment,
+    formState: { errors: treatmentErrors, isSubmitting: isTreatmentSubmitting },
+  } = treatmentMethods;
+
+  useEffect(() => {
+    if (whichClicked && isServingOpen) {
+      resetServing({
+        food: whichClicked?.food,
+        amount: whichClicked?.amount,
+      });
+    }
+    if (whichClicked && isTreatmentOpen) {
+      resetTreatment({
+        disease: whichClicked?.disease,
+        description: whichClicked?.description,
+        date: new Date(whichClicked?.date),
+      });
+    }
+  }, [whichClicked, isServingOpen, isTreatmentOpen]);
+
+  const onServingSubmit = (data) => {
+    const postData = {
+      ...data,
+      animal: id,
+    }
+    if (whichClicked!==null){
+      return toast.promise(
+        axios.put(`/serving/${id}+${data?.food}`, postData).then(() => {
+          mutate(`/animal/${id}`);
+          mutate("/servings");
+          onServingClose();
+        })
+      );
+    } else {
+      return toast.promise(
+        axios.post(`/servings`, postData).then(() => {
+          mutate(`/animal/${id}`);
+          mutate("/servings");
+          onServingClose();
+        })
+      );
+    }
+  };
+
+  const onTreatmentSubmit = () => {};
 
   const onDelete = () => {
     if (typeClicked == "animal")
@@ -47,8 +146,7 @@ const AnimalPage = (): React.ReactElement => {
         })
       );
 
-
-      // TODO nie działa usuwanie leczenia i nie działa usuwanie porcji
+    // TODO nie działa usuwanie leczenia i nie działa usuwanie porcji
     if (typeClicked == "treatment") {
       return toast.promise(
         axios.delete(`/treatments`, whichClicked).then(() => {
@@ -66,6 +164,8 @@ const AnimalPage = (): React.ReactElement => {
       );
     }
   };
+
+  // TODO dodać modal treatment i go obsłużyć
 
   const servingsColumns = [
     {
@@ -91,7 +191,14 @@ const AnimalPage = (): React.ReactElement => {
           gap={2}
         >
           <Tooltip hasArrow label="Edytuj" placement="top">
-            <Icon as={Edit} />
+            <Icon
+              onClick={() => {
+                setTypeClicked("serving");
+                setWhichClicked(row?.original);
+                onServingOpen();
+              }}
+              as={Edit}
+            />
           </Tooltip>
           <Tooltip hasArrow label="Usuń" placement="top">
             <Icon
@@ -134,7 +241,15 @@ const AnimalPage = (): React.ReactElement => {
           gap={2}
         >
           <Tooltip hasArrow label="Edytuj" placement="top">
-            <Icon as={Edit} />
+            <Icon
+              onClick={() => {
+                setTypeClicked("treatment");
+                setWhichClicked(row?.original);
+                setWhichClicked(null);
+                onTreatmentOpen();
+              }}
+              as={Edit}
+            />
           </Tooltip>
           <Tooltip hasArrow label="Usuń" placement="top">
             <Icon
@@ -143,6 +258,7 @@ const AnimalPage = (): React.ReactElement => {
               onClick={() => {
                 setTypeClicked("treatment");
                 setWhichClicked(row?.original);
+                setWhichClicked(null);
                 onDeleteOpen();
               }}
             />
@@ -154,6 +270,65 @@ const AnimalPage = (): React.ReactElement => {
 
   return (
     <>
+      <Modal
+        isCentered
+        size="4xl"
+        isOpen={isServingOpen}
+        onClose={onServingClose}
+        preserveScrollBarGap
+        motionPreset="slideInBottom"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Porcja</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormProvider {...servingMethods}>
+              <form onSubmit={handleServingSubmit(onServingSubmit)} noValidate>
+                <Flex flexDirection="column" gap={4}>
+                  <FormControl isInvalid={!!servingErrors.food} isRequired>
+                    <FormLabel htmlFor="name">Jedzenie</FormLabel>
+                    <Controller
+                      control={controlServing}
+                      name="food"
+                      rules={{ required: true }}
+                      render={({ field: { onChange, value, ref } }) => (
+                        <SelectAdvanced
+                          inputRef={ref}
+                          value={foodOptions?.find((c) => value === c.value)}
+                          onChange={(val) => onChange(val.value)}
+                          options={foodOptions}
+                          isInvalid={!!servingErrors.food}
+                          isClearable={false}
+                        />
+                      )}
+                    />
+                    {servingErrors.food && (
+                      <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <FormControl isInvalid={!!servingErrors.amount} isRequired>
+                    <FormLabel htmlFor="name">Ilość</FormLabel>
+                    <Input
+                      type="number"
+                      {...registerServing("amount", { required: true })}
+                    />
+                    {servingErrors.amount && (
+                      <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <Flex justifyContent="flex-end">
+                    <Button type="submit" isLoading={isServingSubmitting}>
+                      Zapisz
+                    </Button>
+                  </Flex>
+                </Flex>
+              </form>
+            </FormProvider>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
       <DeleteDialog
         isOpen={isDeleteOpen}
         cancelRef={cancelRef}
@@ -223,7 +398,14 @@ const AnimalPage = (): React.ReactElement => {
             <Text fontSize="xl" fontWeight={700}>
               Dieta dzienna
             </Text>
-            <Button>Dodaj porcję</Button>
+            <Button
+              onClick={() => {
+                setWhichClicked(null);
+                onServingOpen();
+              }}
+            >
+              Dodaj porcję
+            </Button>
           </Flex>
 
           {data?.servings?.length > 0 ? (
@@ -237,7 +419,14 @@ const AnimalPage = (): React.ReactElement => {
             <Text fontSize="xl" fontWeight={700}>
               Historia leczenia
             </Text>
-            <Button>Dodaj leczenie</Button>
+            <Button
+              onClick={() => {
+                setWhichClicked(null);
+                onTreatmentOpen();
+              }}
+            >
+              Dodaj leczenie
+            </Button>
           </Flex>
           {data?.treatments?.length > 0 ? (
             <Table data={data?.treatments} columns={treatmentsColumns} />
