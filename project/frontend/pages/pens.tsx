@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { Edit, MoreHorizontal, Trash2 } from "react-feather";
+import { Edit, MoreHorizontal, Trash2, UserX } from "react-feather";
 import useSWR, { mutate } from "swr";
 import BreadCrumb from "../components/Breadcrumb";
 import DeleteDialog from "../components/common/DeleteDialog";
@@ -93,8 +93,9 @@ import axios from "axios";
             })
           );
      } if (typeClicked == "employee") {
+      const body = {employee: idClicked, run : pens?.[tabIndex]?.name};
         return toast.promise(
-            axios.delete(`/employee/${idClicked}`).then(() => {
+            axios.delete(`/employeeRuns`,{data :body}).then(() => {
                 mutate("/runs");
                 mutate("/employees");
                 onDeleteClose();
@@ -151,11 +152,11 @@ import axios from "axios";
     const employeesColumns = [
         {
           Header: "Imię",
-          accessor: "name",
+          accessor: "fisrtName",
         },
         {
           Header: "Nazwisko",
-          accessor: ({ species }) => <Text>{species}</Text>,
+          accessor: "lastName",
         },
         {
           id: "edit",
@@ -172,17 +173,20 @@ import axios from "axios";
                   <Icon as={Edit} />
                 </Link>
               </Tooltip>
-              <Tooltip hasArrow label="Usuń" placement="top">
-                <Icon
-                  as={Trash2}
+              <Tooltip hasArrow label="Usuń pracownika z zespołu" placement="top">
+
+                  <Icon as={UserX} 
                   color="red.400"
                   onClick={() => {
                     setTypeClicked("employee");
                     setIdClicked(pesel);
                   onDeleteOpen();
-                }}
-                />
+                  }}
+                  />
+                  
+
               </Tooltip>
+              
               <Tooltip hasArrow label="Szczegóły" placement="top">
                 <Link href={`/employee/${pesel}`}>
                   <Icon as={MoreHorizontal} />

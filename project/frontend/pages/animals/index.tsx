@@ -5,7 +5,7 @@ import {
   SimpleGrid,
   Text,
   Tooltip,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CUIAutoComplete } from "chakra-ui-autocomplete";
@@ -25,7 +25,7 @@ import { AutocompleteItem } from "../../types/interfaces";
 const AnimalsPage = (): React.ReactElement => {
   const router = useRouter();
   const { data: animals, error } = useSWR("/animals");
-  const [idClicked,setIdClicked] = useState(null);
+  const [idClicked, setIdClicked] = useState(null);
   const {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
@@ -55,13 +55,17 @@ const AnimalsPage = (): React.ReactElement => {
     {
       Header: "Data urodzenia",
       accessor: ({ birthDate }: { birthDate }) => (
-        <Text>{format( birthDate ? new Date(birthDate) : new Date(), "dd/MM/yyyy")}</Text>
+        <Text>
+          {format(birthDate ? new Date(birthDate) : new Date(), "dd/MM/yyyy")}
+        </Text>
       ),
     },
     {
       Header: "Data przybycia do zoo",
       accessor: ({ zooDate }: { zooDate }) => (
-        <Text>{format( zooDate ? new Date(zooDate) : new Date(), "dd/MM/yyyy")}</Text>
+        <Text>
+          {format(zooDate ? new Date(zooDate) : new Date(), "dd/MM/yyyy")}
+        </Text>
       ),
     },
     {
@@ -93,8 +97,8 @@ const AnimalsPage = (): React.ReactElement => {
               color="red.400"
               onClick={() => {
                 setIdClicked(id);
-              onDeleteOpen();
-            }}
+                onDeleteOpen();
+              }}
             />
           </Tooltip>
           <Tooltip hasArrow label="Szczegóły" placement="top">
@@ -227,7 +231,7 @@ const AnimalsPage = (): React.ReactElement => {
 
   return (
     <>
-    <DeleteDialog
+      <DeleteDialog
         isOpen={isDeleteOpen}
         cancelRef={cancelRef}
         onClose={onDeleteClose}

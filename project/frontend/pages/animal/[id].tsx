@@ -137,7 +137,6 @@ const AnimalPage = (): React.ReactElement => {
     }
   };
 
-  //TODO nie działa edytowanie leczenia
   const onTreatmentSubmit = (data) => {
     const postData = {
       description: data?.description || "-",
@@ -149,7 +148,7 @@ const AnimalPage = (): React.ReactElement => {
       return toast.promise(
         axios
           .put(
-            `/serving/${id}+${data?.disease}+${format(
+            `/treatment/${id}+${data?.disease}+${format(
               data?.date ? new Date(data?.date) : new Date(),
               "yyyy-MM-dd"
             )}`,
@@ -181,7 +180,6 @@ const AnimalPage = (): React.ReactElement => {
         })
       );
 
-    // TODO nie działa usuwanie leczenia i nie działa usuwanie porcji
     if (typeClicked == "treatment") {
       const deleteData = {
         animal: id,
@@ -190,7 +188,7 @@ const AnimalPage = (): React.ReactElement => {
         description: whichClicked?.description,
       };
       return toast.promise(
-        axios.delete(`/treatments`, deleteData).then(() => {
+        axios.delete(`/treatments`, {data :deleteData}).then(() => {
           mutate(`/animal/${id}`);
           mutate("/treatments");
         })
@@ -198,15 +196,17 @@ const AnimalPage = (): React.ReactElement => {
     }
     if (typeClicked == "serving") {
       return toast.promise(
-        axios.delete(`/serving/${id}+${whichClicked.name}`).then(() => {
+        axios.delete(`/serving/${id}+${whichClicked?.food}`, {data: {
+          food: whichClicked?.food,
+          amount: whichClicked?.amount,
+          unit: whichClicked?.unit
+        }}).then(() => {
           mutate(`/animal/${id}`);
           mutate("/servings");
         })
       );
     }
   };
-
-  // TODO dodać modal treatment i go obsłużyć
 
   const servingsColumns = [
     {

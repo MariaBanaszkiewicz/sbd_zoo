@@ -19,12 +19,9 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
-
-//TODO define baseURL when backend is ready
 axios.defaults.baseURL = publicRuntimeConfig.API_URL;
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
   const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
