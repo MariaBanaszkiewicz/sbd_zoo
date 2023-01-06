@@ -41,7 +41,6 @@ import {
           })
         );
       };
-      console.log(climates);
 
       const columns = [
 
@@ -55,20 +54,12 @@ import {
         },
         {
           Header: "Średnia temp. dobowa [C]",
-          accessor: ({ temperatur }) => (
-            <Text>
-              {temperatur!==9999 ? temperatur : "-"}
-            </Text>
-          ),
+          accessor: "temperatur"
         },
         {
             Header: "Wilgotność powietrza [%]",
-            accessor: ({ humidity }) => (
-              <Text>
-                {humidity!==9999 ? humidity : "-"}
-              </Text>
-            ),
-          },
+            accessor: "humidity"
+        },
         {
           id: "edit",
           accessor: ({ name }) => (

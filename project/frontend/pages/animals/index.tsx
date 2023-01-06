@@ -286,9 +286,9 @@ const AnimalsPage = (): React.ReactElement => {
           />
         )}
       </SimpleGrid>
-      {animalsList?.length > 0 && (
-        <Table data={animalsList} columns={columns} searchBar={false} />
-      )}
+      {animalsList?.length > 0 ? (
+        <Table data={animalsList} columns={columns} />
+      ): <Text>W ZOO nie ma żadnych zwierząt</Text>}
     </>
   );
 };

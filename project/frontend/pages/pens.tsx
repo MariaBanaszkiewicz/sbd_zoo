@@ -1,9 +1,27 @@
 import {
-    Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent,
-    ModalHeader, ModalOverlay, SimpleGrid, Tab,
-    TabList,
-    TabPanel,
-    TabPanels, Tabs, Text, Tooltip, useDisclosure
+  Button,
+  Divider,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Icon,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,191 +37,171 @@ import SelectAdvanced from "../components/common/SelectAdvanced";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 
-    type EmployeeInputs = {
-      employee: any;
-    };
-  
-  const PensPage = (): React.ReactElement => {
-    const router = useRouter();
-    const [tabIndex, setTabIndex] = useState(0)
-    const { data: pens, error } = useSWR("/runs");
-    const [idClicked,setIdClicked] = useState(null);
-    const {
-      isOpen: isDeleteOpen,
-      onOpen: onDeleteOpen,
-      onClose: onDeleteClose,
-    } = useDisclosure();
-    const toast = useToastPromise();
-    const cancelRef = useRef();
-    const [typeClicked, setTypeClicked] = useState("");
-    const [whichClicked, setWhichClicked] = useState(null);
-    const {
-      isOpen: isEmployeeOpen,
-      onOpen: onEmployeeOpen,
-      onClose: onEmployeeClose,
-    } = useDisclosure();
+type EmployeeInputs = {
+  employee: any;
+};
 
-    const { data: employeeData } = useSWR("/employees");
+const PensPage = (): React.ReactElement => {
+  const router = useRouter();
+  const [tabIndex, setTabIndex] = useState(0);
+  const { data: pens, error } = useSWR("/runs");
+  const [idClicked, setIdClicked] = useState(null);
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useDisclosure();
+  const toast = useToastPromise();
+  const cancelRef = useRef();
+  const [typeClicked, setTypeClicked] = useState("");
+  const {
+    isOpen: isEmployeeOpen,
+    onOpen: onEmployeeOpen,
+    onClose: onEmployeeClose,
+  } = useDisclosure();
 
+  const { data: employeeData } = useSWR("/employees");
 
-    const employeeOptions = employeeData?.map((employee) => ({
-      value: employee?.pesel,
-      label: employee?.fisrtName + " " + employee?.lastName,
-    }));
+  const employeeOptions = employeeData?.map((employee) => ({
+    value: employee?.pesel,
+    label: employee?.fisrtName + " " + employee?.lastName,
+  }));
 
-    const employeeMethods = useForm<EmployeeInputs>();
-    const {
-      handleSubmit: handleemployeeSubmit,
-      control: controlemployee,
-      formState: { errors: employeeErrors, isSubmitting: isemployeeSubmitting },
-    } = employeeMethods;
+  const employeeMethods = useForm<EmployeeInputs>();
+  const {
+    handleSubmit: handleemployeeSubmit,
+    control: controlemployee,
+    formState: { errors: employeeErrors, isSubmitting: isemployeeSubmitting },
+  } = employeeMethods;
 
-    //TODO ERROR: null value in column "run_nazwa_zagrody" of relation "pracownik_zagroda" violates not-null constraint
+  //TODO ERROR: null value in column "run_nazwa_zagrody" of relation "pracownik_zagroda" violates not-null constraint
 
-    const onEmployeeSubmit = (data) => {
-      console.log(idClicked)
-      const postData={run: pens?.[tabIndex]?.name, ...data};
+  const onDelete = () => {
+    if (typeClicked == "pen") {
       return toast.promise(
-        axios.post(`/employeeRuns`, postData).then(() => {
+        axios.delete(`/run/${idClicked}`).then(() => {
           mutate("/runs");
-          onEmployeeClose();
+          mutate("/animals");
+          mutate("/employees");
+          router.push(`/`);
         })
       );
-      console.log(data);
-    };
+    }
+    if (typeClicked == "animal") {
+      return toast.promise(
+        axios.delete(`/animal/${idClicked}`).then(() => {
+          mutate("/runs");
+          mutate("/animals");
+          onDeleteClose();
+        })
+      );
+    }
+    if (typeClicked == "employee") {
+      const body = { employee: idClicked, run: pens?.[tabIndex]?.name };
+      return toast.promise(
+        axios.delete(`/employeeRuns`, { data: body }).then(() => {
+          mutate("/runs");
+          mutate("/employees");
+          onDeleteClose();
+        })
+      );
+    }
+  };
 
-    const onDelete = () => {
-        console.log("deletings");
-        console.log(typeClicked);
-     if (typeClicked == "pen") {
-        return toast.promise(
-            axios.delete(`/run/${idClicked}`).then(() => {
-              mutate("/runs");
-              mutate("/animals");
-              mutate("/employees");
-              router.push(`/`);
-            })
-          );
-     } if (typeClicked == "animal") {
-        return toast.promise(
-            axios.delete(`/animal/${idClicked}`).then(() => {
-                mutate("/runs");
-                mutate("/animals");
-                onDeleteClose();
-            })
-          );
-     } if (typeClicked == "employee") {
-      const body = {employee: idClicked, run : pens?.[tabIndex]?.name};
-        return toast.promise(
-            axios.delete(`/employeeRuns`,{data :body}).then(() => {
-                mutate("/runs");
-                mutate("/employees");
-                onDeleteClose();
-            })
-          );
-     }
-    };
-  
-    const animalsColumns = [
-      {
-        Header: "Imię",
-        accessor: "name",
-      },
-      {
-        Header: "Gatunek",
-        accessor: "species",
-      },
-      {
-        id: "edit",
-        accessor: ({ id }) => (
-          <Flex
-            width="100%"
-            justifyContent="flex-end"
-            fontSize="18px"
-            lineHeight={1}
-            gap={2}
-          >
-            <Tooltip hasArrow label="Edytuj" placement="top">
-              <Link href={`/animals/form/${id}`}>
-                <Icon as={Edit} />
-              </Link>
-            </Tooltip>
-            <Tooltip hasArrow label="Usuń" placement="top">
-              <Icon
-                as={Trash2}
-                color="red.400"
-                onClick={() => {
-                    setTypeClicked("animal");
-                  setIdClicked(id);
+  const animalsColumns = [
+    {
+      Header: "Imię",
+      accessor: "name",
+    },
+    {
+      Header: "Gatunek",
+      accessor: "species",
+    },
+    {
+      id: "edit",
+      accessor: ({ id }) => (
+        <Flex
+          width="100%"
+          justifyContent="flex-end"
+          fontSize="18px"
+          lineHeight={1}
+          gap={2}
+        >
+          <Tooltip hasArrow label="Edytuj" placement="top">
+            <Link href={`/animals/form/${id}`}>
+              <Icon as={Edit} />
+            </Link>
+          </Tooltip>
+          <Tooltip hasArrow label="Usuń" placement="top">
+            <Icon
+              as={Trash2}
+              color="red.400"
+              onClick={() => {
+                setTypeClicked("animal");
+                setIdClicked(id);
                 onDeleteOpen();
               }}
-              />
-            </Tooltip>
-            <Tooltip hasArrow label="Szczegóły" placement="top">
-              <Link href={`/animal/${id}`}>
-                <Icon as={MoreHorizontal} />
-              </Link>
-            </Tooltip>
-          </Flex>
-        ),
-      },
-    ];
+            />
+          </Tooltip>
+          <Tooltip hasArrow label="Szczegóły" placement="top">
+            <Link href={`/animal/${id}`}>
+              <Icon as={MoreHorizontal} />
+            </Link>
+          </Tooltip>
+        </Flex>
+      ),
+    },
+  ];
 
-    const employeesColumns = [
-        {
-          Header: "Imię",
-          accessor: "fisrtName",
-        },
-        {
-          Header: "Nazwisko",
-          accessor: "lastName",
-        },
-        {
-          id: "edit",
-          accessor: ({ pesel }) => (
-            <Flex
-              width="100%"
-              justifyContent="flex-end"
-              fontSize="18px"
-              lineHeight={1}
-              gap={2}
-            >
-              <Tooltip hasArrow label="Edytuj" placement="top">
-                <Link href={`/employee/form/${pesel}`}>
-                  <Icon as={Edit} />
-                </Link>
-              </Tooltip>
-              <Tooltip hasArrow label="Usuń pracownika z zespołu" placement="top">
+  const employeesColumns = [
+    {
+      Header: "Imię",
+      accessor: "fisrtName",
+    },
+    {
+      Header: "Nazwisko",
+      accessor: "lastName",
+    },
+    {
+      id: "edit",
+      accessor: ({ pesel }) => (
+        <Flex
+          width="100%"
+          justifyContent="flex-end"
+          fontSize="18px"
+          lineHeight={1}
+          gap={2}
+        >
+          <Tooltip hasArrow label="Edytuj" placement="top">
+            <Link href={`/employee/form/${pesel}`}>
+              <Icon as={Edit} />
+            </Link>
+          </Tooltip>
+          <Tooltip hasArrow label="Usuń pracownika z zespołu" placement="top">
+            <Icon
+              as={UserX}
+              color="red.400"
+              onClick={() => {
+                setTypeClicked("employee");
+                setIdClicked(pesel);
+                onDeleteOpen();
+              }}
+            />
+          </Tooltip>
 
-                  <Icon as={UserX} 
-                  color="red.400"
-                  onClick={() => {
-                    setTypeClicked("employee");
-                    setIdClicked(pesel);
-                  onDeleteOpen();
-                  }}
-                  />
-                  
+          <Tooltip hasArrow label="Szczegóły" placement="top">
+            <Link href={`/employee/${pesel}`}>
+              <Icon as={MoreHorizontal} />
+            </Link>
+          </Tooltip>
+        </Flex>
+      ),
+    },
+  ];
 
-              </Tooltip>
-              
-              <Tooltip hasArrow label="Szczegóły" placement="top">
-                <Link href={`/employee/${pesel}`}>
-                  <Icon as={MoreHorizontal} />
-                </Link>
-              </Tooltip>
-            </Flex>
-          ),
-        },
-      ];
-
-      console.log(pens);
-  
-   
-  
-    return (
-      <>
-<Modal
+  return (
+    <>
+      <Modal
         isCentered
         size="4xl"
         isOpen={isEmployeeOpen}
@@ -217,9 +215,12 @@ import axios from "axios";
           <ModalCloseButton />
           <ModalBody>
             <FormProvider {...employeeMethods}>
-              <form onSubmit={handleemployeeSubmit(onEmployeeSubmit)} noValidate>
+              <form
+                onSubmit={handleemployeeSubmit(onEmployeeSubmit)}
+                noValidate
+              >
                 <Flex flexDirection="column" gap={4}>
-                <FormControl isInvalid={!!employeeErrors.employee} isRequired>
+                  <FormControl isInvalid={!!employeeErrors.employee} isRequired>
                     <FormLabel htmlFor="name">Wybierz pracownika</FormLabel>
                     <Controller
                       control={controlemployee}
@@ -228,7 +229,9 @@ import axios from "axios";
                       render={({ field: { onChange, value, ref } }) => (
                         <SelectAdvanced
                           inputRef={ref}
-                          value={employeeOptions?.find((c) => value === c.value)}
+                          value={employeeOptions?.find(
+                            (c) => value === c.value
+                          )}
                           onChange={(val) => onChange(val.value)}
                           options={employeeOptions}
                           isInvalid={!!employeeErrors.employee}
@@ -253,103 +256,114 @@ import axios from "axios";
         </ModalContent>
       </Modal>
 
-
-
       <DeleteDialog
-          isOpen={isDeleteOpen}
-          cancelRef={cancelRef}
-          onClose={onDeleteClose}
-          onDelete={onDelete}
+        isOpen={isDeleteOpen}
+        cancelRef={cancelRef}
+        onClose={onDeleteClose}
+        onDelete={onDelete}
+      />
+      <Flex justifyContent="space-between">
+        <BreadCrumb
+          breadcrumb={[
+            { label: "Zagrody", isCurrentPage: true, href: "/pens" },
+          ]}
         />
-        <Flex justifyContent="space-between">
-          <BreadCrumb
-            breadcrumb={[
-              { label: "Zagrody", isCurrentPage: true, href: "/pens" },
-            ]}
-          />
-          <Button onClick={() => router.push("/pen/form/0")}>
-            Dodaj zagrodę
-          </Button>
-        </Flex>
-        {pens?.length > 0 && (
-            <Tabs onChange={(index) => setTabIndex(index)}>
-            <TabList>
-                {pens?.map((pen, index) => 
-                    <Tab key={index} onClick={()=> setIdClicked(pen?.id)}>{pen?.name}</Tab>
-                    )}
-            </TabList>
-          
-            <TabPanels>
-            {pens?.map((pen, index) => 
-                    <TabPanel key={index}>
-                        <Flex justifyContent="flex-end" gap={3}>
-                            <Button variant="outline" onClick={()=> {
-                                setTypeClicked("pen");
-                                setIdClicked(pen?.name);
-                                onDeleteOpen();
-                            }}>Usuń</Button>
-                          <Button onClick={()=> router.push(`/pen/form/${pen?.name}`)}>Edytuj</Button>
-                          
-                        </Flex>
-                        
-                        <SimpleGrid gap={5} columns={2} mb={5}>
-        <Text textAlign="end">Klimat: </Text>
-        <Text>{pen?.climate || "-"}</Text>
-        <Text textAlign="end">Rozmiar: </Text>
-        <Text>{pen?.size || "-"}</Text>
-        
-      </SimpleGrid>
-      <Divider mb={5} />
-      <SimpleGrid columns={2} gap={7}>
-        <Flex flexDirection="column">
-          <Flex justifyContent="space-between">
-            <Text fontSize="xl" fontWeight={700}>
-              Zwierzęta
-            </Text>
-            <Button
-              onClick={() => {
-                router?.push("/animals/form/0")
-              }}
-            >
-              Dodaj zwierzę
-            </Button>
-          </Flex>
+        <Button onClick={() => router.push("/pen/form/0")}>
+          Dodaj zagrodę
+        </Button>
+      </Flex>
+      {pens?.length > 0 && (
+        <Tabs onChange={(index) => setTabIndex(index)}>
+          <TabList>
+            {pens?.map((pen, index) => (
+              <Tab key={index} onClick={() => setIdClicked(pen?.id)}>
+                {pen?.name}
+              </Tab>
+            ))}
+          </TabList>
 
-          {pen?.animals?.length > 0 ? (
-            <Table data={pen?.animals} columns={animalsColumns} />
-          ) : (
-            <Text mt={5}>W tej zagrodzie nie znajduje się żadne zwierzę</Text>
-          )}
-        </Flex>
-        <Flex flexDirection="column">
-          <Flex justifyContent="space-between">
-            <Text fontSize="xl" fontWeight={700}>
-              Pracownicy
-            </Text>
-            <Button
-              onClick={()=>{setIdClicked(pens?.[tabIndex]?.name) ;onEmployeeOpen()}}
-            >
-              Dodaj pracownika do zagrody
-            </Button>
-          </Flex>
-          {pen?.employees?.length > 0 ? (
-            <Table data={pen?.employees} columns={employeesColumns} />
-          ) : (
-            <Text mt={5}>Do tej zagrody nie został przydzielony żaden pracownik</Text>
-          )}
-        </Flex>
-      </SimpleGrid>
-                  </TabPanel>
+          <TabPanels>
+            {pens?.map((pen, index) => (
+              <TabPanel key={index}>
+                <Flex justifyContent="flex-end" gap={3}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setTypeClicked("pen");
+                      setIdClicked(pen?.name);
+                      onDeleteOpen();
+                    }}
+                  >
+                    Usuń
+                  </Button>
+                  <Button onClick={() => router.push(`/pen/form/${pen?.name}`)}>
+                    Edytuj
+                  </Button>
+                </Flex>
+
+                <SimpleGrid gap={5} columns={2} mb={5}>
+                  <Text textAlign="end">Klimat: </Text>
+                  <Text>{pen?.climate || "-"}</Text>
+                  <Text textAlign="end">Rozmiar: </Text>
+                  <Text>{pen?.size || "-"}</Text>
+                </SimpleGrid>
+                <Divider mb={5} />
+                <SimpleGrid columns={2} gap={7}>
+                  <Flex flexDirection="column">
+                    <Flex justifyContent="space-between">
+                      <Text fontSize="xl" fontWeight={700}>
+                        Zwierzęta
+                      </Text>
+                      <Button
+                        onClick={() => {
+                          router?.push("/animals/form/0");
+                        }}
+                      >
+                        Dodaj zwierzę
+                      </Button>
+                    </Flex>
+
+                    {pen?.animals?.length > 0 ? (
+                      <Table data={pen?.animals} columns={animalsColumns} />
+                    ) : (
+                      <Text mt={5}>
+                        W tej zagrodzie nie znajduje się żadne zwierzę
+                      </Text>
                     )}
-            </TabPanels>
-          </Tabs>
+                  </Flex>
+                  <Flex flexDirection="column">
+                    <Flex justifyContent="space-between">
+                      <Text fontSize="xl" fontWeight={700}>
+                        Pracownicy
+                      </Text>
+                      <Button
+                        onClick={() => {
+                          setIdClicked(pens?.[tabIndex]?.name);
+                          onEmployeeOpen();
+                        }}
+                      >
+                        Dodaj pracownika do zagrody
+                      </Button>
+                    </Flex>
+                    {pen?.employees?.length > 0 ? (
+                      <Table data={pen?.employees} columns={employeesColumns} />
+                    ) : (
+                      <Text mt={5}>
+                        Do tej zagrody nie został przydzielony żaden pracownik
+                      </Text>
+                    )}
+                  </Flex>
+                </SimpleGrid>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
         //   <Table data={animalsList} columns={columns} searchBar={false} />
-        )}
-      </>
-    );
-  };
-  
-  PensPage.getLayout = (page: React.ReactElement) => <Layout>{page}</Layout>;
-  
-  export default PensPage;
-  
+      )}
+    </>
+  );
+};
+
+PensPage.getLayout = (page: React.ReactElement) => <Layout>{page}</Layout>;
+
+export default PensPage;

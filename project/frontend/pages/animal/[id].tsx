@@ -343,7 +343,7 @@ const AnimalPage = (): React.ReactElement => {
                     <Controller
                       control={controlTreatment}
                       name="date"
-                      rules={{ required: false }}
+                      rules={{ required: true }}
                       render={({ field: { onChange, value, ref } }) => (
                         <DateInput
                           ref={ref}
@@ -356,11 +356,11 @@ const AnimalPage = (): React.ReactElement => {
                       <FormErrorMessage>Pole wymagane</FormErrorMessage>
                     )}
                   </FormControl>
-                  <FormControl isInvalid={!!treatmentErrors.description}>
+                  <FormControl isInvalid={!!treatmentErrors.description} isRequired>
                     <FormLabel htmlFor="name">Opis</FormLabel>
                     <Textarea
                       type="string"
-                      {...registerTreatment("description", { required: false })}
+                      {...registerTreatment("description", { required: true })}
                     />
                   </FormControl>
                   <Flex justifyContent="flex-end">

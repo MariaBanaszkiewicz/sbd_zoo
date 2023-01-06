@@ -81,11 +81,11 @@ import {
         <div style={{ height: "900px" }}>
           <BreadCrumb
             breadcrumb={[
-              { label: "Zagrody", isCurrentPage: false, href: "/pans" },
+              { label: "Klimaty", isCurrentPage: false, href: "/climates" },
               {
-                label: id!="0" ? "Edytuj zagrodę" : "Dodaj zagrodę",
+                label: id!="0" ? "Edytuj klimat" : "Dodaj klimat",
                 isCurrentPage: true,
-                href: `/pan/form/${id}`,
+                href: `/climate/form/${id}`,
               },
             ]}
           />
@@ -99,17 +99,17 @@ import {
                     <FormErrorMessage>Pole wymagane</FormErrorMessage>
                   )}
                 </FormControl>
-                <FormControl isInvalid={!!errors.flora}>
+                <FormControl isInvalid={!!errors.flora} isRequired>
                   <FormLabel htmlFor="flora">Roślinność</FormLabel>
-                  <Input type="string" {...register("flora", { required: false })} />
+                  <Input type="string" {...register("flora", { required: true })} />
                 </FormControl>
-                <FormControl isInvalid={!!errors.temperatur}>
+                <FormControl isInvalid={!!errors.temperatur} isRequired>
                   <FormLabel htmlFor="temperatur">Średnia temperatura dobowa [C]</FormLabel>
-                  <Input type="string" {...register("temperatur", { required: false })} />
+                  <Input type="string" {...register("temperatur", { required: true })} />
                 </FormControl>
-                <FormControl isInvalid={!!errors.humidity}>
+                <FormControl isInvalid={!!errors.humidity} isRequired>
                   <FormLabel htmlFor="humidity">Wilgotność powietrza</FormLabel>
-                  <Input type="string" {...register("humidity", { required: false })} />
+                  <Input type="string" {...register("humidity", { required: true })} />
                 </FormControl>
 
                 </Flex>

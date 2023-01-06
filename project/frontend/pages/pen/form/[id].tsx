@@ -29,7 +29,6 @@ import {
     const toast = useToastPromise();
     const { id } = router.query;
     const { data: panData, isValidating, mutate } = useSWR(`/run/${id}`);
-    console.log(id,panData);
     const { data: climatesData } = useSWR(`/climates`);
     const methods = useForm<FormInputs>();
     const {

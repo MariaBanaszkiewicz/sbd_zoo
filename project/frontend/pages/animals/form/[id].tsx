@@ -199,7 +199,7 @@ const AnimalFormPage = (): React.ReactElement => {
                 <FormErrorMessage>Pole wymagane</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl isInvalid={!!errors.zooDate} isRequired>
+            <FormControl isInvalid={!!errors.zooDate}>
               <FormLabel>Data przybycia do ZOO</FormLabel>
               <Controller
                 control={control}
