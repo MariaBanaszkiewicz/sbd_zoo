@@ -1,22 +1,13 @@
 import {
   Button,
   Divider,
-  Flex,
-  Icon,
-  SimpleGrid,
+  Flex, FormControl, FormErrorMessage, FormLabel, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent,
+  ModalHeader, ModalOverlay, SimpleGrid,
+  Spinner,
   Text,
+  Textarea,
   Tooltip,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
+  useDisclosure
 } from "@chakra-ui/react";
 import axios from "axios";
 import { format } from "date-fns";
@@ -26,6 +17,7 @@ import { Edit, Trash2 } from "react-feather";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 import BreadCrumb from "../../components/Breadcrumb";
+import DateInput from "../../components/common/DateInput";
 import DeleteDialog from "../../components/common/DeleteDialog";
 import SelectAdvanced from "../../components/common/SelectAdvanced";
 import Table from "../../components/common/Table";
@@ -64,11 +56,11 @@ const AnimalPage = (): React.ReactElement => {
   const { id } = router.query;
 
   const { data, error } = useSWR(id ? `/animal/${id}` : null);
-  console.log(data);
-  const { data: employeeData } = useSWR(
+
+  const { data: employeeData, isValidating: isEmployeeValidating } = useSWR(
     data?.animal?.employee ? `/employee/${data?.animal?.employee}` : null
   );
-  const { data: foodData } = useSWR(`/food`);
+  const { data: foodData, isValidating } = useSWR(`/food`);
   const cancelRef = useRef();
   const [typeClicked, setTypeClicked] = useState("");
   const [whichClicked, setWhichClicked] = useState(null);
@@ -96,17 +88,17 @@ const AnimalPage = (): React.ReactElement => {
   } = treatmentMethods;
 
   useEffect(() => {
-    if (whichClicked && isServingOpen) {
+    if (isServingOpen) {
       resetServing({
-        food: whichClicked?.food,
-        amount: whichClicked?.amount,
+        food: whichClicked?.food || null,
+        amount: whichClicked?.amount || null,
       });
     }
-    if (whichClicked && isTreatmentOpen) {
+    if (isTreatmentOpen) {
       resetTreatment({
-        disease: whichClicked?.disease,
-        description: whichClicked?.description,
-        date: new Date(whichClicked?.date),
+        disease: whichClicked?.disease || null,
+        description: whichClicked?.description || null,
+        date: whichClicked?.date ?  new Date(whichClicked?.date) : new Date(),
       });
     }
   }, [whichClicked, isServingOpen, isTreatmentOpen]);
@@ -135,7 +127,32 @@ const AnimalPage = (): React.ReactElement => {
     }
   };
 
-  const onTreatmentSubmit = () => {};
+  //TODO nie działa edytowanie leczenia
+  const onTreatmentSubmit = (data) => {
+    const postData = {
+      description: data?.description || "-",
+      date: data?.date,
+      disease: data?.disease,
+      animal: id,
+    }
+    if (whichClicked!==null){
+      return toast.promise(
+        axios.put(`/serving/${id}+${data?.disease}+${format(new Date(data?.date), "yyyy-MM-dd")}`, postData).then(() => {
+          mutate(`/animal/${id}`);
+          mutate("/treatments");
+          onTreatmentClose();
+        })
+      );
+    } else {
+      return toast.promise(
+        axios.post(`/treatments`, postData).then(() => {
+          mutate(`/animal/${id}`);
+          mutate("/treatments");
+          onTreatmentClose();
+        })
+      );
+    }
+  };
 
   const onDelete = () => {
     if (typeClicked == "animal")
@@ -148,8 +165,14 @@ const AnimalPage = (): React.ReactElement => {
 
     // TODO nie działa usuwanie leczenia i nie działa usuwanie porcji
     if (typeClicked == "treatment") {
+      const deleteData = {
+        animal: id,
+        disease: whichClicked?.disease,
+        date: whichClicked?.date,
+        description: whichClicked?.description,
+      };
       return toast.promise(
-        axios.delete(`/treatments`, whichClicked).then(() => {
+        axios.delete(`/treatments`, deleteData).then(() => {
           mutate(`/animal/${id}`);
           mutate("/treatments");
         })
@@ -227,7 +250,7 @@ const AnimalPage = (): React.ReactElement => {
     {
       Header: "Data",
       accessor: ({ date }) => (
-        <Text>{format(new Date(date), "dd/MM/yyyy")}</Text>
+        <Text>{ format(date ? new Date(date) : new Date(), "dd/MM/yyyy")}</Text>
       ),
     },
     {
@@ -245,7 +268,6 @@ const AnimalPage = (): React.ReactElement => {
               onClick={() => {
                 setTypeClicked("treatment");
                 setWhichClicked(row?.original);
-                setWhichClicked(null);
                 onTreatmentOpen();
               }}
               as={Edit}
@@ -258,7 +280,6 @@ const AnimalPage = (): React.ReactElement => {
               onClick={() => {
                 setTypeClicked("treatment");
                 setWhichClicked(row?.original);
-                setWhichClicked(null);
                 onDeleteOpen();
               }}
             />
@@ -268,8 +289,69 @@ const AnimalPage = (): React.ReactElement => {
     },
   ];
 
+
   return (
     <>
+<Modal
+        isCentered
+        size="4xl"
+        isOpen={isTreatmentOpen}
+        onClose={onTreatmentClose}
+        preserveScrollBarGap
+        motionPreset="slideInBottom"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Leczenie</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormProvider {...treatmentMethods}>
+              <form onSubmit={handleTreatmentSubmit(onTreatmentSubmit)} noValidate>
+                <Flex flexDirection="column" gap={4}>
+                  <FormControl isInvalid={!!treatmentErrors.disease} isRequired>
+                    <FormLabel htmlFor="name">Choroba</FormLabel>
+                    <Input
+                      type="string"
+                      {...registerTreatment("disease", { required: true })}
+                    />
+                    {treatmentErrors.disease && (
+                      <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <FormControl isInvalid={!!treatmentErrors.date} isRequired>
+              <FormLabel>Data</FormLabel>
+              <Controller
+                control={controlTreatment}
+                name="date"
+                rules={{ required: false }}
+                render={({ field: { onChange, value, ref } }) => (
+                  <DateInput ref={ref} selected={value} onChange={onChange} />
+                )}
+              />
+              {treatmentErrors.date && (
+                <FormErrorMessage>Pole wymagane</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isInvalid={!!treatmentErrors.description}>
+                    <FormLabel htmlFor="name">Opis</FormLabel>
+                    <Textarea
+                      type="string"
+                      {...registerTreatment("description", { required: false })}
+                    />
+                  </FormControl>
+                  <Flex justifyContent="flex-end">
+                    <Button type="submit" isLoading={isServingSubmitting}>
+                      Zapisz
+                    </Button>
+                  </Flex>
+                </Flex>
+              </form>
+            </FormProvider>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+
       <Modal
         isCentered
         size="4xl"

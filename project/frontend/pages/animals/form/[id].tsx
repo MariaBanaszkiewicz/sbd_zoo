@@ -100,7 +100,7 @@ const AnimalFormPage = (): React.ReactElement => {
         breadcrumb={[
           { label: "Zwierzęta", isCurrentPage: false, href: "/animals" },
           {
-            label: id ? "Edytuj zwierzę" : "Dodaj zwierzę",
+            label: id!=0 ? "Edytuj zwierzę" : "Dodaj zwierzę",
             isCurrentPage: true,
             href: `/animals/form/${id}`,
           },

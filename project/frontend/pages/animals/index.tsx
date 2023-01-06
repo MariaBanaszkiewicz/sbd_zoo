@@ -55,22 +55,22 @@ const AnimalsPage = (): React.ReactElement => {
     {
       Header: "Data urodzenia",
       accessor: ({ birthDate }: { birthDate }) => (
-        <Text>{format(new Date(birthDate), "dd/MM/yyyy")}</Text>
+        <Text>{format( birthDate ? new Date(birthDate) : new Date(), "dd/MM/yyyy")}</Text>
       ),
     },
     {
       Header: "Data przybycia do zoo",
       accessor: ({ zooDate }: { zooDate }) => (
-        <Text>{format(new Date(zooDate), "dd/MM/yyyy")}</Text>
+        <Text>{format( zooDate ? new Date(zooDate) : new Date(), "dd/MM/yyyy")}</Text>
       ),
     },
     {
       Header: "Gatunek",
-      accessor: ({ species }) => <Text>{species}</Text>,
+      accessor: "species",
     },
     {
       Header: "Zagroda",
-      accessor: ({ run }) => <Text>{run}</Text>,
+      accessor: "run",
     },
     {
       id: "edit",
