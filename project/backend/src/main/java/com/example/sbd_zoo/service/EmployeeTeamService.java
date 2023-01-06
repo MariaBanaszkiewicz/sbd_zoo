@@ -3,6 +3,7 @@ package com.example.sbd_zoo.service;
 import com.example.sbd_zoo.model.EmployeeTeam;
 import com.example.sbd_zoo.repository.EmployeeTeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,11 @@ public class EmployeeTeamService {
 
     @Transactional
     public void addEmployeeTeam(EmployeeTeam employeeTeam) {
-        employeeTeamRepository.save(employeeTeam);
+        if (employeeTeamRepository.existsById(employeeTeam)){
+            throw new DataIntegrityViolationException("Podany pracownik jest już zatrudniony.");
+        } else {
+            employeeTeamRepository.save(employeeTeam);
+        }
     }
 
     @Transactional

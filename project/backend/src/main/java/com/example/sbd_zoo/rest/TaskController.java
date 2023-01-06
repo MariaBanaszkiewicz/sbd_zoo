@@ -3,6 +3,7 @@ package com.example.sbd_zoo.rest;
 import com.example.sbd_zoo.model.Task;
 import com.example.sbd_zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class TaskController {
             List<Task> listOfTasks = taskService.getAllTasks();
             return (T) listOfTasks;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain tasks");
+            return (T) ResponseEntity.status(500).body("Nie udało się pobrać zadań.");
         }
 
     }
@@ -31,13 +32,15 @@ public class TaskController {
         try {
             taskService.addTask(Task);
             return ResponseEntity.status(200).body("Success");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add Task");
+            return ResponseEntity.status(500).body("Nie udało się dodać zadania.");
         }
     }
 
     @PutMapping("/task/{emp}+{desc}")
-    public ResponseEntity updateTask(@PathVariable(value = "emp") Integer emp, @PathVariable(value = "desc") String desc, @RequestBody Task task) {
+    public ResponseEntity updateTask(@PathVariable(value = "emp") String emp, @PathVariable(value = "desc") String desc, @RequestBody Task task) {
         try {
             Task id = new Task();
             id.setEmployee(emp);
@@ -45,7 +48,7 @@ public class TaskController {
             taskService.updateTask(id, task);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update Task");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować zadania.");
         }
     }
 
@@ -55,7 +58,7 @@ public class TaskController {
             taskService.deleteTask(task);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete Task");
+            return ResponseEntity.status(500).body("Nie udało się usunąć zadania.");
         }
     }
 }

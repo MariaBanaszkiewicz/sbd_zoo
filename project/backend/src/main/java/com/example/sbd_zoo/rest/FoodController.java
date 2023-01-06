@@ -3,6 +3,7 @@ package com.example.sbd_zoo.rest;
 import com.example.sbd_zoo.model.Food;
 import com.example.sbd_zoo.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class FoodController {
             List<Food> listOfFood = foodService.getAllFood();
             return (T) listOfFood;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain food");
+            return (T) ResponseEntity.status(500).body("Nie udało się pobrać jedzenia.");
         }
 
     }
@@ -33,7 +34,7 @@ public class FoodController {
             return (T) food;
         } catch (Exception e) {
 
-            return (T) ResponseEntity.status(500).body("Food with given name does not exist");
+            return (T) ResponseEntity.status(500).body("Jedzenie o podanej nazwie nie istnieje.");
 
         }
     }
@@ -42,8 +43,11 @@ public class FoodController {
         try {
             foodService.addFood(food);
             return ResponseEntity.status(200).body("Success");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
+
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add food");
+            return ResponseEntity.status(500).body("Nie udało się dodać jedzenia.");
         }
     }
 
@@ -53,7 +57,7 @@ public class FoodController {
             foodService.updateFood(id, food);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update food");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować jedzenia.");
         }
     }
 
@@ -63,7 +67,7 @@ public class FoodController {
             foodService.deleteFood(id);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete food");
+            return ResponseEntity.status(500).body("Nie udało się usunąć jedzenia.");
         }
     }
 }

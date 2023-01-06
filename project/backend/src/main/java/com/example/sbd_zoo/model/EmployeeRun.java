@@ -10,17 +10,17 @@ import java.io.Serializable;
 public class EmployeeRun implements Serializable {
     @Id
     @Column(name = "pracownik")
-    private Integer employee;
+    private String employee;
 
     @Id
     @Column(name = "zagroda")
     private String run;
 
-    public Integer getEmployee() {
+    public String getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Integer employee) {
+    public void setEmployee(String employee) {
         this.employee = employee;
     }
 

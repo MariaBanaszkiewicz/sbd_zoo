@@ -3,6 +3,7 @@ package com.example.sbd_zoo.rest;
 import com.example.sbd_zoo.model.EmployeeRun;
 import com.example.sbd_zoo.service.EmployeeRunService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class EmployeeRunController {
             List<EmployeeRun> listOfEmployeeRuns = employeeRunService.getAllEmployeeRuns();
             return (T) listOfEmployeeRuns;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain EmployeeRuns");
+            return (T) ResponseEntity.status(500).body("Nie udało się pobrać pracowników zagród.");
         }
 
     }
@@ -31,13 +32,16 @@ public class EmployeeRunController {
         try {
             employeeRunService.addEmployeeRun(employeeRun);
             return ResponseEntity.status(200).body("Success");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add EmployeeRun");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Nie udało się dodać pracownika do zagrody.");
         }
     }
 
     @PutMapping("/employeeRun/{emp}+{run}")
-    public ResponseEntity updateEmployeeRun(@PathVariable(value = "emp") Integer emp, @PathVariable(value = "run") String run, @RequestBody EmployeeRun employeeRun) {
+    public ResponseEntity updateEmployeeRun(@PathVariable(value = "emp") String emp, @PathVariable(value = "run") String run, @RequestBody EmployeeRun employeeRun) {
         try {
             EmployeeRun id = new EmployeeRun();
             id.setEmployee(emp);
@@ -45,7 +49,7 @@ public class EmployeeRunController {
             employeeRunService.updateEmployeeRun(id, employeeRun);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update EmployeeRun");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować pracownika w zagrodzie.");
         }
     }
 
@@ -55,7 +59,7 @@ public class EmployeeRunController {
             employeeRunService.deleteEmployeeRun(employeeRun);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete EmployeeRun");
+            return ResponseEntity.status(500).body("Nie udało się usunąć pracownika z zagrody.");
         }
     }
 }

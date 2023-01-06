@@ -4,6 +4,7 @@ import com.example.sbd_zoo.model.Treatment;
 import com.example.sbd_zoo.model.TreatmentId;
 import com.example.sbd_zoo.repository.TreatmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,15 @@ public class TreatmentService {
 
     @Transactional
     public void addTreatment(Treatment treatment) {
-        treatmentRepository.save(treatment);
+        TreatmentId id = new TreatmentId();
+        id.setAnimal(treatment.getAnimal());
+        id.setDisease(treatment.getDisease());
+        id.setDate(treatment.getDate());
+        if (treatmentRepository.existsById(id)){
+            throw new DataIntegrityViolationException("Podane leczenie znajduje się już w bazie.");
+        } else {
+            treatmentRepository.save(treatment);
+        }
     }
 
     @Transactional

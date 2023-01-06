@@ -3,6 +3,7 @@ package com.example.sbd_zoo.rest;
 import com.example.sbd_zoo.model.Climate;
 import com.example.sbd_zoo.service.ClimateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class ClimateController {
             List<Climate> listOfClimates = climateService.getAllClimates();
             return (T) listOfClimates;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain climates");
+            return (T) ResponseEntity.status(500).body("Nie udało się pobrać klimatów z bazy.");
         }
 
     }
@@ -33,7 +34,7 @@ public class ClimateController {
             return (T) climate;
         } catch (Exception e) {
 
-            return (T) ResponseEntity.status(500).body("Climate with given id does not exist");
+            return (T) ResponseEntity.status(500).body("Klimat o podanej nazwie nie znajduje się w bazie.");
 
         }
     }
@@ -42,8 +43,11 @@ public class ClimateController {
         try {
             climateService.addClimate(climate);
             return ResponseEntity.status(200).body("Success");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add Climate");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Nie udało się dodać klimatu.");
         }
     }
 
@@ -53,7 +57,7 @@ public class ClimateController {
             climateService.updateClimate(id, climate);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update climate");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować klimatu.");
         }
     }
 
@@ -63,7 +67,7 @@ public class ClimateController {
             climateService.deleteClimate(id);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete climate");
+            return ResponseEntity.status(500).body("Nie udało się usunąć klimatu.");
         }
     }
 }

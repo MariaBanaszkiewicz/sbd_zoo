@@ -7,6 +7,8 @@ import com.example.sbd_zoo.service.ServingService;
 import com.example.sbd_zoo.service.TreatmentService;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +34,7 @@ public class AnimalController {
             List<Animal> listOfAnimals = animalService.getAllAnimals();
             return (T) listOfAnimals;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain animals");
+            return (T) ResponseEntity.status(500).body("Wystąpił błąd podczas pobierana zwierząt.");
         }
 
     }
@@ -52,7 +54,7 @@ public class AnimalController {
         } catch (Exception e) {
 
             e.printStackTrace();
-            return (T) ResponseEntity.status(500).body("Animal with given id does not exist");
+            return (T) ResponseEntity.status(500).body("Wybrane zwierzę nie znajduje się w bazie.");
 
         }
     }
@@ -61,8 +63,11 @@ public class AnimalController {
         try {
             animalService.addAnimal(animal);
             return ResponseEntity.status(200).body("Success");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add animal");
+        }catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Podczas dodawania zwierzęcia wystąpił błąd.");
         }
     }
 
@@ -71,8 +76,11 @@ public class AnimalController {
         try {
             animalService.updateAnimal(id, animal);
             return ResponseEntity.status(200).body("Success");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update animal");
+        }catch (ResourceNotFoundException e){
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować zwierzęcia.");
         }
     }
 
@@ -82,7 +90,7 @@ public class AnimalController {
             animalService.deleteAnimal(id);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete animal");
+            return ResponseEntity.status(500).body("Nie udało się usunąć zwierzęcia.");
         }
     }
 }

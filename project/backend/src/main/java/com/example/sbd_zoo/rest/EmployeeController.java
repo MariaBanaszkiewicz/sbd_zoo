@@ -6,6 +6,7 @@ import com.example.sbd_zoo.model.EmployeeDetails;
 import com.example.sbd_zoo.service.EmployeeService;
 import com.example.sbd_zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +27,13 @@ public class EmployeeController {
             List<Employee> listOfEmployees = employeeService.getAllEmployees();
             return (T) listOfEmployees;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain employees");
+            return (T) ResponseEntity.status(500).body("Nie udało się pobrać pracowników z bazy.");
         }
 
     }
 
     @GetMapping("/employee/{id}")
-    public<T> T getEmployee(@PathVariable(value = "id") Integer id) {
+    public<T> T getEmployee(@PathVariable(value = "id") String id) {
         try {
 
             Employee employee = employeeService.getEmployee(id);
@@ -43,7 +44,7 @@ public class EmployeeController {
             return (T) employeeDetails;
         } catch (Exception e) {
 
-            return (T) ResponseEntity.status(500).body("Employee with given id does not exist");
+            return (T) ResponseEntity.status(500).body("Pracownik o takim numerze pesel nie znajduje się w bazie.");
 
         }
     }
@@ -52,38 +53,41 @@ public class EmployeeController {
         try {
             employeeService.addEmployee(employee);
             return ResponseEntity.status(200).body("Success");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add employee");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Nie udało się dodać pracownika.");
         }
     }
 
     @PutMapping("/employee/{id}")
-    public ResponseEntity updateEmployee(@PathVariable(value = "id") Integer id, @RequestBody Employee employee) {
+    public ResponseEntity updateEmployee(@PathVariable(value = "id") String id, @RequestBody Employee employee) {
         try {
             employeeService.updateEmployee(id, employee);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update employee");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować pracownika.");
         }
     }
 
     @DeleteMapping("/employee/{id}")
-    public ResponseEntity deleteEmployee(@PathVariable(value = "id") Integer id){
+    public ResponseEntity deleteEmployee(@PathVariable(value = "id") String id){
         try {
             employeeService.deleteEmployee(id);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete employee");
+            return ResponseEntity.status(500).body("Nie udało się usunąć pracownika.");
         }
     }
 
     @PutMapping("/employee/transfer/{from}+{to}")
-    public ResponseEntity transferTasks(@PathVariable(value = "from") Integer from, @PathVariable(value = "to") Integer to){
+    public ResponseEntity transferTasks(@PathVariable(value = "from") String from, @PathVariable(value = "to") String to){
         try {
             taskService.transferTasks(from, to);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e){
-            return ResponseEntity.status(500).body("Failed to transfer tasks");
+            return ResponseEntity.status(500).body("Nie udało się przekazać zadań pracownika.");
         }
     }
 }

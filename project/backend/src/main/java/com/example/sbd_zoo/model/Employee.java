@@ -12,7 +12,7 @@ import java.util.Date;
 public class Employee {
     @Id
     @Column(name = "pesel")
-    private Integer pesel;
+    private String pesel;
 
     @Column(name = "imię")
     private String fisrtName;
@@ -23,11 +23,11 @@ public class Employee {
     @Column(name = "data_zatrudnienia")
     private Date dateOfEmployment;
 
-    public Integer getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(Integer pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

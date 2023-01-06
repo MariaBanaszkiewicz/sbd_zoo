@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task,Task> {
 
-    List<Task> findByEmployee(Integer employee);
+    List<Task> findByEmployee(String employee);
 
 
     @Modifying
     @Query(value = "CALL przekaz_zadania(:od_prac,:do_prac);",nativeQuery = true)
-    void transferTasks(@Param("od_prac") Integer from, @Param("do_prac") Integer to);
+    void transferTasks(@Param("od_prac") String from, @Param("do_prac") String to);
 }

@@ -3,6 +3,7 @@ package com.example.sbd_zoo.service;
 import com.example.sbd_zoo.model.Food;
 import com.example.sbd_zoo.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,11 @@ public class FoodService {
 
     @Transactional
     public void addFood(Food food) {
-        foodRepository.save(food);
+        if (foodRepository.existsById(food.getName())){
+            throw new DataIntegrityViolationException("Podane jedzenie znajduje się już w bazie.");
+        } else {
+            foodRepository.save(food);
+        }
     }
 
     @Transactional

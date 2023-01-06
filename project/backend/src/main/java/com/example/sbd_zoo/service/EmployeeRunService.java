@@ -3,6 +3,7 @@ package com.example.sbd_zoo.service;
 import com.example.sbd_zoo.model.EmployeeRun;
 import com.example.sbd_zoo.repository.EmployeeRunRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,14 @@ public class EmployeeRunService {
 
     @Transactional
     public void addEmployeeRun(EmployeeRun employeeRun) {
-        employeeRunRepository.save(employeeRun);
+
+        if (employeeRunRepository.existsById(employeeRun)){
+            throw new DataIntegrityViolationException("Pracownik jest już przypisany do tej zagrody.");
+        } else {
+            employeeRunRepository.save(employeeRun);
+        }
+
+
     }
 
     @Transactional

@@ -3,6 +3,7 @@ package com.example.sbd_zoo.service;
 import com.example.sbd_zoo.model.Climate;
 import com.example.sbd_zoo.repository.ClimateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,12 @@ public class ClimateService {
 
     @Transactional
     public void addClimate(Climate climate) {
-        climateRepository.save(climate);
+        if (climateRepository.existsById(climate.getName())){
+            throw new DataIntegrityViolationException("Klimat o podanej nazwie już istnieje.");
+        } else {
+            climateRepository.save(climate);
+        }
+
     }
 
     @Transactional

@@ -3,6 +3,7 @@ package com.example.sbd_zoo.rest;
 import com.example.sbd_zoo.model.Team;
 import com.example.sbd_zoo.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class TeamController {
             List<Team> listOfTeams = teamService.getAllTeams();
             return (T) listOfTeams;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain teams");
+            return (T) ResponseEntity.status(500).body("Nie udało się pobrać zespołów.");
         }
 
     }
@@ -33,7 +34,7 @@ public class TeamController {
             return (T) team;
         } catch (Exception e) {
 
-            return (T) ResponseEntity.status(500).body("Team with given id does not exist");
+            return (T) ResponseEntity.status(500).body("Zespół o podanej nazwie nie istnieje.");
 
         }
     }
@@ -42,8 +43,10 @@ public class TeamController {
         try {
             teamService.addTeam(team);
             return ResponseEntity.status(200).body("Success");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add team");
+            return ResponseEntity.status(500).body("Nie udało się dodać zespołu.");
         }
     }
 
@@ -53,7 +56,7 @@ public class TeamController {
             teamService.updateTeam(id, team);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update team");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować zespołu.");
         }
     }
 
@@ -63,7 +66,7 @@ public class TeamController {
             teamService.deleteTeam(id);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete team");
+            return ResponseEntity.status(500).body("Nie udało się usunąć zespołu.");
         }
     }
 }

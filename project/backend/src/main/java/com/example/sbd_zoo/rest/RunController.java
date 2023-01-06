@@ -4,6 +4,7 @@ import com.example.sbd_zoo.model.Run;
 import com.example.sbd_zoo.service.AnimalService;
 import com.example.sbd_zoo.service.RunService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class RunController {
             List<Run> listOfRuns = runService.getAllRuns();
             return (T) listOfRuns;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain runs");
+            return (T) ResponseEntity.status(500).body("Nie udało się pobrać zagród.");
         }
 
     }
@@ -36,7 +37,7 @@ public class RunController {
             return (T) run;
         } catch (Exception e) {
 
-            return (T) ResponseEntity.status(500).body("Run with given id does not exist");
+            return (T) ResponseEntity.status(500).body("Zagroda o podanej nazwie nie istnieje.");
 
         }
     }
@@ -45,8 +46,11 @@ public class RunController {
         try {
             runService.addRun(run);
             return ResponseEntity.status(200).body("Success");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add run");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Nie udało się dodać zagrody.");
         }
     }
 
@@ -56,7 +60,7 @@ public class RunController {
             runService.updateRun(id, run);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update run");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować zagrody.");
         }
     }
 
@@ -66,7 +70,7 @@ public class RunController {
             runService.deleteRun(id);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete Run");
+            return ResponseEntity.status(500).body("Nie udało się usunąć zagrody.");
         }
     }
 }

@@ -7,6 +7,7 @@ import com.example.sbd_zoo.model.ServingId;
 import com.example.sbd_zoo.repository.ServingRepository;
 import jakarta.persistence.criteria.Join;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,14 @@ public class ServingService {
 
     @Transactional
     public void addServing(Serving serving) {
-        servingRepository.save(serving);
+        ServingId servingId = new ServingId();
+        servingId.setAnimal(serving.getAnimal());
+        servingId.setFood(serving.getFood());
+        if (servingRepository.existsById(servingId)){
+            throw new DataIntegrityViolationException("Podana porcja znajduje się już w bazie.");
+        } else {
+            servingRepository.save(serving);
+        }
     }
 
     @Transactional

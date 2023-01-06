@@ -4,6 +4,7 @@ import com.example.sbd_zoo.model.Treatment;
 import com.example.sbd_zoo.model.TreatmentId;
 import com.example.sbd_zoo.service.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class TreatmentController {
             List<Treatment> listOfTreatments = treatmentService.getAllTreatments();
             return (T) listOfTreatments;
         } catch (Exception e) {
-            return (T) ResponseEntity.status(500).body("Failed to obtain treatments");
+            return (T) ResponseEntity.status(500).body("Nie udało się otrzymać leczeń.");
         }
 
     }
@@ -40,7 +41,7 @@ public class TreatmentController {
             return (T) treatment;
         } catch (Exception e) {
 
-            return (T) ResponseEntity.status(500).body("Treatment with given id does not exist");
+            return (T) ResponseEntity.status(500).body("Szukane leczenie nie istnieje.");
 
         }
     }
@@ -49,8 +50,10 @@ public class TreatmentController {
         try {
             treatmentService.addTreatment(treatment);
             return ResponseEntity.status(200).body("Success");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to add treatment");
+            return ResponseEntity.status(500).body("Nie udało się dodać leczenia.");
         }
     }
 
@@ -64,7 +67,7 @@ public class TreatmentController {
             treatmentService.updateTreatment(id, treatment);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to update treatment");
+            return ResponseEntity.status(500).body("Nie udało się zaktualizować leczenia.");
         }
     }
 
@@ -74,7 +77,7 @@ public class TreatmentController {
             treatmentService.deleteTreatment(treatment);
             return ResponseEntity.status(200).body("Success");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete treatment");
+            return ResponseEntity.status(500).body("Nie udało się skasować leczenia.");
         }
     }
 }
