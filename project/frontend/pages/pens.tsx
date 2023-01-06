@@ -19,10 +19,13 @@ import SelectAdvanced from "../components/common/SelectAdvanced";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import axios from "axios";
 
-
+    type EmployeeInputs = {
+      employee: any;
+    };
   
   const PensPage = (): React.ReactElement => {
     const router = useRouter();
+    const [tabIndex, setTabIndex] = useState(0)
     const { data: pens, error } = useSWR("/runs");
     const [idClicked,setIdClicked] = useState(null);
     const {
@@ -34,10 +37,41 @@ import axios from "axios";
     const cancelRef = useRef();
     const [typeClicked, setTypeClicked] = useState("");
     const [whichClicked, setWhichClicked] = useState(null);
+    const {
+      isOpen: isEmployeeOpen,
+      onOpen: onEmployeeOpen,
+      onClose: onEmployeeClose,
+    } = useDisclosure();
+
+    const { data: employeeData } = useSWR("/employees");
 
 
+    const employeeOptions = employeeData?.map((employee) => ({
+      value: employee?.pesel,
+      label: employee?.fisrtName + " " + employee?.lastName,
+    }));
 
-  //TODO usuwanie zagrody jest przy użyciu id, ale nie znamy id zagrody, bo nie jest zwracane z get runs??????
+    const employeeMethods = useForm<EmployeeInputs>();
+    const {
+      handleSubmit: handleemployeeSubmit,
+      control: controlemployee,
+      formState: { errors: employeeErrors, isSubmitting: isemployeeSubmitting },
+    } = employeeMethods;
+
+    //TODO ERROR: null value in column "run_nazwa_zagrody" of relation "pracownik_zagroda" violates not-null constraint
+
+    const onEmployeeSubmit = (data) => {
+      console.log(idClicked)
+      const postData={run: pens?.[tabIndex]?.name, ...data};
+      return toast.promise(
+        axios.post(`/employeeRuns`, postData).then(() => {
+          mutate("/runs");
+          onEmployeeClose();
+        })
+      );
+      console.log(data);
+    };
+
     const onDelete = () => {
         console.log("deletings");
         console.log(typeClicked);
@@ -165,6 +199,58 @@ import axios from "axios";
   
     return (
       <>
+<Modal
+        isCentered
+        size="4xl"
+        isOpen={isEmployeeOpen}
+        onClose={onEmployeeClose}
+        preserveScrollBarGap
+        motionPreset="slideInBottom"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Dodaj pracownika do zagrody</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormProvider {...employeeMethods}>
+              <form onSubmit={handleemployeeSubmit(onEmployeeSubmit)} noValidate>
+                <Flex flexDirection="column" gap={4}>
+                <FormControl isInvalid={!!employeeErrors.employee} isRequired>
+                    <FormLabel htmlFor="name">Wybierz pracownika</FormLabel>
+                    <Controller
+                      control={controlemployee}
+                      name="employee"
+                      rules={{ required: true }}
+                      render={({ field: { onChange, value, ref } }) => (
+                        <SelectAdvanced
+                          inputRef={ref}
+                          value={employeeOptions?.find((c) => value === c.value)}
+                          onChange={(val) => onChange(val.value)}
+                          options={employeeOptions}
+                          isInvalid={!!employeeErrors.employee}
+                          isClearable={false}
+                        />
+                      )}
+                    />
+                    {employeeErrors.employee && (
+                      <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                    )}
+                  </FormControl>
+
+                  <Flex justifyContent="flex-end">
+                    <Button type="submit" isLoading={isemployeeSubmitting}>
+                      Zapisz
+                    </Button>
+                  </Flex>
+                </Flex>
+              </form>
+            </FormProvider>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+
+
       <DeleteDialog
           isOpen={isDeleteOpen}
           cancelRef={cancelRef}
@@ -182,7 +268,7 @@ import axios from "axios";
           </Button>
         </Flex>
         {pens?.length > 0 && (
-            <Tabs>
+            <Tabs onChange={(index) => setTabIndex(index)}>
             <TabList>
                 {pens?.map((pen, index) => 
                     <Tab key={index} onClick={()=> setIdClicked(pen?.id)}>{pen?.name}</Tab>
@@ -198,7 +284,7 @@ import axios from "axios";
                                 setIdClicked(pen?.name);
                                 onDeleteOpen();
                             }}>Usuń</Button>
-                          <Button>Edytuj</Button>
+                          <Button onClick={()=> router.push(`/pen/form/${pen?.name}`)}>Edytuj</Button>
                           
                         </Flex>
                         
@@ -228,7 +314,7 @@ import axios from "axios";
           {pen?.animals?.length > 0 ? (
             <Table data={pen?.animals} columns={animalsColumns} />
           ) : (
-            <Text>W tej zagrodzie nie znajduje się żadne zwierzę</Text>
+            <Text mt={5}>W tej zagrodzie nie znajduje się żadne zwierzę</Text>
           )}
         </Flex>
         <Flex flexDirection="column">
@@ -237,17 +323,15 @@ import axios from "axios";
               Pracownicy
             </Text>
             <Button
-              onClick={() => {
-                router?.push("/employee/form/0")
-              }}
+              onClick={()=>{setIdClicked(pens?.[tabIndex]?.name) ;onEmployeeOpen()}}
             >
-              Dodaj pracownika
+              Dodaj pracownika do zagrody
             </Button>
           </Flex>
           {pen?.employees?.length > 0 ? (
             <Table data={pen?.employees} columns={employeesColumns} />
           ) : (
-            <Text>Do tej zagrody nie został przydzielony żaden pracownik</Text>
+            <Text mt={5}>Do tej zagrody nie został przydzielony żaden pracownik</Text>
           )}
         </Flex>
       </SimpleGrid>

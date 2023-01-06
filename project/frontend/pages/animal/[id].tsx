@@ -1,13 +1,23 @@
 import {
   Button,
   Divider,
-  Flex, FormControl, FormErrorMessage, FormLabel, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent,
-  ModalHeader, ModalOverlay, SimpleGrid,
-  Spinner,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Icon,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
   Text,
   Textarea,
   Tooltip,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { format } from "date-fns";
@@ -98,7 +108,7 @@ const AnimalPage = (): React.ReactElement => {
       resetTreatment({
         disease: whichClicked?.disease || null,
         description: whichClicked?.description || null,
-        date: whichClicked?.date ?  new Date(whichClicked?.date) : new Date(),
+        date: whichClicked?.date ? new Date(whichClicked?.date) : new Date(),
       });
     }
   }, [whichClicked, isServingOpen, isTreatmentOpen]);
@@ -107,8 +117,8 @@ const AnimalPage = (): React.ReactElement => {
     const postData = {
       ...data,
       animal: id,
-    }
-    if (whichClicked!==null){
+    };
+    if (whichClicked !== null) {
       return toast.promise(
         axios.put(`/serving/${id}+${data?.food}`, postData).then(() => {
           mutate(`/animal/${id}`);
@@ -134,14 +144,22 @@ const AnimalPage = (): React.ReactElement => {
       date: data?.date,
       disease: data?.disease,
       animal: id,
-    }
-    if (whichClicked!==null){
+    };
+    if (whichClicked !== null) {
       return toast.promise(
-        axios.put(`/serving/${id}+${data?.disease}+${format(new Date(data?.date), "yyyy-MM-dd")}`, postData).then(() => {
-          mutate(`/animal/${id}`);
-          mutate("/treatments");
-          onTreatmentClose();
-        })
+        axios
+          .put(
+            `/serving/${id}+${data?.disease}+${format(
+              data?.date ? new Date(data?.date) : new Date(),
+              "yyyy-MM-dd"
+            )}`,
+            postData
+          )
+          .then(() => {
+            mutate(`/animal/${id}`);
+            mutate("/treatments");
+            onTreatmentClose();
+          })
       );
     } else {
       return toast.promise(
@@ -250,7 +268,7 @@ const AnimalPage = (): React.ReactElement => {
     {
       Header: "Data",
       accessor: ({ date }) => (
-        <Text>{ format(date ? new Date(date) : new Date(), "dd/MM/yyyy")}</Text>
+        <Text>{format(date ? new Date(date) : new Date(), "dd/MM/yyyy")}</Text>
       ),
     },
     {
@@ -289,10 +307,9 @@ const AnimalPage = (): React.ReactElement => {
     },
   ];
 
-
   return (
     <>
-<Modal
+      <Modal
         isCentered
         size="4xl"
         isOpen={isTreatmentOpen}
@@ -306,7 +323,10 @@ const AnimalPage = (): React.ReactElement => {
           <ModalCloseButton />
           <ModalBody>
             <FormProvider {...treatmentMethods}>
-              <form onSubmit={handleTreatmentSubmit(onTreatmentSubmit)} noValidate>
+              <form
+                onSubmit={handleTreatmentSubmit(onTreatmentSubmit)}
+                noValidate
+              >
                 <Flex flexDirection="column" gap={4}>
                   <FormControl isInvalid={!!treatmentErrors.disease} isRequired>
                     <FormLabel htmlFor="name">Choroba</FormLabel>
@@ -319,20 +339,24 @@ const AnimalPage = (): React.ReactElement => {
                     )}
                   </FormControl>
                   <FormControl isInvalid={!!treatmentErrors.date} isRequired>
-              <FormLabel>Data</FormLabel>
-              <Controller
-                control={controlTreatment}
-                name="date"
-                rules={{ required: false }}
-                render={({ field: { onChange, value, ref } }) => (
-                  <DateInput ref={ref} selected={value} onChange={onChange} />
-                )}
-              />
-              {treatmentErrors.date && (
-                <FormErrorMessage>Pole wymagane</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={!!treatmentErrors.description}>
+                    <FormLabel>Data</FormLabel>
+                    <Controller
+                      control={controlTreatment}
+                      name="date"
+                      rules={{ required: false }}
+                      render={({ field: { onChange, value, ref } }) => (
+                        <DateInput
+                          ref={ref}
+                          selected={value}
+                          onChange={onChange}
+                        />
+                      )}
+                    />
+                    {treatmentErrors.date && (
+                      <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <FormControl isInvalid={!!treatmentErrors.description}>
                     <FormLabel htmlFor="name">Opis</FormLabel>
                     <Textarea
                       type="string"
@@ -340,7 +364,7 @@ const AnimalPage = (): React.ReactElement => {
                     />
                   </FormControl>
                   <Flex justifyContent="flex-end">
-                    <Button type="submit" isLoading={isServingSubmitting}>
+                    <Button type="submit" isLoading={isTreatmentSubmitting}>
                       Zapisz
                     </Button>
                   </Flex>
@@ -350,7 +374,6 @@ const AnimalPage = (): React.ReactElement => {
           </ModalBody>
         </ModalContent>
       </Modal>
-
 
       <Modal
         isCentered

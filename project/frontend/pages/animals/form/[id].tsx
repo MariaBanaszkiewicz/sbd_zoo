@@ -52,8 +52,8 @@ const AnimalFormPage = (): React.ReactElement => {
         species: animalData?.animal?.species,
         run: animalData?.animal?.run,
         employee: animalData?.animal?.employee,
-        birthDate: new Date(animalData?.animal?.birthDate),
-        zooDate: new Date(animalData?.animal?.zooDate),
+        birthDate: animalData?.animal?.birthDate ? new Date(animalData?.animal?.birthDate) : new Date(),
+        zooDate: animalData?.animal?.zooDate ? new Date(animalData?.animal?.zooDate) : new Date(),
       });
     }
   }, [animalData]);
