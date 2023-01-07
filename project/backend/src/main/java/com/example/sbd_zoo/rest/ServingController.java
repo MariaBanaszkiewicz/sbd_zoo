@@ -64,6 +64,8 @@ public class ServingController {
             id.setFood(food);
             servingService.updateServing(id, serving);
             return ResponseEntity.status(200).body("Success");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Nie udało się zaktualizować porcji.");
         }

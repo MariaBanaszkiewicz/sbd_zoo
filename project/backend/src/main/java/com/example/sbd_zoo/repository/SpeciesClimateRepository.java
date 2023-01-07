@@ -8,4 +8,6 @@ import java.util.List;
 public interface SpeciesClimateRepository extends JpaRepository<SpeciesClimate, SpeciesClimate> {
 
     List<SpeciesClimate> findSpeciesClimateByClimate(String climate);
+
+    List<SpeciesClimate> findSpeciesClimateBySpecies(String species);
 }

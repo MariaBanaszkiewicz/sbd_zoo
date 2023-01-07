@@ -56,6 +56,8 @@ public class SpeciesController {
         try {
             speciesService.updateSpecies(id, species);
             return ResponseEntity.status(200).body("Success");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Nie udało się zaktualizować gatunku.");
         }

@@ -38,8 +38,12 @@ public class TaskService {
     @Transactional
     public void updateTask(Task id, Task task) {
         Task old = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found"));
-        deleteTask(old);
-        taskRepository.save(task);
+        if (taskRepository.existsById(task)){
+            throw new DataIntegrityViolationException("Podane zadanie znajduje się już w bazie.");
+        } else {
+            deleteTask(old);
+            taskRepository.save(task);
+        }
 
     }
 

@@ -46,8 +46,12 @@ public class ServingService {
     @Transactional
     public void updateServing(ServingId id, Serving serving) {
         Serving old = servingRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Serving not found"));
-        deleteServing(id);
-        servingRepository.save(serving);
+        if (servingRepository.existsById(id)){
+            throw new DataIntegrityViolationException("Podana porcja znajduje się już w bazie.");
+        } else {
+            deleteServing(id);
+            servingRepository.save(serving);
+        }
 
     }
 

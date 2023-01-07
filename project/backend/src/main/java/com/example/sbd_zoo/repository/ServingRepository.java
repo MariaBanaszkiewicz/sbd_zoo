@@ -17,6 +17,9 @@ import java.util.List;
 
 @Repository
 public interface ServingRepository extends JpaRepository<Serving, ServingId> {
+
+    List<Serving> findServingByFood(String food);
+
     @Procedure(value = "sprawdz_jadlospis")
     List<Object[]> checkServings(@Param ("id_zw") Integer animal);
 

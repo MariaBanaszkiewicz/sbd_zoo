@@ -38,8 +38,12 @@ public class EmployeeRunService {
     @Transactional
     public void updateEmployeeRun(EmployeeRun id, EmployeeRun employeeRun) {
         EmployeeRun old = employeeRunRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("EmployeeRun not found on :: " + id));
-        deleteEmployeeRun(old);
-        employeeRunRepository.save(employeeRun);
+        if (employeeRunRepository.existsById(employeeRun)){
+            throw new DataIntegrityViolationException("Pracownik jest już przypisany do tej zagrody.");
+        } else {
+            deleteEmployeeRun(old);
+            employeeRunRepository.save(employeeRun);
+        }
 
     }
 
