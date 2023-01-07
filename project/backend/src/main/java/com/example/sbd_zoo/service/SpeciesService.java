@@ -1,5 +1,6 @@
 package com.example.sbd_zoo.service;
 
+import com.example.sbd_zoo.model.Animal;
 import com.example.sbd_zoo.model.Species;
 import com.example.sbd_zoo.model.SpeciesClimate;
 import com.example.sbd_zoo.repository.SpeciesClimateRepository;
@@ -24,6 +25,9 @@ public class SpeciesService {
 
     @Autowired
     SpeciesClimateService speciesClimateService;
+
+    @Autowired
+    AnimalService animalService;
 
     @Transactional
     public List<Species> getAllSpecies() {
@@ -58,7 +62,11 @@ public class SpeciesService {
                     speciesClimate.setSpecies(species.getName());
                     speciesClimateService.addSpeciesClimate(speciesClimate);
                 }
-                //TODO: animals
+                List<Animal> animals = animalService.animalRepository.findBySpecies(id);
+                for (Animal animal : animals){
+                    animal.setSpecies(species.getName());
+                    animalService.updateAnimal(animal.getId(),animal);
+                }
                 deleteSpecies(species.getName());
             }
         } else {

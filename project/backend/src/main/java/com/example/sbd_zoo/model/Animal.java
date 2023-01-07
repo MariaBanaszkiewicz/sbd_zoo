@@ -27,7 +27,7 @@ public class Animal {
     private String run;
 
     @Column(name = "pracownik")
-    private Integer employee;
+    private String employee;
 
     public Long getId() {
         return id;
@@ -77,11 +77,11 @@ public class Animal {
         this.run = run;
     }
 
-    public Integer getEmployee() {
+    public String getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Integer employee) {
+    public void setEmployee(String employee) {
         this.employee = employee;
     }
 }

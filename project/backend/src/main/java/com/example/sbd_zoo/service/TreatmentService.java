@@ -33,7 +33,7 @@ public class TreatmentService {
         id.setAnimal(treatment.getAnimal());
         id.setDisease(treatment.getDisease());
         id.setDate(treatment.getDate());
-        if (treatmentRepository.existsById(id)){
+        if (treatmentRepository.existsById(id)) {
             throw new DataIntegrityViolationException("Podane leczenie znajduje się już w bazie.");
         } else {
             treatmentRepository.save(treatment);
@@ -43,11 +43,24 @@ public class TreatmentService {
     @Transactional
     public void updateTreatment(TreatmentId id, Treatment treatment) {
         Treatment old = treatmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Treatment not found"));
-        old.setDate(treatment.getDate());
-        old.setAnimal(treatment.getAnimal());
-        old.setDisease(treatment.getDisease());
-        old.setDescription(treatment.getDescription());
-        treatmentRepository.save(old);
+        TreatmentId newId = new TreatmentId();
+        newId.setAnimal(treatment.getAnimal());
+        newId.setDisease(treatment.getDisease());
+        newId.setDate(treatment.getDate());
+        if (!id.equals(newId)) {
+            if (treatmentRepository.existsById(newId)) {
+                throw new DataIntegrityViolationException("Podane leczenie znajduje się już w bazie.");
+            } else {
+                treatmentRepository.save(treatment);
+                deleteTreatment(old);
+            }
+        } else {
+            old.setDate(treatment.getDate());
+            old.setAnimal(treatment.getAnimal());
+            old.setDisease(treatment.getDisease());
+            old.setDescription(treatment.getDescription());
+            treatmentRepository.save(old);
+        }
 
     }
 
@@ -57,7 +70,7 @@ public class TreatmentService {
     }
 
     @Transactional
-    public List<Treatment> getAnimalTreatments(Long animal){
+    public List<Treatment> getAnimalTreatments(Long animal) {
         return treatmentRepository.findByAnimal(animal);
     }
 

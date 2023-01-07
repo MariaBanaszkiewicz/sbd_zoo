@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface EmployeeRunRepository extends JpaRepository<EmployeeRun, EmployeeRun> {
     List<EmployeeRun> findEmployeeRunByRun(String run);
+
+    List<EmployeeRun> findEmployeeRunByEmployee(String employee);
 }
