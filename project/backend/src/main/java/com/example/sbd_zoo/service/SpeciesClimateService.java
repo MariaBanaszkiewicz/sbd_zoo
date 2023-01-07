@@ -35,8 +35,12 @@ public class SpeciesClimateService {
     @Transactional
     public void updateSpeciesClimate(SpeciesClimate id, SpeciesClimate speciesClimate) {
         SpeciesClimate old = speciesClimateRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SpeciesClimate not found on :: " + id));
-        deleteSpeciesClimate(old);
-        speciesClimateRepository.save(speciesClimate);
+        if (speciesClimateRepository.existsById(speciesClimate)) {
+            throw new DataIntegrityViolationException("Podany gatunek jest już przypisany do tego klimatu.");
+        } else {
+            deleteSpeciesClimate(old);
+            speciesClimateRepository.save(speciesClimate);
+        }
 
     }
 

@@ -35,8 +35,12 @@ public class EmployeeTeamService {
     @Transactional
     public void updateEmployeeTeam(EmployeeTeam id, EmployeeTeam employeeTeam) {
         EmployeeTeam old = employeeTeamRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("EmployeeTeam not found on :: " + id));
-        deleteEmployeeTeam(old);
-        employeeTeamRepository.save(old);
+        if (employeeTeamRepository.existsById(employeeTeam)){
+            throw new DataIntegrityViolationException("Podany pracownik jest już zatrudniony.");
+        } else {
+            deleteEmployeeTeam(old);
+            employeeTeamRepository.save(old);
+        }
 
     }
 

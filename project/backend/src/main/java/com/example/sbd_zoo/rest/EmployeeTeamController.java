@@ -47,6 +47,8 @@ public class EmployeeTeamController {
             id.setTeam(team);
             employeeTeamService.updateEmployeeTeam(id, employeeTeam);
             return ResponseEntity.status(200).body("Success");
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Nie udało się zaktualizować pracownika w zespole.");
         }

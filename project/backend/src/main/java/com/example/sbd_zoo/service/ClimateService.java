@@ -57,19 +57,23 @@ public class ClimateService {
     public void updateClimate(String id, Climate climate) {
         Climate old = climateRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Climate not found on :: " + id));
         if (!Objects.equals(old.getName(), climate.getName())){
-            climateRepository.save(climate);
-            List<SpeciesClimate> speciesClimates = speciesClimateRepository.findSpeciesClimateByClimate(old.getName());
-            for(SpeciesClimate speciesClimate : speciesClimates){
-                speciesClimateService.deleteSpeciesClimate(speciesClimate);
-                speciesClimate.setClimate(climate.getName());
-                speciesClimateService.addSpeciesClimate(speciesClimate);
+            if (climateRepository.existsById(climate.getName())){
+                throw new DataIntegrityViolationException("Klimat o podanej nazwie już istnieje.");
+            } else {
+                climateRepository.save(climate);
+                List<SpeciesClimate> speciesClimates = speciesClimateRepository.findSpeciesClimateByClimate(old.getName());
+                for (SpeciesClimate speciesClimate : speciesClimates) {
+                    speciesClimateService.deleteSpeciesClimate(speciesClimate);
+                    speciesClimate.setClimate(climate.getName());
+                    speciesClimateService.addSpeciesClimate(speciesClimate);
+                }
+                List<Run> runs = runRepository.findRunByClimate(old.getName());
+                for (Run run : runs) {
+                    run.setClimate(climate.getName());
+                    runService.updateRun(run.getName(), run);
+                }
+                deleteClimate(old.getName());
             }
-            List<Run> runs = runRepository.findRunByClimate(old.getName());
-            for (Run run : runs){
-                run.setClimate(climate.getName());
-                runService.updateRun(run.getName(),run);
-            }
-            deleteClimate(old.getName());
         } else {
             old.setFlora(climate.getFlora());
             old.setHumidity(climate.getHumidity());

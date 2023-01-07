@@ -1,6 +1,8 @@
 package com.example.sbd_zoo.service;
 
 import com.example.sbd_zoo.model.Species;
+import com.example.sbd_zoo.model.SpeciesClimate;
+import com.example.sbd_zoo.repository.SpeciesClimateRepository;
 import com.example.sbd_zoo.repository.SpeciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,12 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SpeciesService {
 
     @Autowired
     SpeciesRepository speciesRepository;
+
+    @Autowired
+    SpeciesClimateRepository speciesClimateRepository;
+
+    @Autowired
+    SpeciesClimateService speciesClimateService;
 
     @Transactional
     public List<Species> getAllSpecies() {
@@ -38,9 +47,24 @@ public class SpeciesService {
     @Transactional
     public void updateSpecies(String id, Species species) {
         Species old = speciesRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Species not found on :: " + id));
-        old.setName(species.getName());
-        old.setTheClass(species.getTheClass());
-        speciesRepository.save(old);
+        if (!Objects.equals(old.getName(), species.getName())){
+            if (speciesRepository.existsById(species.getName())){
+                throw new DataIntegrityViolationException("Podany gatunek znajduje się już w bazie.");
+            } else {
+                speciesRepository.save(species);
+                List<SpeciesClimate> speciesClimates = speciesClimateRepository.findSpeciesClimateByClimate(old.getName());
+                for (SpeciesClimate speciesClimate : speciesClimates) {
+                    speciesClimateService.deleteSpeciesClimate(speciesClimate);
+                    speciesClimate.setSpecies(species.getName());
+                    speciesClimateService.addSpeciesClimate(speciesClimate);
+                }
+                //TODO: animals
+                deleteSpecies(species.getName());
+            }
+        } else {
+            old.setTheClass(species.getTheClass());
+            speciesRepository.save(old);
+        }
 
     }
 
