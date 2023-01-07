@@ -35,9 +35,8 @@ public class SpeciesClimateService {
     @Transactional
     public void updateSpeciesClimate(SpeciesClimate id, SpeciesClimate speciesClimate) {
         SpeciesClimate old = speciesClimateRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SpeciesClimate not found on :: " + id));
-        old.setClimate(speciesClimate.getClimate());
-        old.setSpecies(speciesClimate.getSpecies());
-        speciesClimateRepository.save(old);
+        deleteSpeciesClimate(old);
+        speciesClimateRepository.save(speciesClimate);
 
     }
 

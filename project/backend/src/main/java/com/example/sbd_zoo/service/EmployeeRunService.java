@@ -38,9 +38,8 @@ public class EmployeeRunService {
     @Transactional
     public void updateEmployeeRun(EmployeeRun id, EmployeeRun employeeRun) {
         EmployeeRun old = employeeRunRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("EmployeeRun not found on :: " + id));
-        old.setEmployee(employeeRun.getEmployee());
-        old.setRun(employeeRun.getRun());
-        employeeRunRepository.save(old);
+        deleteEmployeeRun(old);
+        employeeRunRepository.save(employeeRun);
 
     }
 

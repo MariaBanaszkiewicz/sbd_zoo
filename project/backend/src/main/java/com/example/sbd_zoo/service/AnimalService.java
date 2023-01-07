@@ -39,7 +39,6 @@ public class AnimalService {
     @Transactional
     public void updateAnimal(Long id, Animal animal) {
         Animal old = animalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Wybrane zwierzę nie znajduje się w bazie."));
-        old.setId(animal.getId());
         old.setName(animal.getName());
         old.setBirthDate(animal.getBirthDate());
         old.setZooDate(animal.getZooDate());

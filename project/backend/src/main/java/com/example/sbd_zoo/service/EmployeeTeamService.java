@@ -35,8 +35,7 @@ public class EmployeeTeamService {
     @Transactional
     public void updateEmployeeTeam(EmployeeTeam id, EmployeeTeam employeeTeam) {
         EmployeeTeam old = employeeTeamRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("EmployeeTeam not found on :: " + id));
-        old.setEmployee(employeeTeam.getEmployee());
-        old.setTeam(employeeTeam.getTeam());
+        deleteEmployeeTeam(old);
         employeeTeamRepository.save(old);
 
     }

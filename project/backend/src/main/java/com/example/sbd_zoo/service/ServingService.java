@@ -46,10 +46,8 @@ public class ServingService {
     @Transactional
     public void updateServing(ServingId id, Serving serving) {
         Serving old = servingRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Serving not found"));
-        old.setAmount(serving.getAmount());
-        old.setAnimal(serving.getAnimal());
-        old.setFood(serving.getFood());
-        servingRepository.save(old);
+        deleteServing(id);
+        servingRepository.save(serving);
 
     }
 
