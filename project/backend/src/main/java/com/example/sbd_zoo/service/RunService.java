@@ -10,6 +10,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -62,7 +63,7 @@ public class RunService {
                     employeeRun.setRun(run.getName());
                     employeeRunService.addEmployeeRun(employeeRun);
                 }
-                deleteRun(run.getName());
+                runRepository.deleteById(id);
             }
         } else {
             old.setSize(run.getSize());
@@ -73,7 +74,13 @@ public class RunService {
     }
 
     @Transactional
-    public void deleteRun(String id) {
-        runRepository.deleteById(id);
+    public void deleteRun(String id) throws SQLIntegrityConstraintViolationException {
+        List<Animal> animals = animalService.animalRepository.findByRun(id);
+        if (animals.isEmpty()){
+            runRepository.deleteById(id);
+        } else {
+            throw new SQLIntegrityConstraintViolationException("Nie można usunąć zagrody, ponieważ znajdują się w niej zwierzęta.");
+        }
+
     }
 }

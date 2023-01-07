@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @CrossOrigin
@@ -78,7 +79,10 @@ public class EmployeeController {
         try {
             employeeService.deleteEmployee(id);
             return ResponseEntity.status(200).body("Success");
-        } catch (Exception e) {
+        } catch (SQLIntegrityConstraintViolationException e){
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+        catch (Exception e) {
             return ResponseEntity.status(500).body("Nie udało się usunąć pracownika.");
         }
     }

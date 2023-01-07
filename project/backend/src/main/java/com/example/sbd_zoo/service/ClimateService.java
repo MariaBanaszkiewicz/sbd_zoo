@@ -6,12 +6,14 @@ import com.example.sbd_zoo.model.SpeciesClimate;
 import com.example.sbd_zoo.repository.ClimateRepository;
 import com.example.sbd_zoo.repository.RunRepository;
 import com.example.sbd_zoo.repository.SpeciesClimateRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,7 +74,7 @@ public class ClimateService {
                     run.setClimate(climate.getName());
                     runService.updateRun(run.getName(), run);
                 }
-                deleteClimate(old.getName());
+               climateRepository.deleteById(id);
             }
         } else {
             old.setFlora(climate.getFlora());
@@ -84,8 +86,13 @@ public class ClimateService {
     }
 
     @Transactional
-    public void deleteClimate(String id) {
-        climateRepository.deleteById(id);
+    public void deleteClimate(String id) throws SQLIntegrityConstraintViolationException {
+        List<Run> runs = runRepository.findRunByClimate(id);
+        if (runs.isEmpty()) {
+            climateRepository.deleteById(id);
+        } else {
+            throw new SQLIntegrityConstraintViolationException("Nie można usunąć klimatu, ponieważ przypisane są do niego zagrody.");
+        }
     }
 }
 

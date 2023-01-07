@@ -11,6 +11,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -77,7 +78,12 @@ public class SpeciesService {
     }
 
     @Transactional
-    public void deleteSpecies(String id) {
-        speciesRepository.deleteById(id);
+    public void deleteSpecies(String id) throws SQLIntegrityConstraintViolationException {
+        List<Animal> animals = animalService.animalRepository.findBySpecies(id);
+        if (animals.isEmpty()) {
+            speciesRepository.deleteById(id);
+        } else {
+            throw new SQLIntegrityConstraintViolationException("Nie można usunąć gatunku, ponieważ jest on przypisany do zwierząt.");
+        }
     }
 }
