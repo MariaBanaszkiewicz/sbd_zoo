@@ -74,9 +74,6 @@ const PensPage = (): React.ReactElement => {
     formState: { errors: employeeErrors, isSubmitting: isemployeeSubmitting },
   } = employeeMethods;
 
-  //TODO ERROR: null value in column "run_nazwa_zagrody" of relation "pracownik_zagroda" violates not-null constraint
-  //TODO: to resolve above error you have to drop relation pracownik_zagroda (probably pracownik_zespol too and maybe gatunek_klimat)
-
   const onDelete = () => {
     if (typeClicked == "pen") {
       return toast.promise(
@@ -108,6 +105,16 @@ const PensPage = (): React.ReactElement => {
       );
     }
   };
+
+  const onEmployeeSubmit = (data) => {
+    return toast.promise(
+      axios.post(`/employeeRuns`, {employee: data?.employee, run: pens?.[tabIndex]?.name }).then(() => {
+        mutate("/runs");
+        mutate("/employees");
+        onEmployeeClose();
+      })
+    );
+  }
 
   const animalsColumns = [
     {
