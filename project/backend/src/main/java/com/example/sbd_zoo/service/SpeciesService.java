@@ -68,7 +68,7 @@ public class SpeciesService {
                     animal.setSpecies(species.getName());
                     animalService.updateAnimal(animal.getId(),animal);
                 }
-                deleteSpecies(species.getName());
+                speciesRepository.deleteById(id);
             }
         } else {
             old.setTheClass(species.getTheClass());
