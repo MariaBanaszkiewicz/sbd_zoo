@@ -2,6 +2,7 @@ package com.example.sbd_zoo.service;
 
 import com.example.sbd_zoo.model.EmployeeTeam;
 import com.example.sbd_zoo.model.Team;
+import com.example.sbd_zoo.repository.EmployeeTeamRepository;
 import com.example.sbd_zoo.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +21,9 @@ public class TeamService {
 
     @Autowired
     EmployeeTeamService employeeTeamService;
+
+    @Autowired
+    EmployeeTeamRepository employeeTeamRepository;
 
     @Transactional
     public List<Team> getAllTeams() {
@@ -48,7 +52,7 @@ public class TeamService {
                 throw new DataIntegrityViolationException("Zespół o podanej nazwie znajduje się już w bazie.");
             } else {
                 teamRepository.save(team);
-                List<EmployeeTeam> employeeTeams = employeeTeamService.employeeTeamRepository.findEmployeeTeamByTeam(old.getName());
+                List<EmployeeTeam> employeeTeams = employeeTeamRepository.findEmployeeTeamByTeam(old.getName());
                 for (EmployeeTeam employeeTeam : employeeTeams){
                     employeeTeamService.deleteEmployeeTeam(employeeTeam);
                     employeeTeam.setTeam(team.getName());

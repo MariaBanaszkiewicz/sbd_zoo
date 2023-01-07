@@ -3,6 +3,7 @@ package com.example.sbd_zoo.service;
 import com.example.sbd_zoo.model.Animal;
 import com.example.sbd_zoo.model.Species;
 import com.example.sbd_zoo.model.SpeciesClimate;
+import com.example.sbd_zoo.repository.AnimalRepository;
 import com.example.sbd_zoo.repository.SpeciesClimateRepository;
 import com.example.sbd_zoo.repository.SpeciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class SpeciesService {
 
     @Autowired
     AnimalService animalService;
+
+    @Autowired
+    AnimalRepository animalRepository;
 
     @Transactional
     public List<Species> getAllSpecies() {
@@ -63,7 +67,7 @@ public class SpeciesService {
                     speciesClimate.setSpecies(species.getName());
                     speciesClimateService.addSpeciesClimate(speciesClimate);
                 }
-                List<Animal> animals = animalService.animalRepository.findBySpecies(id);
+                List<Animal> animals = animalRepository.findBySpecies(id);
                 for (Animal animal : animals){
                     animal.setSpecies(species.getName());
                     animalService.updateAnimal(animal.getId(),animal);
@@ -79,7 +83,7 @@ public class SpeciesService {
 
     @Transactional
     public void deleteSpecies(String id) throws SQLIntegrityConstraintViolationException {
-        List<Animal> animals = animalService.animalRepository.findBySpecies(id);
+        List<Animal> animals = animalRepository.findBySpecies(id);
         if (animals.isEmpty()) {
             speciesRepository.deleteById(id);
         } else {
