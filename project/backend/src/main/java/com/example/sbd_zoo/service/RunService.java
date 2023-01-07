@@ -3,6 +3,8 @@ package com.example.sbd_zoo.service;
 import com.example.sbd_zoo.model.Animal;
 import com.example.sbd_zoo.model.EmployeeRun;
 import com.example.sbd_zoo.model.Run;
+import com.example.sbd_zoo.repository.AnimalRepository;
+import com.example.sbd_zoo.repository.EmployeeRunRepository;
 import com.example.sbd_zoo.repository.RunRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +25,13 @@ public class RunService {
     AnimalService animalService;
 
     @Autowired
+    AnimalRepository animalRepository;
+
+    @Autowired
     EmployeeRunService employeeRunService;
+
+    @Autowired
+    EmployeeRunRepository employeeRunRepository;
 
     @Transactional
     public List<Run> getAllRuns() {
@@ -52,12 +60,12 @@ public class RunService {
                 throw new DataIntegrityViolationException("Podana zagroda znajduje się już w bazie.");
             } else {
                 runRepository.save(run);
-                List<Animal> animals = animalService.animalRepository.findByRun(id);
+                List<Animal> animals = animalRepository.findByRun(id);
                 for (Animal animal : animals) {
                     animal.setRun(run.getName());
                     animalService.updateAnimal(animal.getId(), animal);
                 }
-                List<EmployeeRun> employeeRuns = employeeRunService.employeeRunRepository.findEmployeeRunByRun(id);
+                List<EmployeeRun> employeeRuns = employeeRunRepository.findEmployeeRunByRun(id);
                 for (EmployeeRun employeeRun : employeeRuns){
                     employeeRunService.deleteEmployeeRun(employeeRun);
                     employeeRun.setRun(run.getName());
@@ -75,7 +83,7 @@ public class RunService {
 
     @Transactional
     public void deleteRun(String id) throws SQLIntegrityConstraintViolationException {
-        List<Animal> animals = animalService.animalRepository.findByRun(id);
+        List<Animal> animals = animalRepository.findByRun(id);
         if (animals.isEmpty()){
             runRepository.deleteById(id);
         } else {

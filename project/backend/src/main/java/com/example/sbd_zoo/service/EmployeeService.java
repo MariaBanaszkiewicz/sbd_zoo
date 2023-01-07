@@ -1,7 +1,10 @@
 package com.example.sbd_zoo.service;
 
 import com.example.sbd_zoo.model.*;
+import com.example.sbd_zoo.repository.AnimalRepository;
 import com.example.sbd_zoo.repository.EmployeeRepository;
+import com.example.sbd_zoo.repository.EmployeeRunRepository;
+import com.example.sbd_zoo.repository.EmployeeTeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -24,10 +27,19 @@ public class EmployeeService {
     AnimalService animalService;
 
     @Autowired
+    AnimalRepository animalRepository;
+
+    @Autowired
     EmployeeTeamService employeeTeamService;
 
     @Autowired
+    EmployeeTeamRepository employeeTeamRepository;
+
+    @Autowired
     EmployeeRunService employeeRunService;
+
+    @Autowired
+    EmployeeRunRepository employeeRunRepository;
 
     @Transactional
     public List<Employee> getAllEmployees() {
@@ -63,18 +75,18 @@ public class EmployeeService {
                     task.setEmployee(employee.getPesel());
                     taskService.addTask(task);
                 }
-                List<Animal> animals = animalService.animalRepository.findAnimalByEmployee(id);
+                List<Animal> animals = animalRepository.findAnimalByEmployee(id);
                 for (Animal animal : animals){
                     animal.setEmployee(employee.getPesel());
                     animalService.updateAnimal(animal.getId(),animal);
                 }
-                List<EmployeeTeam> employeeTeams = employeeTeamService.employeeTeamRepository.findEmployeeTeamByEmployee(id);
+                List<EmployeeTeam> employeeTeams = employeeTeamRepository.findEmployeeTeamByEmployee(id);
                 for (EmployeeTeam employeeTeam : employeeTeams){
                     employeeTeamService.deleteEmployeeTeam(employeeTeam);
                     employeeTeam.setEmployee(employee.getPesel());
                     employeeTeamService.addEmployeeTeam(employeeTeam);
                 }
-                List<EmployeeRun> employeeRuns = employeeRunService.employeeRunRepository.findEmployeeRunByEmployee(id);
+                List<EmployeeRun> employeeRuns = employeeRunRepository.findEmployeeRunByEmployee(id);
                 for (EmployeeRun employeeRun : employeeRuns){
                     employeeRunService.deleteEmployeeRun(employeeRun);
                     employeeRun.setEmployee(employee.getPesel());
@@ -94,7 +106,7 @@ public class EmployeeService {
 
     @Transactional
     public void deleteEmployee(String id) throws SQLIntegrityConstraintViolationException {
-        List<Animal> animals = animalService.animalRepository.findAnimalByEmployee(id);
+        List<Animal> animals = animalRepository.findAnimalByEmployee(id);
         if (animals.isEmpty()) {
             employeeRepository.deleteById(id);
         } else {
