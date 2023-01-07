@@ -47,7 +47,7 @@ public class TreatmentService {
         newId.setAnimal(treatment.getAnimal());
         newId.setDisease(treatment.getDisease());
         newId.setDate(treatment.getDate());
-        if (!id.equals(newId)) {
+        if (!(id.getDisease().equals(newId.getDisease())&&id.getAnimal().equals(newId.getAnimal())&&id.getDate().equals(newId.getDate()))) {
             if (treatmentRepository.existsById(newId)) {
                 throw new DataIntegrityViolationException("Podane leczenie znajduje się już w bazie.");
             } else {
@@ -55,9 +55,6 @@ public class TreatmentService {
                 deleteTreatment(old);
             }
         } else {
-            old.setDate(treatment.getDate());
-            old.setAnimal(treatment.getAnimal());
-            old.setDisease(treatment.getDisease());
             old.setDescription(treatment.getDescription());
             treatmentRepository.save(old);
         }

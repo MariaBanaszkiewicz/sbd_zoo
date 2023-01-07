@@ -65,6 +65,7 @@ const AnimalFormPage = (): React.ReactElement => {
   }));
   
   useEffect(() => {
+    console.log("resetuje");
       reset({
         name: animalData?.animal?.name?.trim() || "",
         species: animalData?.animal?.species || "",
@@ -73,7 +74,8 @@ const AnimalFormPage = (): React.ReactElement => {
         birthDate: animalData?.animal?.birthDate ? new Date(animalData?.animal?.birthDate) : new Date(),
         zooDate: animalData?.animal?.zooDate ? new Date(animalData?.animal?.zooDate) : new Date(),
       });
-  }, [animalData,employeeOptions]);
+  }, [animalData]);
+  //TODO: check if employeeOptions dep was needed
 
 
   const onSubmit = (data) => {
@@ -96,6 +98,8 @@ const AnimalFormPage = (): React.ReactElement => {
       );
     }
   };
+
+  
 
   return (
     <div style={{ height: "900px" }}>
