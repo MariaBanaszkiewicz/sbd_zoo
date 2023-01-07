@@ -41,10 +41,10 @@ type EmployeeInputs = {
   employee: any;
 };
 
-const PensPage = (): React.ReactElement => {
+const TeamsPage = (): React.ReactElement => {
   const router = useRouter();
   const [tabIndex, setTabIndex] = useState(0);
-  const { data: pens, error } = useSWR("/runs");
+  const { data: teams, error } = useSWR("/teams");
   const [idClicked, setIdClicked] = useState(null);
   const {
     isOpen: isDeleteOpen,
@@ -75,30 +75,19 @@ const PensPage = (): React.ReactElement => {
   } = employeeMethods;
 
   const onDelete = () => {
-    if (typeClicked == "pen") {
+    if (typeClicked == "team") {
       return toast.promise(
-        axios.delete(`/run/${idClicked}`).then(() => {
-          mutate("/runs");
-          mutate("/animals");
-          mutate("/employees");
+        axios.delete(`/team/${idClicked}`).then(() => {
+          mutate("/teams");
           router.push(`/`);
         })
       );
     }
-    if (typeClicked == "animal") {
-      return toast.promise(
-        axios.delete(`/animal/${idClicked}`).then(() => {
-          mutate("/runs");
-          mutate("/animals");
-          onDeleteClose();
-        })
-      );
-    }
     if (typeClicked == "employee") {
-      const body = { employee: idClicked, run: pens?.[tabIndex]?.name };
+      const body = { employee: idClicked, team: teams?.[tabIndex]?.name };
       return toast.promise(
-        axios.delete(`/employeeRuns`, { data: body }).then(() => {
-          mutate("/runs");
+        axios.delete(`/employeeTeams`, { data: body }).then(() => {
+          mutate("/teams");
           mutate("/employees");
           onDeleteClose();
         })
@@ -108,58 +97,18 @@ const PensPage = (): React.ReactElement => {
 
   const onEmployeeSubmit = (data) => {
     return toast.promise(
-      axios.post(`/employeeRuns`, {employee: data?.employee, run: pens?.[tabIndex]?.name }).then(() => {
-        mutate("/runs");
-        mutate("/employees");
-        onEmployeeClose();
-      })
+      axios
+        .post(`/employeeTeams`, {
+          employee: data?.employee,
+          team: teams?.[tabIndex]?.name,
+        })
+        .then(() => {
+          mutate("/teams");
+          mutate("/employees");
+          onEmployeeClose();
+        })
     );
-  }
-
-  const animalsColumns = [
-    {
-      Header: "Imię",
-      accessor: "name",
-    },
-    {
-      Header: "Gatunek",
-      accessor: "species",
-    },
-    {
-      id: "edit",
-      accessor: ({ id }) => (
-        <Flex
-          width="100%"
-          justifyContent="flex-end"
-          fontSize="18px"
-          lineHeight={1}
-          gap={2}
-        >
-          <Tooltip hasArrow label="Edytuj" placement="top">
-            <Link href={`/animals/form/${id}`}>
-              <Icon as={Edit} />
-            </Link>
-          </Tooltip>
-          <Tooltip hasArrow label="Usuń" placement="top">
-            <Icon
-              as={Trash2}
-              color="red.400"
-              onClick={() => {
-                setTypeClicked("animal");
-                setIdClicked(id);
-                onDeleteOpen();
-              }}
-            />
-          </Tooltip>
-          <Tooltip hasArrow label="Szczegóły" placement="top">
-            <Link href={`/animal/${id}`}>
-              <Icon as={MoreHorizontal} />
-            </Link>
-          </Tooltip>
-        </Flex>
-      ),
-    },
-  ];
+  };
 
   const employeesColumns = [
     {
@@ -185,7 +134,7 @@ const PensPage = (): React.ReactElement => {
               <Icon as={Edit} />
             </Link>
           </Tooltip>
-          <Tooltip hasArrow label="Usuń pracownika z zagrody" placement="top">
+          <Tooltip hasArrow label="Usuń pracownika z zespołu" placement="top">
             <Icon
               as={UserX}
               color="red.400"
@@ -219,7 +168,7 @@ const PensPage = (): React.ReactElement => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Dodaj pracownika do zagrody</ModalHeader>
+          <ModalHeader>Dodaj pracownika do zespołu</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormProvider {...employeeMethods}>
@@ -270,107 +219,87 @@ const PensPage = (): React.ReactElement => {
         onClose={onDeleteClose}
         onDelete={onDelete}
       />
+
       <Flex justifyContent="space-between">
         <BreadCrumb
           breadcrumb={[
-            { label: "Zagrody", isCurrentPage: true, href: "/pens" },
+            { label: "Zespoły", isCurrentPage: true, href: "/teams" },
           ]}
         />
-        <Button onClick={() => router.push("/pen/form/0")}>
-          Dodaj zagrodę
+        <Button onClick={() => router.push("/team/form/0")}>
+          Dodaj zespół
         </Button>
       </Flex>
-      {pens?.length > 0 && (
+
+      {teams?.length > 0 ? (
         <Tabs onChange={(index) => setTabIndex(index)}>
           <TabList>
-            {pens?.map((pen, index) => (
-              <Tab key={index} onClick={() => setIdClicked(pen?.id)}>
-                {pen?.name}
+            {teams?.map((team, index) => (
+              <Tab key={index} onClick={() => setIdClicked(team?.name)}>
+                {team?.name}
               </Tab>
             ))}
           </TabList>
 
           <TabPanels>
-            {pens?.map((pen, index) => (
+            {teams?.map((team, index) => (
               <TabPanel key={index}>
                 <Flex justifyContent="flex-end" gap={3}>
                   <Button
                     variant="outline"
                     onClick={() => {
-                      setTypeClicked("pen");
-                      setIdClicked(pen?.name);
+                      setTypeClicked("team");
+                      setIdClicked(team?.name);
                       onDeleteOpen();
                     }}
                   >
                     Usuń
                   </Button>
-                  <Button onClick={() => router.push(`/pen/form/${pen?.name}`)}>
+                  <Button
+                    onClick={() => router.push(`/team/form/${team?.name}`)}
+                  >
                     Edytuj
                   </Button>
                 </Flex>
 
                 <SimpleGrid gap={5} columns={2} mb={5}>
-                  <Text textAlign="end">Klimat: </Text>
-                  <Text>{pen?.climate || "-"}</Text>
-                  <Text textAlign="end">Rozmiar: </Text>
-                  <Text>{pen?.size || "-"}</Text>
+                  <Text textAlign="end">Nazwa: </Text>
+                  <Text>{team?.name || "-"}</Text>
+                  <Text textAlign="end">Typ: </Text>
+                  <Text>{team?.type || "-"}</Text>
                 </SimpleGrid>
                 <Divider mb={5} />
-                <SimpleGrid columns={2} gap={7}>
-                  <Flex flexDirection="column">
-                    <Flex justifyContent="space-between">
-                      <Text fontSize="xl" fontWeight={700}>
-                        Zwierzęta
-                      </Text>
-                      <Button
-                        onClick={() => {
-                          router?.push("/animals/form/0");
-                        }}
-                      >
-                        Dodaj zwierzę
-                      </Button>
-                    </Flex>
-
-                    {pen?.animals?.length > 0 ? (
-                      <Table data={pen?.animals} columns={animalsColumns} />
-                    ) : (
-                      <Text mt={5}>
-                        W tej zagrodzie nie znajduje się żadne zwierzę
-                      </Text>
-                    )}
+                <Flex flexDirection="column">
+                  <Flex justifyContent="space-between">
+                    <Text fontSize="xl" fontWeight={700}>
+                      Pracownicy
+                    </Text>
+                    <Button
+                      onClick={() => {
+                        setIdClicked(teams?.[tabIndex]?.name);
+                        onEmployeeOpen();
+                      }}
+                    >
+                      Dodaj pracownika do zespołu
+                    </Button>
                   </Flex>
-                  <Flex flexDirection="column">
-                    <Flex justifyContent="space-between">
-                      <Text fontSize="xl" fontWeight={700}>
-                        Pracownicy
-                      </Text>
-                      <Button
-                        onClick={() => {
-                          setIdClicked(pens?.[tabIndex]?.name);
-                          onEmployeeOpen();
-                        }}
-                      >
-                        Dodaj pracownika do zagrody
-                      </Button>
-                    </Flex>
-                    {pen?.employees?.length > 0 ? (
-                      <Table data={pen?.employees} columns={employeesColumns} />
-                    ) : (
-                      <Text mt={5}>
-                        Do tej zagrody nie został przydzielony żaden pracownik
-                      </Text>
-                    )}
-                  </Flex>
-                </SimpleGrid>
+                  {team?.employees?.length > 0 ? (
+                    <Table data={team?.employees} columns={employeesColumns} />
+                  ) : (
+                    <Text mt={5}>
+                      Do tego zespołu nie został przydzielony żaden pracownik
+                    </Text>
+                  )}
+                </Flex>
               </TabPanel>
             ))}
           </TabPanels>
         </Tabs>
-      )}
+      ): <Text>W ZOO nie istnieją jeszcze zespoły</Text>}
     </>
   );
 };
 
-PensPage.getLayout = (page: React.ReactElement) => <Layout>{page}</Layout>;
+TeamsPage.getLayout = (page: React.ReactElement) => <Layout>{page}</Layout>;
 
-export default PensPage;
+export default TeamsPage;
