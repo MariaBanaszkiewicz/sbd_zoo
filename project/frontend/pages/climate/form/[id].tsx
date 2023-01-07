@@ -41,14 +41,12 @@ import {
     } = methods;
   
     useEffect(() => {
-      if (climateData) {
         reset({
-          name: climateData?.name,
-          flora: climateData?.flora,
+          name: climateData?.name?.trim() || "",
+          flora: climateData?.flora?.trim() || "",
           temperatur: climateData?.temperatur,
           humidity: climateData?.humidity,
         });
-      }
     }, [climateData]);
 
     const onSubmit = (data) => {
@@ -63,6 +61,8 @@ import {
             axios.put(`/climate/${id}`, postData).then(() => {
               mutate(`/climate/${id}`);
               mutate("/climates");
+              mutate("animals");
+              mutate("runs");
               router.push(`/climates`);
             })
           );
@@ -71,6 +71,8 @@ import {
             axios.post(`/climates`, postData).then(() => {
               mutate(`/climate/${id}`);
               mutate("/climates");
+              mutate("animals");
+              mutate("runs");
               router.push("/climates");
             })
           );

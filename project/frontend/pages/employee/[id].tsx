@@ -79,7 +79,7 @@ import { idText } from "typescript";
   useEffect(() => {
     if (isTaskOpen) {
       resettask({
-        description: whichClicked?.description || "",
+        description: whichClicked?.description?.trim() || "",
       });
     }
 

@@ -41,18 +41,15 @@ const EmployeeFormPage = (): React.ReactElement => {
   } = methods;
 
   useEffect(() => {
-    if (employee) {
       reset({
         pesel: employee?.employee?.pesel,
-        fisrtName: employee?.employee?.fisrtName,
-        lastName: employee?.employee?.lastName,
+        fisrtName: employee?.employee?.fisrtName?.trim() || "",
+        lastName: employee?.employee?.lastName?.trim() || "",
         dateOfEmployment: employee?.employee?.dateOfEmployment
           ? new Date(employee?.employee?.dateOfEmployment)
           : new Date(),
       });
-    }
   }, [employee]);
-  console.log(errors)
 
   const onSubmit = (data) => {
     if (id != "0") {

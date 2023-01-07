@@ -22,7 +22,7 @@ type FormInputs = {
   name: string;
   species: string;
   run: string;
-  employee: number;
+  employee: string;
   birthDate: Date;
   zooDate: Date;
 };
@@ -36,6 +36,8 @@ const AnimalFormPage = (): React.ReactElement => {
   const { data: employeeData } = useSWR(`/employees`);
   const { data: runData } = useSWR(`/runs`);
 
+  //TODO JSON parse error: Cannot deserialize value of type `java.lang.Integer` from String "11111111111": Overflow: numeric value (11111111111) out of range of `java.lang.Integer` (-2147483648 -2147483647)] - gdy chcę dodać zwierzę, a jego opiekun ma mieć pesel prawidłowy
+
   const methods = useForm<FormInputs>();
   const {
     reset,
@@ -45,18 +47,7 @@ const AnimalFormPage = (): React.ReactElement => {
     formState: { errors, isSubmitting },
   } = methods;
 
-  useEffect(() => {
-    if (animalData) {
-      reset({
-        name: animalData?.animal?.name,
-        species: animalData?.animal?.species,
-        run: animalData?.animal?.run,
-        employee: animalData?.animal?.employee,
-        birthDate: animalData?.animal?.birthDate ? new Date(animalData?.animal?.birthDate) : new Date(),
-        zooDate: animalData?.animal?.zooDate ? new Date(animalData?.animal?.zooDate) : new Date(),
-      });
-    }
-  }, [animalData]);
+  
 
   const speciesOptions = speciesData?.map((specie) => ({
     value: specie?.name,
@@ -72,6 +63,18 @@ const AnimalFormPage = (): React.ReactElement => {
     value: run?.name,
     label: run?.name,
   }));
+  
+  useEffect(() => {
+      reset({
+        name: animalData?.animal?.name?.trim() || "",
+        species: animalData?.animal?.species || "",
+        run: animalData?.animal?.run?.trim() || "",
+        employee: animalData?.animal?.employee,
+        birthDate: animalData?.animal?.birthDate ? new Date(animalData?.animal?.birthDate) : new Date(),
+        zooDate: animalData?.animal?.zooDate ? new Date(animalData?.animal?.zooDate) : new Date(),
+      });
+  }, [animalData,employeeOptions]);
+
 
   const onSubmit = (data) => {
     if (id != "0") {

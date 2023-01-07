@@ -106,8 +106,8 @@ const AnimalPage = (): React.ReactElement => {
     }
     if (isTreatmentOpen) {
       resetTreatment({
-        disease: whichClicked?.disease || null,
-        description: whichClicked?.description || null,
+        disease: whichClicked?.disease?.trim() || null,
+        description: whichClicked?.description?.trim() || null,
         date: whichClicked?.date ? new Date(whichClicked?.date) : new Date(),
       });
     }

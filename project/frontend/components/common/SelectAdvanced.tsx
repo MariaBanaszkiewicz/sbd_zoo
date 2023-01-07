@@ -31,6 +31,7 @@ const SelectAdvanced = React.forwardRef(
         isClearable
         styles={selectStyles(lg, isInvalid, tags, sm, rounded)}
         placeholder="Wybierz..."
+        defaultValue={rest?.defaultValue || 'Wybierz...'}
         isSearchable={!readOnly}
         menuIsOpen={readOnly ? false : undefined}
         noOptionsMessage={() => "Brak dostępnych opcji"}

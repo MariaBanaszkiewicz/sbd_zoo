@@ -224,7 +224,6 @@ const PensPage = (): React.ReactElement => {
           <ModalBody>
             <FormProvider {...employeeMethods}>
               <form
-              //TODO ERROR: onEmployeeSubmit is not defined
                 onSubmit={handleemployeeSubmit(onEmployeeSubmit)}
                 noValidate
               >

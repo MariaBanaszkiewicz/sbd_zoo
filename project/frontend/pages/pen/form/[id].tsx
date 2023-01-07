@@ -40,13 +40,11 @@ import {
     } = methods;
   
     useEffect(() => {
-      if (panData) {
         reset({
-          name: panData?.name,
+          name: panData?.name?.trim() || "",
           size: panData?.size,
           climate: panData?.climate,
         });
-      }
     }, [panData]);
 
     const climatesOptions = climatesData?.map((climate) => ({
@@ -60,6 +58,7 @@ import {
           axios.put(`/run/${id}`, data).then(() => {
             mutate(`/run/${id}`);
             mutate("/runs");
+            mutate("/animals");
             router.push(`/pens`);
           })
         );
@@ -68,6 +67,7 @@ import {
           axios.post(`/runs`, data).then(() => {
             mutate(`/run/${id}`);
             mutate("/runs");
+            mutate("/animals");
             router.push("/pens");
           })
         );
@@ -98,7 +98,7 @@ import {
               </FormControl>
               <FormControl isInvalid={!!errors.climate} isRequired>
                 <Box>
-                  <FormLabel htmlFor="type">Gatunek</FormLabel>
+                  <FormLabel htmlFor="type">Klimat</FormLabel>
                   <Controller
                     control={control}
                     name="climate"
