@@ -1,7 +1,6 @@
 # sbd_zoo
 
 ### Bugi:  
-6. [PRZENIESIONE NA BACKEND] przed wysłaniem zamiana na UPPERCASE lub case z pierwsza wielka litera  - które dane mają tak być przesłane?  - najlepiej wszystkie tekstowe, żeby było case insensitiv, wszystko też wtedy możemy prezentować z dużej litery  
 10. todo w forms animal  
 11. wyświetlanie errorów  
 12. przy pierwszym uruchomieniu nie dziala wyszukiwanie (w issues zdjecie)  
@@ -15,6 +14,7 @@
 Obowiązkowo:
 1. po kliknięciu zapisz w każdym formularzu (tworzenie / update) (najczęsciej to błędy w stylu istniejącej już nazwy etc)
 2. przy usuwaniu (szczególnie tam gdzie są zabezpieczenia przeciw cascade: klimaty, pracownicy, zagrody, gatunki)
-3. przy wybieraniu z modala (np. dodawanie pracownika do zagrody/teamu lub klimatu do gatunku) (błąd np. gdy pracownik znajduje się już w teamie)
+3. przy wybieraniu z modala (np. dodawanie pracownika do zagrody/teamu lub klimatu do gatunku) (błąd np. gdy pracownik znajduje się już w teamie)  
+
 Można też:
 2. w widokach w których pobiera się dane z bazy wyświetlić error jeżeli się to nie powiodło
