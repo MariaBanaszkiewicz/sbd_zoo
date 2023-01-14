@@ -12,7 +12,7 @@ import { CUIAutoComplete } from "chakra-ui-autocomplete";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Edit, MoreHorizontal, Trash2 } from "react-feather";
 import useSWR, { mutate } from "swr";
 import BreadCrumb from "../../components/Breadcrumb";
@@ -121,6 +121,8 @@ const AnimalsPage = (): React.ReactElement => {
     return [];
   }, [animals]);
 
+  console.log(animalOptions);
+
   const runOptions = useMemo(() => {
     if (animals?.length > 0) {
       const runs = [];
@@ -161,6 +163,8 @@ const AnimalsPage = (): React.ReactElement => {
   };
 
   const [pickerNameItems, setPickerNameItems] = useState(animalOptions);
+
+ 
   const [selectedNameItems, setSelectedNameItems] = useState<
     AutocompleteItem[]
   >([]);
@@ -228,6 +232,12 @@ const AnimalsPage = (): React.ReactElement => {
     () => getAnimalsList(animals),
     [animals, selectedNamesId]
   );
+  
+  useEffect(()=>{
+    setPickerNameItems(animalOptions);
+    setPickerRunItems(runOptions);
+    setPickerSpecieItems(speciesOptions);
+  },[animalOptions,speciesOptions,runOptions])
 
   return (
     <>
@@ -253,6 +263,7 @@ const AnimalsPage = (): React.ReactElement => {
             label="Filtruj po imionach"
             placeholder="Imię..."
             onCreateItem={handleCreateNameItem}
+            disableCreateItem
             items={pickerNameItems}
             selectedItems={selectedNameItems}
             onSelectedItemsChange={(changes) =>
@@ -267,6 +278,7 @@ const AnimalsPage = (): React.ReactElement => {
             placeholder="Zagroda..."
             onCreateItem={handleCreateRunItem}
             items={pickerRunItems}
+            disableCreateItem
             selectedItems={selectedRunItems}
             onSelectedItemsChange={(changes) =>
               handleSelectedItemsRunChange(changes.selectedItems)
@@ -277,6 +289,7 @@ const AnimalsPage = (): React.ReactElement => {
           <CUIAutoComplete
             label="Filtruj po gatunkach"
             placeholder="Gatunek..."
+            disableCreateItem
             onCreateItem={handleCreateSpecieItem}
             items={pickerSpecieItems}
             selectedItems={selectedSpecieItems}
