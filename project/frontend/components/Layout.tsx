@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -11,7 +11,8 @@ import getConfig from "next/config";
 import { useRouter } from "next/router";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
-import { useState } from "react";
+import Clock from 'react-clock';
+import 'react-clock/dist/Clock.css';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -26,6 +27,15 @@ const Layout = ({ children }: LayoutProps) => {
     pathname === path || (pathname.startsWith(path) && !path.endsWith("/"));
   const [bigLogoRef, bigLogoInView] = useInView();
   const { colorMode, toggleColorMode } = useColorMode();
+  const [value, setValue] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setValue(new Date()), 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <>
@@ -42,11 +52,12 @@ const Layout = ({ children }: LayoutProps) => {
             onClick={() => router.push("/")}
             cursor="pointer"
           />
-          <Flex justifySelf="end">
+          <Flex justifySelf="end" mr={5}>
             {/* TODO uruchomienie trybu kontrastowego */}
             {/* <Button onClick={toggleColorMode} mr={10} alignSelf="center">
             {colorMode === "light" ? "włącz" : "wyłącz"} tryb kontrastowy
           </Button> */}
+          <Clock value={value} size={70}/>
           </Flex>
         </Flex>
       </Flex>
