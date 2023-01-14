@@ -26,7 +26,7 @@ public class EmployeeTeamService {
     @Transactional
     public void addEmployeeTeam(EmployeeTeam employeeTeam) {
         if (employeeTeamRepository.existsById(employeeTeam)){
-            throw new DataIntegrityViolationException("Podany pracownik jest już zatrudniony.");
+            throw new DataIntegrityViolationException("Podany pracownik jest już w tym zespole.");
         } else {
             employeeTeamRepository.save(employeeTeam);
         }
