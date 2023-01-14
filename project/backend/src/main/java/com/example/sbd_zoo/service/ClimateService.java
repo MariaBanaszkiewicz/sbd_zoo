@@ -47,6 +47,8 @@ public class ClimateService {
 
     @Transactional
     public void addClimate(Climate climate) {
+        climate.setName(climate.getName().substring(0,1).toUpperCase()+climate.getName().substring(1).toLowerCase());
+        climate.setFlora(climate.getFlora().substring(0,1).toUpperCase()+climate.getFlora().substring(1).toLowerCase());
         if (climateRepository.existsById(climate.getName())){
             throw new DataIntegrityViolationException("Klimat o podanej nazwie już istnieje.");
         } else {
@@ -57,6 +59,8 @@ public class ClimateService {
 
     @Transactional
     public void updateClimate(String id, Climate climate) {
+        climate.setName(climate.getName().substring(0,1).toUpperCase()+climate.getName().substring(1).toLowerCase());
+        climate.setFlora(climate.getFlora().substring(0,1).toUpperCase()+climate.getFlora().substring(1).toLowerCase());
         Climate old = climateRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Climate not found on :: " + id));
         if (!Objects.equals(old.getName(), climate.getName())){
             if (climateRepository.existsById(climate.getName())){

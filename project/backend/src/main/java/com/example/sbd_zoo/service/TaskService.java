@@ -28,6 +28,7 @@ public class TaskService {
 
     @Transactional
     public void addTask(Task task) {
+        task.setDescription(task.getDescription().substring(0,1).toUpperCase()+task.getDescription().substring(1).toLowerCase());
         if (taskRepository.existsById(task)){
             throw new DataIntegrityViolationException("Podane zadanie znajduje się już w bazie.");
         } else {
@@ -37,6 +38,7 @@ public class TaskService {
 
     @Transactional
     public void updateTask(Task id, Task task) {
+        task.setDescription(task.getDescription().substring(0,1).toUpperCase()+task.getDescription().substring(1).toLowerCase());
         Task old = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found"));
         if (taskRepository.existsById(task)){
             throw new DataIntegrityViolationException("Podane zadanie znajduje się już w bazie.");

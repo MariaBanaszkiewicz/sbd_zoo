@@ -187,18 +187,18 @@ begin atomic
 update zadania set pracownik=do_prac where pracownik=od_prac;
 end;
 
-insert into gatunki values ('lew','ssaki');
-insert into klimaty values ('równoleżnikowy-suchy', 'sucha',20,40);
-insert into zagrody values ('safari',50,'równoleżnikowy-suchy');
-insert into pracownicy values ('1234','Zbyszek', 'Konewka');
-insert into pracownicy values ('2345','Jan', 'Kula');
-insert into zwierzęta (imię,gatunek,zagroda,pracownik) values ('Leon','lew','safari','1234');
-insert into zwierzęta (imię,gatunek,zagroda,pracownik) values ('Simba','lew','safari','1234');
-insert into jedzenia values ('wolowina','mieso','kg');
-insert into jedzenia values ('otreby','suche','g');
-insert into porcje values (5,1,'wolowina');
-insert into porcje values (100,1,'otreby');
-insert into zadania values('opis1','1234');
+insert into gatunki values ('Lew','Ssaki');
+insert into klimaty values ('Równoleżnikowy-suchy', 'Sucha',20,40);
+insert into zagrody values ('Safari',50,'Równoleżnikowy-suchy');
+insert into pracownicy values ('12345678900','Zbyszek', 'Konewka');
+insert into pracownicy values ('23456789001','Jan', 'Kula');
+insert into zwierzęta (imię,gatunek,zagroda,pracownik) values ('Leon','Lew','Safari','12345678900');
+insert into zwierzęta (imię,gatunek,zagroda,pracownik) values ('Simba','Lew','Safari','12345678900');
+insert into jedzenia values ('Wolowina','Mieso','kg');
+insert into jedzenia values ('Otreby','Suche','g');
+insert into porcje values (5,1,'Wolowina');
+insert into porcje values (100,1,'Otreby');
+insert into zadania values('Sprzatanie alejek','12345678900');
 
 select * from sprawdz_jadlospis(1);
-call przekaz_zadania('1234','2345');
+call przekaz_zadania('12345678900','23456789001');

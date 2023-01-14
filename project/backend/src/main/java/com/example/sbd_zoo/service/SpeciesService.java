@@ -46,6 +46,8 @@ public class SpeciesService {
 
     @Transactional
     public void addSpecies(Species species) {
+        species.setName(species.getName().substring(0,1).toUpperCase()+species.getName().substring(1).toLowerCase());
+        species.setTheClass(species.getTheClass().substring(0,1).toUpperCase()+species.getTheClass().substring(1).toLowerCase());
         if (speciesRepository.existsById(species.getName())){
             throw new DataIntegrityViolationException("Podany gatunek znajduje się już w bazie.");
         } else {
@@ -55,6 +57,8 @@ public class SpeciesService {
 
     @Transactional
     public void updateSpecies(String id, Species species) {
+        species.setName(species.getName().substring(0,1).toUpperCase()+species.getName().substring(1).toLowerCase());
+        species.setTheClass(species.getTheClass().substring(0,1).toUpperCase()+species.getTheClass().substring(1).toLowerCase());
         Species old = speciesRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Species not found on :: " + id));
         if (!Objects.equals(old.getName(), species.getName())){
             if (speciesRepository.existsById(species.getName())){

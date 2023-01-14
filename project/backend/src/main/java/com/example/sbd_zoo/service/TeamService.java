@@ -37,6 +37,8 @@ public class TeamService {
 
     @Transactional
     public void addTeam(Team team) {
+        team.setName(team.getName().substring(0,1).toUpperCase()+team.getName().substring(1).toLowerCase());
+        team.setType(team.getType().substring(0,1).toUpperCase()+team.getType().substring(1).toLowerCase());
         if (teamRepository.existsById(team.getName())){
             throw new DataIntegrityViolationException("Zespół o podanej nazwie znajduje się już w bazie.");
         } else {
@@ -46,6 +48,8 @@ public class TeamService {
 
     @Transactional
     public void updateTeam(String id, Team team) {
+        team.setName(team.getName().substring(0,1).toUpperCase()+team.getName().substring(1).toLowerCase());
+        team.setType(team.getType().substring(0,1).toUpperCase()+team.getType().substring(1).toLowerCase());
         Team old = teamRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Team not found on :: " + id));
         if (!Objects.equals(old.getName(), team.getName())){
             if (teamRepository.existsById(team.getName())){

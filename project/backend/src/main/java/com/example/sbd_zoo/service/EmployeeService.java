@@ -53,6 +53,8 @@ public class EmployeeService {
 
     @Transactional
     public void addEmployee(Employee employee) {
+        employee.setLastName(employee.getLastName().substring(0,1).toUpperCase()+employee.getLastName().substring(1).toLowerCase());
+        employee.setFisrtName(employee.getFisrtName().substring(0,1).toUpperCase()+employee.getFisrtName().substring(1).toLowerCase());
         if (employeeRepository.existsById(employee.getPesel())){
             throw new DataIntegrityViolationException("Podany pracownik jest już zatrudniony.");
         } else {
@@ -63,6 +65,8 @@ public class EmployeeService {
 
     @Transactional
     public void updateEmployee(String id, Employee employee) {
+        employee.setLastName(employee.getLastName().substring(0,1).toUpperCase()+employee.getLastName().substring(1).toLowerCase());
+        employee.setFisrtName(employee.getFisrtName().substring(0,1).toUpperCase()+employee.getFisrtName().substring(1).toLowerCase());
         Employee old = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not found on :: " + id));
         if (!Objects.equals(old.getPesel(), employee.getPesel())){
             if (employeeRepository.existsById(employee.getPesel())){

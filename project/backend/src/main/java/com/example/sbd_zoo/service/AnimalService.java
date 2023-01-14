@@ -28,6 +28,7 @@ public class AnimalService {
 
     @Transactional
     public void addAnimal(Animal animal) {
+        animal.setName(animal.getName().substring(0,1).toUpperCase()+animal.getName().substring(1).toLowerCase());
         if (animal.getId() != null && animalRepository.existsById(animal.getId())){
             throw new DataIntegrityViolationException("Zwierzę o podanym id już istnieje.");
         } else {
@@ -38,6 +39,7 @@ public class AnimalService {
 
     @Transactional
     public void updateAnimal(Long id, Animal animal) {
+        animal.setName(animal.getName().substring(0,1).toUpperCase()+animal.getName().substring(1).toLowerCase());
         Animal old = animalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Wybrane zwierzę nie znajduje się w bazie."));
         old.setName(animal.getName());
         old.setBirthDate(animal.getBirthDate());

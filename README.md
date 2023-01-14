@@ -7,4 +7,5 @@ Bugi:
 12. przy pierwszym uruchomieniu nie dziala wyszukiwanie (w issues zdjecie)  
 13. podczas updatowania leczenia w adresie PUT musi być podana stara data (a nie nowa w przypadku jej zmiany)  
 14. id zwierzęcia powinno się wyświetlać w tabeli (jako że dopuszczamy te same imiona itd)  
-15. po edycji peselu u pracownika przenosi do strony /starypesel zamiast /nowypesel
+15. po edycji peselu u pracownika przenosi do strony /starypesel zamiast /nowypesel  
+16. dodanie jednostek w romiarze zagrody oraz % przy wilgotnosci powietrza w klimatach (tak jak przy temp. jest [ C ])  

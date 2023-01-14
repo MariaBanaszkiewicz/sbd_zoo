@@ -38,6 +38,9 @@ public class FoodService {
 
     @Transactional
     public void addFood(Food food) {
+        food.setName(food.getName().substring(0,1).toUpperCase()+food.getName().substring(1).toLowerCase());
+        food.setType(food.getType().substring(0,1).toUpperCase()+food.getType().substring(1).toLowerCase());
+        food.setUnit(food.getUnit().toLowerCase());
         if (foodRepository.existsById(food.getName())){
             throw new DataIntegrityViolationException("Podane jedzenie znajduje się już w bazie.");
         } else {
@@ -47,6 +50,9 @@ public class FoodService {
 
     @Transactional
     public void updateFood(String id, Food food) {
+        food.setName(food.getName().substring(0,1).toUpperCase()+food.getName().substring(1).toLowerCase());
+        food.setType(food.getType().substring(0,1).toUpperCase()+food.getType().substring(1).toLowerCase());
+        food.setUnit(food.getUnit().toLowerCase());
         Food old = foodRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("food not found on :: " + id));
         if (!Objects.equals(old.getName(), food.getName())){
             if (foodRepository.existsById(food.getName())){

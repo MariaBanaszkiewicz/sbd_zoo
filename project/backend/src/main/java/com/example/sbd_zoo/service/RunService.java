@@ -45,6 +45,7 @@ public class RunService {
 
     @Transactional
     public void addRun(Run run) {
+        run.setName(run.getName().substring(0,1).toUpperCase()+run.getName().substring(1).toLowerCase());
         if (runRepository.existsById(run.getName())){
             throw new DataIntegrityViolationException("Podana zagroda znajduje się już w bazie.");
         } else {
@@ -54,6 +55,7 @@ public class RunService {
 
     @Transactional
     public void updateRun(String id, Run run) {
+        run.setName(run.getName().substring(0,1).toUpperCase()+run.getName().substring(1).toLowerCase());
         Run old = runRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Run not found on :: " + id));
         if (!old.getName().equals(run.getName())){
             if (runRepository.existsById(run.getName())){

@@ -29,6 +29,8 @@ public class TreatmentService {
 
     @Transactional
     public void addTreatment(Treatment treatment) {
+        treatment.setDisease(treatment.getDisease().substring(0,1).toUpperCase()+treatment.getDisease().substring(1).toLowerCase());
+        treatment.setDescription(treatment.getDescription().substring(0,1).toUpperCase()+treatment.getDescription().substring(1).toLowerCase());
         TreatmentId id = new TreatmentId();
         id.setAnimal(treatment.getAnimal());
         id.setDisease(treatment.getDisease());
@@ -42,6 +44,8 @@ public class TreatmentService {
 
     @Transactional
     public void updateTreatment(TreatmentId id, Treatment treatment) {
+        treatment.setDisease(treatment.getDisease().substring(0,1).toUpperCase()+treatment.getDisease().substring(1).toLowerCase());
+        treatment.setDescription(treatment.getDescription().substring(0,1).toUpperCase()+treatment.getDescription().substring(1).toLowerCase());
         Treatment old = treatmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Treatment not found"));
         TreatmentId newId = new TreatmentId();
         newId.setAnimal(treatment.getAnimal());
