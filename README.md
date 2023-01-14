@@ -1,8 +1,7 @@
 # sbd_zoo
 
 ### Bugi:  
-10. todo w forms animal  
-11. wyświetlanie errorów  
+12. przy dodaniu do zespołu pracownika, który już w nim jest, dostajemy error "Podany pracownik jest już zatrudniony."  
 
 
 ### Errory:
