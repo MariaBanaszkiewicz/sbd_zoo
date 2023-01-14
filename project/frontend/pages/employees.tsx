@@ -2,26 +2,25 @@ import {
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Icon,
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
+  Spinner,
   Text,
   Tooltip,
   useDisclosure,
-  FormErrorMessage,
-  ModalBody
 } from "@chakra-ui/react";
 import axios from "axios";
-import { CUIAutoComplete } from "chakra-ui-autocomplete";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Edit, MoreHorizontal, Trash2, Users } from "react-feather";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import useSWR, { mutate } from "swr";
@@ -31,7 +30,6 @@ import SelectAdvanced from "../components/common/SelectAdvanced";
 import Table from "../components/common/Table";
 import Layout from "../components/Layout";
 import { useToastPromise } from "../hooks/useToast";
-import { AutocompleteItem } from "../types/interfaces";
 
 type EmployeeInputs = {
   employee: any;
@@ -39,7 +37,7 @@ type EmployeeInputs = {
 
 const EmployeesPage = (): React.ReactElement => {
   const router = useRouter();
-  const { data: employees, error } = useSWR("/employees");
+  const { data: employees, error, isValidating } = useSWR("/employees");
   const [idClicked, setIdClicked] = useState(null);
   const {
     isOpen: isDeleteOpen,
@@ -180,7 +178,9 @@ const EmployeesPage = (): React.ReactElement => {
               >
                 <Flex flexDirection="column" gap={4}>
                   <FormControl isInvalid={!!employeeErrors.employee} isRequired>
-                    <FormLabel htmlFor="name">Wybierz pracownika, który ma przejąć zadania</FormLabel>
+                    <FormLabel htmlFor="name">
+                      Wybierz pracownika, który ma przejąć zadania
+                    </FormLabel>
                     <Controller
                       control={controlemployee}
                       name="employee"
@@ -223,16 +223,23 @@ const EmployeesPage = (): React.ReactElement => {
       <Flex justifyContent="space-between">
         <BreadCrumb
           breadcrumb={[
-            { label: "Zwierzęta", isCurrentPage: true, href: "/animals" },
+            { label: "Pracownicy", isCurrentPage: true, href: "/employees" },
           ]}
         />
         <Button onClick={() => router.push("/employee/form/0")}>
           Dodaj pracownika
         </Button>
       </Flex>
-      {employees?.length > 0 ? (
+      {error && <Text>Wystąpił błąd podczas pobierania danych</Text>}
+      {isValidating && (
+        <Flex justifyContent="center">
+          <Spinner />
+        </Flex>
+      )}
+      {employees?.length > 0 && !isValidating && (
         <Table data={employees} columns={columns} />
-      ) : (
+      )}{" "}
+      {employees?.length == 0 && !isValidating && (
         <Text>Zoo nie posiada żadnych pracowników</Text>
       )}
     </>

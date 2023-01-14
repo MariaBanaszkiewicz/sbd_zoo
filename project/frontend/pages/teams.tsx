@@ -106,7 +106,8 @@ const TeamsPage = (): React.ReactElement => {
           mutate("/teams");
           mutate("/employees");
           onEmployeeClose();
-        })
+        }),
+        {"Podany pracownik jest już zatrudniony.":"Podany pracownik jest już zatrudniony."}
     );
   };
 

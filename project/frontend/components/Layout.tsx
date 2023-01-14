@@ -27,8 +27,6 @@ const Layout = ({ children }: LayoutProps) => {
   const [bigLogoRef, bigLogoInView] = useInView();
   const { colorMode, toggleColorMode } = useColorMode();
 
-
-
   return (
     <>
       <Flex
@@ -44,12 +42,11 @@ const Layout = ({ children }: LayoutProps) => {
             onClick={() => router.push("/")}
             cursor="pointer"
           />
-          <Flex justifySelf="end"> 
-
-      
-          <Button onClick={toggleColorMode} mr={10} alignSelf="center">
+          <Flex justifySelf="end">
+            {/* TODO uruchomienie trybu kontrastowego */}
+            {/* <Button onClick={toggleColorMode} mr={10} alignSelf="center">
             {colorMode === "light" ? "włącz" : "wyłącz"} tryb kontrastowy
-          </Button>
+          </Button> */}
           </Flex>
         </Flex>
       </Flex>

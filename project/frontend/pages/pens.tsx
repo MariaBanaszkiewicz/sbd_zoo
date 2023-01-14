@@ -22,6 +22,7 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  Spinner
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -44,7 +45,7 @@ type EmployeeInputs = {
 const PensPage = (): React.ReactElement => {
   const router = useRouter();
   const [tabIndex, setTabIndex] = useState(0);
-  const { data: pens, error } = useSWR("/runs");
+  const { data: pens, error, isValidating } = useSWR("/runs");
   const [idClicked, setIdClicked] = useState(null);
   const {
     isOpen: isDeleteOpen,
@@ -117,6 +118,10 @@ const PensPage = (): React.ReactElement => {
   }
 
   const animalsColumns = [
+    {
+      Header: "ID",
+      accessor: "id",
+    },
     {
       Header: "Imię",
       accessor: "name",
@@ -280,7 +285,10 @@ const PensPage = (): React.ReactElement => {
           Dodaj zagrodę
         </Button>
       </Flex>
-      {pens?.length > 0 && (
+      {error && <Text>Wystąpił błąd podczas pobierania danych</Text>}
+      {isValidating && <Flex justifyContent="center"><Spinner/></Flex>}
+      {pens?.length ==0 && !isValidating && <Text>W ZOO nie ma jeszcze zagród</Text> }
+      {pens?.length > 0 && !isValidating && (
         <Tabs onChange={(index) => setTabIndex(index)}>
           <TabList>
             {pens?.map((pen, index) => (
@@ -312,7 +320,7 @@ const PensPage = (): React.ReactElement => {
                 <SimpleGrid gap={5} columns={2} mb={5}>
                   <Text textAlign="end">Klimat: </Text>
                   <Text>{pen?.climate || "-"}</Text>
-                  <Text textAlign="end">Rozmiar: </Text>
+                  <Text textAlign="end">Rozmiar [a]: </Text>
                   <Text>{pen?.size || "-"}</Text>
                 </SimpleGrid>
                 <Divider mb={5} />

@@ -45,8 +45,6 @@ const ClimateFormPage = (): React.ReactElement => {
     });
   }, [teamData]);
 
-  //TODO błąd przy edycji klucza podstawowego
-
   const onSubmit = (data) => {
     if (id != "0") {
       return toast.promise(

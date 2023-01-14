@@ -3,6 +3,7 @@ import {
   Flex,
   Icon,
   SimpleGrid,
+  Spinner,
   Text,
   Tooltip,
   useDisclosure,
@@ -24,7 +25,7 @@ import { AutocompleteItem } from "../../types/interfaces";
 
 const AnimalsPage = (): React.ReactElement => {
   const router = useRouter();
-  const { data: animals, error } = useSWR("/animals");
+  const { data: animals, error, isValidating } = useSWR("/animals");
   const [idClicked, setIdClicked] = useState(null);
   const {
     isOpen: isDeleteOpen,
@@ -121,8 +122,6 @@ const AnimalsPage = (): React.ReactElement => {
     return [];
   }, [animals]);
 
-  console.log(animalOptions);
-
   const runOptions = useMemo(() => {
     if (animals?.length > 0) {
       const runs = [];
@@ -164,7 +163,6 @@ const AnimalsPage = (): React.ReactElement => {
 
   const [pickerNameItems, setPickerNameItems] = useState(animalOptions);
 
- 
   const [selectedNameItems, setSelectedNameItems] = useState<
     AutocompleteItem[]
   >([]);
@@ -232,12 +230,12 @@ const AnimalsPage = (): React.ReactElement => {
     () => getAnimalsList(animals),
     [animals, selectedNamesId]
   );
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setPickerNameItems(animalOptions);
     setPickerRunItems(runOptions);
     setPickerSpecieItems(speciesOptions);
-  },[animalOptions,speciesOptions,runOptions])
+  }, [animalOptions, speciesOptions, runOptions]);
 
   return (
     <>
@@ -257,51 +255,59 @@ const AnimalsPage = (): React.ReactElement => {
           Dodaj zwierzę
         </Button>
       </Flex>
-      <SimpleGrid columns={3} gap={5}>
-        {animalOptions?.length > 0 && (
-          <CUIAutoComplete
-            label="Filtruj po imionach"
-            placeholder="Imię..."
-            onCreateItem={handleCreateNameItem}
-            disableCreateItem
-            items={pickerNameItems}
-            selectedItems={selectedNameItems}
-            onSelectedItemsChange={(changes) =>
-              handleSelectedItemsNameChange(changes.selectedItems)
-            }
-          />
-        )}
+      {error && <Text>Wystąpił błąd podczas pobierania danych</Text>}
+      {isValidating && <Flex justifyContent="center"><Spinner/></Flex>}
+      {!error && !isValidating && (
+        <>
+          <SimpleGrid columns={3} gap={5}>
+            {animalOptions?.length > 0 && (
+              <CUIAutoComplete
+                label="Filtruj po imionach"
+                placeholder="Imię..."
+                onCreateItem={handleCreateNameItem}
+                disableCreateItem
+                items={pickerNameItems}
+                selectedItems={selectedNameItems}
+                onSelectedItemsChange={(changes) =>
+                  handleSelectedItemsNameChange(changes.selectedItems)
+                }
+              />
+            )}
 
-        {runOptions?.length > 0 && (
-          <CUIAutoComplete
-            label="Filtruj po zagrodach"
-            placeholder="Zagroda..."
-            onCreateItem={handleCreateRunItem}
-            items={pickerRunItems}
-            disableCreateItem
-            selectedItems={selectedRunItems}
-            onSelectedItemsChange={(changes) =>
-              handleSelectedItemsRunChange(changes.selectedItems)
-            }
-          />
-        )}
-        {speciesOptions?.length > 0 && (
-          <CUIAutoComplete
-            label="Filtruj po gatunkach"
-            placeholder="Gatunek..."
-            disableCreateItem
-            onCreateItem={handleCreateSpecieItem}
-            items={pickerSpecieItems}
-            selectedItems={selectedSpecieItems}
-            onSelectedItemsChange={(changes) =>
-              handleSelectedItemsSpecieChange(changes.selectedItems)
-            }
-          />
-        )}
-      </SimpleGrid>
-      {animalsList?.length > 0 ? (
-        <Table data={animalsList} columns={columns} />
-      ): <Text>W ZOO nie ma żadnych zwierząt</Text>}
+            {runOptions?.length > 0 && (
+              <CUIAutoComplete
+                label="Filtruj po zagrodach"
+                placeholder="Zagroda..."
+                onCreateItem={handleCreateRunItem}
+                items={pickerRunItems}
+                disableCreateItem
+                selectedItems={selectedRunItems}
+                onSelectedItemsChange={(changes) =>
+                  handleSelectedItemsRunChange(changes.selectedItems)
+                }
+              />
+            )}
+            {speciesOptions?.length > 0 && (
+              <CUIAutoComplete
+                label="Filtruj po gatunkach"
+                placeholder="Gatunek..."
+                disableCreateItem
+                onCreateItem={handleCreateSpecieItem}
+                items={pickerSpecieItems}
+                selectedItems={selectedSpecieItems}
+                onSelectedItemsChange={(changes) =>
+                  handleSelectedItemsSpecieChange(changes.selectedItems)
+                }
+              />
+            )}
+          </SimpleGrid>
+          {animalsList?.length > 0 ? (
+            <Table data={animalsList} columns={columns} />
+          ) : (
+            <Text>W ZOO nie ma żadnych zwierząt</Text>
+          )}
+        </>
+      )}
     </>
   );
 };

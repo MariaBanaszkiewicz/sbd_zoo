@@ -43,8 +43,6 @@ import { idText } from "typescript";
     employee: any;
   };
 
-  //TODO ERROR: update or delete on table "pracownicy" violates foreign key constraint "pracownik_zagroda_prac_fk" on table "pracownik_zagroda" usuwanie pracownika musi być kaskadowe
-
   const EmployeePage = (): React.ReactElement => {
     const router = useRouter();
     const toast = useToastPromise();
@@ -84,8 +82,6 @@ import { idText } from "typescript";
     }
 
   }, [whichClicked, isTaskOpen]);
-
-  //TODO przy edycji taska, jest 200, ale task nie zmienia się w bazie
 
   const ontaskSubmit = (data) => {
     const postData={employee: id , ...data};

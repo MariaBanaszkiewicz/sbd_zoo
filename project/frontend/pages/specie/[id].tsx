@@ -73,6 +73,7 @@ const Specie = (): React.ReactElement => {
     return toast.promise(
       axios.post(`/speciesClimates`, postData).then(() => {
         mutate(`/species/${id}`);
+        mutate(`/species`);
         onClimateClose();
       })
     );

@@ -110,7 +110,7 @@ import {
                   <Input type="string" {...register("temperatur", { required: true })} />
                 </FormControl>
                 <FormControl isInvalid={!!errors.humidity} isRequired>
-                  <FormLabel htmlFor="humidity">Wilgotność powietrza</FormLabel>
+                  <FormLabel htmlFor="humidity">Wilgotność powietrza [%]</FormLabel>
                   <Input type="string" {...register("humidity", { required: true })} />
                 </FormControl>
 

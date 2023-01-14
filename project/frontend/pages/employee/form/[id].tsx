@@ -57,7 +57,7 @@ const EmployeeFormPage = (): React.ReactElement => {
         axios.put(`/employee/${id}`, data).then(() => {
           mutate(`/employee/${id}`);
           mutate("/employees");
-          router.push(`/employee/${id}`);
+          router.push(`/employee/${data?.pesel}`);
         })
       );
     } else {

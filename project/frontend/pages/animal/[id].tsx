@@ -148,8 +148,7 @@ const AnimalPage = (): React.ReactElement => {
       return toast.promise(
         axios
           .put(
-            `/treatment/${id}+${data?.disease}+${format(
-              data?.date ? new Date(data?.date) : new Date(),
+            `/treatment/${id}+${data?.disease}+${format( new Date(whichClicked?.date),
               "yyyy-MM-dd"
             )}`,
             postData

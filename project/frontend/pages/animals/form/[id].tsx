@@ -36,8 +36,6 @@ const AnimalFormPage = (): React.ReactElement => {
   const { data: employeeData } = useSWR(`/employees`);
   const { data: runData } = useSWR(`/runs`);
 
-  //TODO JSON parse error: Cannot deserialize value of type `java.lang.Integer` from String "11111111111": Overflow: numeric value (11111111111) out of range of `java.lang.Integer` (-2147483648 -2147483647)] - gdy chcę dodać zwierzę, a jego opiekun ma mieć pesel prawidłowy
-
   const methods = useForm<FormInputs>();
   const {
     reset,
@@ -65,7 +63,6 @@ const AnimalFormPage = (): React.ReactElement => {
   }));
   
   useEffect(() => {
-    console.log("resetuje");
       reset({
         name: animalData?.animal?.name?.trim() || "",
         species: animalData?.animal?.species || "",
@@ -75,8 +72,6 @@ const AnimalFormPage = (): React.ReactElement => {
         zooDate: animalData?.animal?.zooDate ? new Date(animalData?.animal?.zooDate) : new Date(),
       });
   }, [animalData]);
-  //TODO: check if employeeOptions dep was needed
-
 
   const onSubmit = (data) => {
     if (id != "0") {

@@ -14,11 +14,13 @@ export const useToastPromise = (options?: UseToastOptions) => {
     promise: Promise<T>,
     params: ToastPromiseParams = {}
   ) => {
+
     const {
       pending = "Trwa zapisywanie",
-      success = "Pomyślnie zapisano",
-      error = "błąd",
+      success = "Operacja zakończyła się sukcesem",
+      error = "Wystąpił błąd",
     } = params;
+
     const toastId = toast({
       status: "info",
       description: pending,
@@ -27,8 +29,20 @@ export const useToastPromise = (options?: UseToastOptions) => {
 
     const errorKeys = {
       ...params.errorKeys,
-      ServerError: "errorKeys.serverError",
-      WrongRole: "errorKeys.wrongRole",
+      ServerError: "Wystąpił błąd z serwerem, spróbuj ponownie później",
+      "Podany pracownik jest już zatrudniony.":"Podany pracownik jest już zatrudniony.",
+      "Nie można usunąć pracownika, ponieważ jest on opiekunem zwierząt.":"Nie można usunąć pracownika, ponieważ jest on opiekunem zwierząt.",
+      "Nie można usunąć zagrody, ponieważ znajdują się w niej zwierzęta.":"Nie można usunąć zagrody, ponieważ znajdują się w niej zwierzęta.",
+      "Pracownik jest już przypisany do tej zagrody.":"Pracownik jest już przypisany do tej zagrody.",
+      "Nie można usunąć klimatu, ponieważ przypisane są do niego zagrody.":"Nie można usunąć klimatu, ponieważ przypisane są do niego zagrody.",
+      "Podana zagroda znajduje się już w bazie.":"Zagroda o tej nazwie znajduje się już w ZOO",
+      'Klimat o podanej nazwie już istnieje.':'Klimat o podanej nazwie już istnieje.',
+      "Podany pracownik jest już w tym zespole.":"Podany pracownik jest już w tym zespole.",
+      "Jedzenie o podanej nazwie nie istnieje.":"Jedzenie o podanej nazwie nie istnieje.",
+      "Podany gatunek znajduje się już w bazie.":"Podany gatunek znajduje się już w bazie.",
+      'Zespół o podanej nazwie znajduje się już w bazie.':'Zespół o podanej nazwie znajduje się już w bazie.',
+      "Nie można usunąć gatunku, ponieważ jest on przypisany do zwierząt.":"Nie można usunąć gatunku, ponieważ jest on przypisany do zwierząt."
+
     };
 
     return promise
@@ -42,8 +56,8 @@ export const useToastPromise = (options?: UseToastOptions) => {
       })
       .catch((result) => {
         toast.update(toastId, {
-          status: "error",
-          description: error,
+          status: errorKeys[result?.response?.data] ? "info" : "error",
+          description: errorKeys[result?.response?.data] ?? error,
           duration: 5000,
         });
         return result;
