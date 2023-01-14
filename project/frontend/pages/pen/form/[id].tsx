@@ -124,7 +124,7 @@ import {
                   <FormLabel htmlFor="type">Rozmiar [a]</FormLabel>
                   <Input type="number" {...register("size", { required: true })} />
                   {errors.size && (
-                    <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                    <FormErrorMessage>Wprowadź poprawną wartość</FormErrorMessage>
                   )}
                 </Box>
               </FormControl>

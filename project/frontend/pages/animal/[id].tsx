@@ -418,7 +418,7 @@ const AnimalPage = (): React.ReactElement => {
                       {...registerServing("amount", { required: true })}
                     />
                     {servingErrors.amount && (
-                      <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                      <FormErrorMessage>Wprowadź poprawną wartość</FormErrorMessage>
                     )}
                   </FormControl>
                   <Flex justifyContent="flex-end">

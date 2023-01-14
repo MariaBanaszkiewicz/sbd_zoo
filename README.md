@@ -1,7 +1,7 @@
 # sbd_zoo
 
 ### Bugi:  
-12. przy dodaniu do zespołu pracownika, który już w nim jest, dostajemy error "Podany pracownik jest już zatrudniony."  
+ 
 
 
 ### Errory:

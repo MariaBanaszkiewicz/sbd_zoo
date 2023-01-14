@@ -104,14 +104,23 @@ import {
                 <FormControl isInvalid={!!errors.flora} isRequired>
                   <FormLabel htmlFor="flora">Roślinność</FormLabel>
                   <Input type="string" {...register("flora", { required: true })} />
+                  {errors.flora && (
+                    <FormErrorMessage>Pole wymagane</FormErrorMessage>
+                  )}
                 </FormControl>
                 <FormControl isInvalid={!!errors.temperatur} isRequired>
                   <FormLabel htmlFor="temperatur">Średnia temperatura dobowa [C]</FormLabel>
-                  <Input type="string" {...register("temperatur", { required: true })} />
+                  <Input type="number" {...register("temperatur", { required: true })} />
+                  {errors.temperatur && (
+                    <FormErrorMessage>Wprowadź poprawną wartość</FormErrorMessage>
+                  )}
                 </FormControl>
                 <FormControl isInvalid={!!errors.humidity} isRequired>
                   <FormLabel htmlFor="humidity">Wilgotność powietrza [%]</FormLabel>
-                  <Input type="string" {...register("humidity", { required: true })} />
+                  <Input type="number" {...register("humidity", { required: true })} />
+                  {errors.humidity && (
+                    <FormErrorMessage>Wprowadź poprawną wartość</FormErrorMessage>
+                  )}
                 </FormControl>
 
                 </Flex>
