@@ -1,13 +1,7 @@
 # sbd_zoo
 
 ### Bugi:  
-10. todo w forms animal  
-11. wyświetlanie errorów  
-12. przy pierwszym uruchomieniu nie dziala wyszukiwanie (w issues zdjecie)  
-13. podczas updatowania leczenia w adresie PUT musi być podana stara data (a nie nowa w przypadku jej zmiany)  
-14. id zwierzęcia powinno się wyświetlać w tabeli (jako że dopuszczamy te same imiona itd)  
-15. po edycji peselu u pracownika przenosi do strony /starypesel zamiast /nowypesel  
-16. dodanie jednostek w romiarze zagrody oraz % przy wilgotnosci powietrza w klimatach (tak jak przy temp. jest [ C ])  
+12. przy dodaniu do zespołu pracownika, który już w nim jest, dostajemy error "Podany pracownik jest już zatrudniony."  
 
 
 ### Errory:
