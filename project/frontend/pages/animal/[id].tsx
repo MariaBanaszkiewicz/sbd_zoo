@@ -120,7 +120,7 @@ const AnimalPage = (): React.ReactElement => {
     };
     if (whichClicked !== null) {
       return toast.promise(
-        axios.put(`/serving/${id}+${data?.food}`, postData).then(() => {
+        axios.put(`/serving/${id}+${whichClicked?.food}`, postData).then(() => {
           mutate(`/animal/${id}`);
           mutate("/servings");
           onServingClose();

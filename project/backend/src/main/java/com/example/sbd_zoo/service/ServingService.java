@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ServingService {
@@ -46,11 +47,19 @@ public class ServingService {
     @Transactional
     public void updateServing(ServingId id, Serving serving) {
         Serving old = servingRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Serving not found"));
-        if (servingRepository.existsById(id)){
-            throw new DataIntegrityViolationException("Podana porcja znajduje się już w bazie.");
+        ServingId servingId = new ServingId();
+        servingId.setAnimal(serving.getAnimal());
+        servingId.setFood(serving.getFood());
+        if (!(Objects.equals(old.getFood(), serving.getFood())&& Objects.equals(old.getAnimal(), serving.getAnimal()))) {
+            if (servingRepository.existsById(servingId)) {
+                throw new DataIntegrityViolationException("Podana porcja znajduje się już w bazie.");
+            } else {
+                deleteServing(id);
+                servingRepository.save(serving);
+            }
         } else {
-            deleteServing(id);
-            servingRepository.save(serving);
+            old.setAmount(serving.getAmount());
+            servingRepository.save(old);
         }
 
     }
