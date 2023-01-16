@@ -229,7 +229,7 @@ const Specie = (): React.ReactElement => {
           >
             Usuń
           </Button>
-          <Button onClick={() => router.push(`/cpecie/form/${id}`)}>
+          <Button onClick={() => router.push(`/specie/form/${id}`)}>
             Edytuj
           </Button>
         </Flex>
