@@ -130,7 +130,7 @@ const Specie = (): React.ReactElement => {
               onClick={() => {
                 setTypeClicked("climate");
                 setWhichClicked(row?.original);
-                onClimateOpen();
+                router.push(`/climate/form/${row?.original?.name}`)
               }}
               as={Edit}
             />

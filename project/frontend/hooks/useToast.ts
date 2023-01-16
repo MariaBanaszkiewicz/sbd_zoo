@@ -41,8 +41,12 @@ export const useToastPromise = (options?: UseToastOptions) => {
       "Jedzenie o podanej nazwie nie istnieje.":"Jedzenie o podanej nazwie nie istnieje.",
       "Podany gatunek znajduje się już w bazie.":"Podany gatunek znajduje się już w bazie.",
       'Zespół o podanej nazwie znajduje się już w bazie.':'Zespół o podanej nazwie znajduje się już w bazie.',
-      "Nie można usunąć gatunku, ponieważ jest on przypisany do zwierząt.":"Nie można usunąć gatunku, ponieważ jest on przypisany do zwierząt."
-
+      "Nie można usunąć gatunku, ponieważ jest on przypisany do zwierząt.":"Nie można usunąć gatunku, ponieważ jest on przypisany do zwierząt.",
+      "Podany gatunek jest już przypisany do tego klimatu.":"Podany gatunek jest już przypisany do tego klimatu.",
+      "Klimat o podanej nazwie nie znajduje się w bazie.":"Klimat o podanej nazwie nie znajduje się w bazie.",
+      "Podana porcja znajduje się już w bazie.":"Zwierze posiada już tę porcję w swojej diecie",
+      "Podane leczenie znajduje się już w bazie.":"Zwierzę odbyło już podane leczenie",
+      "Podane zadanie znajduje się już w bazie.": "Pracownik posiada już takie zadanie",
     };
 
     return promise
