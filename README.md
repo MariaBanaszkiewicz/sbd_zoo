@@ -1,10 +1,6 @@
 # sbd_zoo
 
 ### Bugi:  
-18. podczas przypisywania klimatu do gatunku nie wyświeta się error z backendu (widok szczegółów gatunku)
-19. przycisk do edycji klimatu (w widoku szczegółów gatunku) przenosi do modala wyboru klimatu a nie do jego edycji  
-21. nie wyświetla się error przychodziący z backendu w modalu porcji - to samo dotyczy się innych modali np dodawanie/update treatments oraz dodawanie zadań
-22. randomowo pojawiający się bug opisany w issue
 
 
 ### Errory:
