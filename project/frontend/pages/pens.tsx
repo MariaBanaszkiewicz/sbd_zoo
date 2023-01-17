@@ -344,7 +344,7 @@ const PensPage = (): React.ReactElement => {
                     </Flex>
 
                     {pen?.animals?.length > 0 ? (
-                      <Table data={pen?.animals} columns={animalsColumns} canFilter />
+                      <Table data={pen?.animals} columns={animalsColumns} />
                     ) : (
                       <Text mt={5}>
                         W tej zagrodzie nie znajduje się żadne zwierzę
