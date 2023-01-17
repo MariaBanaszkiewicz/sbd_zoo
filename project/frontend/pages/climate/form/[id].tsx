@@ -61,7 +61,7 @@ import {
             axios.put(`/climate/${id}`, postData).then(() => {
               mutate(`/climate/${id}`);
               mutate("/climates");
-              mutate("//speciesClimates");
+              mutate("/speciesClimates");
               mutate("animals");
               mutate("runs");
               router.push(`/climates`);
