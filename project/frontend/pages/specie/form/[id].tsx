@@ -48,8 +48,8 @@ import {
     const onSubmit = (data) => {
         if (id != "0") {
           return toast.promise(
-            axios.put(`/specie/${id}`, data).then(() => {
-              mutate(`/specie/${id}`);
+            axios.put(`/species/${id}`, data).then(() => {
+              mutate(`/species/${id}`);
               mutate("/species");
               mutate("animals");
               router.push(`/species`);
@@ -58,7 +58,7 @@ import {
         } else {
           return toast.promise(
             axios.post(`/species`, data).then(() => {
-              mutate(`/specie/${id}`);
+              mutate(`/species/${id}`);
               mutate("/species");
               mutate("animals");
               router.push("/species");
