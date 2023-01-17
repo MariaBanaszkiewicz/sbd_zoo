@@ -83,7 +83,7 @@ const PensPage = (): React.ReactElement => {
           mutate("/runs");
           mutate("/animals");
           mutate("/employees");
-          router.push(`/`);
+          // router.push(`/`);
         })
       );
     }
