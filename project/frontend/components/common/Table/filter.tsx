@@ -24,7 +24,7 @@ function GlobalFilter({
         setValue(e.target.value);
         onChange(e.target.value);
       }}
-      placeholder={`Wyniki: ${count}`}
+      placeholder={`Wyniki: ${count} | Wyszukaj...`}
       style={{
         padding: "0",
         border: "0",
@@ -47,7 +47,7 @@ function DefaultColumnFilter({
       onChange={(e) => {
         setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
-      placeholder={`Wyniki: ${count}`}
+      placeholder={`Wyniki: ${count} | Wyszukaj...`}
     />
   );
 }
