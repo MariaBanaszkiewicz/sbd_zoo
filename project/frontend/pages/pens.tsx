@@ -45,6 +45,7 @@ type EmployeeInputs = {
 const PensPage = (): React.ReactElement => {
   const router = useRouter();
   const [tabIndex, setTabIndex] = useState(0);
+  const [defaultIndex, setDefaultIndex] = useState(0);
   const { data: pens, error, isValidating } = useSWR("/runs");
   const [idClicked, setIdClicked] = useState(null);
   const {
@@ -108,6 +109,7 @@ const PensPage = (): React.ReactElement => {
   };
 
   const onEmployeeSubmit = (data) => {
+    setDefaultIndex(tabIndex);
     return toast.promise(
       axios.post(`/employeeRuns`, {employee: data?.employee, run: pens?.[tabIndex]?.name }).then(() => {
         mutate("/runs");
@@ -289,7 +291,7 @@ const PensPage = (): React.ReactElement => {
       {isValidating && <Flex justifyContent="center"><Spinner/></Flex>}
       {pens?.length ==0 && !isValidating && <Text>W ZOO nie ma jeszcze zagród</Text> }
       {pens?.length > 0 && !isValidating && (
-        <Tabs onChange={(index) => setTabIndex(index)}>
+        <Tabs onChange={(index) => setTabIndex(index)} defaultIndex={defaultIndex}>
           <TabList>
             {pens?.map((pen, index) => (
               <Tab key={index} onClick={() => setIdClicked(pen?.id)}>
@@ -340,7 +342,7 @@ const PensPage = (): React.ReactElement => {
                     </Flex>
 
                     {pen?.animals?.length > 0 ? (
-                      <Table data={pen?.animals} columns={animalsColumns} />
+                      <Table data={pen?.animals} columns={animalsColumns} canFilter />
                     ) : (
                       <Text mt={5}>
                         W tej zagrodzie nie znajduje się żadne zwierzę

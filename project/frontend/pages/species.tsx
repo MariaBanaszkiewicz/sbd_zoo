@@ -112,7 +112,7 @@ const SpeciesPage = (): React.ReactElement => {
         </Flex>
       )}
       {species?.length > 0 && !isValidating && (
-        <Table data={species} columns={columns} searchBar={false} />
+        <Table data={species} columns={columns}  />
       )}
       {species?.length == 0 && !isValidating && <Text>Brak gatunków</Text>}
     </>

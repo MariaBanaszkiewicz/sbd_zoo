@@ -111,7 +111,7 @@ const FoodsPage = (): React.ReactElement => {
         </Flex>
       )}
       {foods?.length > 0 && !isValidating && (
-        <Table data={foods} columns={columns} searchBar={false} />
+        <Table data={foods} columns={columns} />
       )}
       {foods?.length == 0 && !isValidating && (
         <Text>Brak dostępnych rodzajów jedzenia</Text>

@@ -115,7 +115,7 @@ const ClimatesPage = (): React.ReactElement => {
         </Flex>
       )}
       {climates?.length > 0 && !isValidating && (
-        <Table data={climates} columns={columns} searchBar={false} />
+        <Table data={climates} columns={columns} />
       )}
       {climates?.length == 0 && !isValidating && (
         <Text>Brak klimatów</Text>
