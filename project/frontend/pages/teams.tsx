@@ -79,7 +79,6 @@ const TeamsPage = (): React.ReactElement => {
       return toast.promise(
         axios.delete(`/team/${idClicked}`).then(() => {
           mutate("/teams");
-          router.push(`/`);
         })
       );
     }

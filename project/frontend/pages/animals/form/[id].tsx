@@ -80,6 +80,7 @@ const AnimalFormPage = (): React.ReactElement => {
         axios.put(`/animal/${id}`, putData).then(() => {
           mutate(`/animal/${id}`);
           mutate("/animals");
+          mutate("/runs");
           router.push(`/animal/${id}`);
         })
       );
@@ -88,6 +89,7 @@ const AnimalFormPage = (): React.ReactElement => {
         axios.post(`/animals`, data).then(() => {
           mutate(`/animal/${id}`);
           mutate("/animals");
+          mutate("/runs");
           router.push("/animals");
         })
       );
