@@ -88,6 +88,7 @@ const PensPage = (): React.ReactElement => {
       );
     }
     if (typeClicked == "animal") {
+      setDefaultIndex(tabIndex);
       return toast.promise(
         axios.delete(`/animal/${idClicked}`).then(() => {
           mutate("/runs");
@@ -97,6 +98,7 @@ const PensPage = (): React.ReactElement => {
       );
     }
     if (typeClicked == "employee") {
+      setDefaultIndex(tabIndex);
       const body = { employee: idClicked, run: pens?.[tabIndex]?.name };
       return toast.promise(
         axios.delete(`/employeeRuns`, { data: body }).then(() => {
